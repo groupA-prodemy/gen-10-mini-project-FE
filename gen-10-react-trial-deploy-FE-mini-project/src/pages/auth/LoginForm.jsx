@@ -1,10 +1,10 @@
 import {Link, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import axios from "axios";
+import {useState} from "react";
+
+export let responses = [];
 
 export default function LoginForm() {
     const navigate = useNavigate()
-    const [users, setUsers] = useState([])
 
     const [formInput, setFormInput] = useState({
         username: '',
@@ -34,43 +34,32 @@ export default function LoginForm() {
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        }).then((re)=>re.json()).then((d)=>responses.push(d))
 
-        let indicator = 0;
-        for (let j in users){
-            if(users[j].username === formInput.username){
-                if(users[j].password === formInput.password)  {
-                    alert("Login Succeeded")
-                    if(users[j].roleName === "Visitor"){
-                        navigate("/user/dashboard")
-                    }
-
-                    break;
-                }
-                else {
-                    alert("Wrong Password!!!")
-                    break;
-                }
-            }else{
-                indicator+=1;
+        if (responses[responses.length-1].status.toString() === "true"){
+            alert
+            (
+                responses[responses.length-1].message.toString()
+                + "\n" + "name: " + responses[responses.length-1].data.name.toString()
+                + "\n" + "username: " + responses[responses.length-1].data.username.toString()
+                + "\n" + "role: " + responses[responses.length-1].data.roleName.toString()
+            )
+            if(responses[responses.length-1].data.roleName.toString() === "Visitor"){
+                navigate("/user/dashboard")
+            }
+            if(responses[responses.length-1].data.roleName.toString() === "Admin"){
+                navigate("/admin/dashboard")
+            }
+        }else {
+            const messageArr = responses[responses.length-1].message.toString().split(" ");
+            if(messageArr.indexOf("Wrong")>=0){
+                alert(responses[responses.length-1].message.toString())
+            }
+            else{
+                alert(responses[responses.length-1].message.toString())
             }
         }
-        console.log(indicator)
-        if(indicator === users.length){
-            alert("Your account wasn't exists")
-        }
-
     }
-
-    async function getListUser() {
-        const res = await axios.get('https://app-perpus-psql.herokuapp.com/users/list-user')
-        setUsers(res.data)
-    }
-
-    useEffect(() => {
-        getListUser()
-    }, [])
-
 
     return <>
         <h1>Form Login</h1>

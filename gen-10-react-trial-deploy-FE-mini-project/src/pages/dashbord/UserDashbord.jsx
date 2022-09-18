@@ -1,6 +1,23 @@
 import {Link, Outlet} from "react-router-dom";
+import {responses} from "../auth/LoginForm.jsx";
 
 export default function UserDashboard(){
+    let person = []
+    console.log(person)
+    try {
+        let message = responses[responses.length-1].message.toString().split(" ")
+        let indicator = 0;
+        if(message.indexOf("Visitor")>=0){
+            indicator+=1;
+        }
+        if(indicator>0){
+            person.push(responses[responses.length-1].data.name.toString())
+            sessionStorage.setItem("name", person[person.length-1].toString())
+        }
+    }catch (error){
+        person.push(sessionStorage.getItem("name"))
+    }
+
     return<>
         <div className={"app"}>
             <nav>
@@ -9,7 +26,7 @@ export default function UserDashboard(){
                 </Link>
             </nav>
 
-            <h3>Welcome in you Dashboard as Visitor</h3>
+            <h3>Welcome in you Dashboard as {person[person.length-1]}</h3>
 
             <br/>
 

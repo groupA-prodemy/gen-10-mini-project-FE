@@ -9,6 +9,7 @@ import Home from "./pages/Home.jsx";
 import LoginForm from "./pages/auth/LoginForm.jsx";
 import UserDashboard from "./pages/dashbord/UserDashbord";
 import BookList from "./pages/book/BookList";
+import AdminDashboard from "./pages/dashbord/AdminDashboard";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                   <Route path={"login"} element={<LoginForm/>}/>
                   <Route path={"/user/dashboard"} element={<UserDashboard/>}/>
                   <Route path={"/book/list"} element={<BookList/>}/>
+                  <Route path={"/admin/dashboard"} element={<AdminDashboard/>}/>
               </Route>
           </Routes>
       </BrowserRouter>
