@@ -24,7 +24,7 @@ export default function LoginForm() {
             ...formInput
         })
 
-        const targetUrl = "https://app-perpus-psql.herokuapp.com/auth/login"
+        const targetUrl = "https://be-library-mini-system.herokuapp.com/auth/login"
 
         const method = "POST"
 

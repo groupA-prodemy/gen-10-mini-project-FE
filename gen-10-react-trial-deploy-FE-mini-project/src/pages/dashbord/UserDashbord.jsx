@@ -3,7 +3,9 @@ import {responses} from "../auth/LoginForm.jsx";
 
 export default function UserDashboard(){
     let person = []
-    console.log(person)
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
     try {
         let message = responses[responses.length-1].message.toString().split(" ")
         let indicator = 0;

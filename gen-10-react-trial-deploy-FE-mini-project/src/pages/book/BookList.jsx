@@ -4,7 +4,7 @@ export default function BookList(){
     const [books, setBooks] = useState([])
 
     async function getBooks(){
-        const res = await fetch("https://app-perpus-psql.herokuapp.com/book/books",
+        const res = await fetch("https://be-library-mini-system.herokuapp.com/book/books",
             {method:"GET"})
         const data = await res.json();
         setBooks(data);
@@ -33,14 +33,14 @@ export default function BookList(){
             </thead>
             <tbody>
             {books.map(book=>
-                <tr key={book.id}>
+                <tr key={book.bookId}>
                     <td>{book.bookId}</td>
                     <td>{book.bookTitle}</td>
                     <td>{book.categoryName}</td>
                     <td>{book.bookYear}</td>
                     <td>{book.authorName}</td>
                     <td>{book.publisherName}</td>
-                    <td>{book.bookStatus}</td>
+                    <td>{book.bookStatus === true ? "Tersedia":"Dipinjam"}</td>
                 </tr>
             )}
             </tbody>

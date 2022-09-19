@@ -1,6 +1,7 @@
 import {useNavigate} from "react-router-dom";
 import {useState} from "react";
 
+let responses = []
 
 export default function RegisterForm(){
    const navigate = useNavigate()
@@ -10,6 +11,7 @@ export default function RegisterForm(){
         password: '',
         roleId:""
     })
+
 
     function handleInput (event, inputName) {
         const copyFormInput = {...formInput}
@@ -25,7 +27,7 @@ export default function RegisterForm(){
             roleId: parseInt(formInput.roleId)
         })
 
-        const targetUrl = "https://app-perpus-psql.herokuapp.com/auth/register"
+        const targetUrl = "https://be-library-mini-system.herokuapp.com/auth/register"
 
         const method = "POST"
 
@@ -35,9 +37,33 @@ export default function RegisterForm(){
             headers: {
                 'Content-Type': 'application/json'
             }
-        })
+        }).then((re)=>re.json()).then((d)=>responses.push(d))
 
-        navigate('/users')
+        if (responses[responses.length-1].status.toString() === "true"){
+            alert
+            (
+                responses[responses.length-1].message.toString()
+                + "\n" + "name: " + responses[responses.length-1].data.name.toString()
+                + "\n" + "username: " + responses[responses.length-1].data.username.toString()
+                + "\n" + "password: " + responses[responses.length-1].data.password.toString()
+                + "\n" + "role Id: " + responses[responses.length-1].data.roleId.toString()
+                + "\n \n" + "Please login to Continue"
+            )
+            navigate('/login')
+        }else {
+            if(formInput.name !== "" && formInput.username !== "" && formInput.password !== "" && formInput.roleId !== ""){
+                const messageArr = responses[responses.length-1].message.toString().split(" ");
+                if(messageArr.indexOf("data")>=0 && messageArr.indexOf("exists")>=0){
+                    alert(responses[responses.length-1].message.toString())
+                }
+                else {
+                    alert(responses[responses.length-1].message.toString())
+                }
+            }
+            else{
+                alert("Form must be filled fully")
+            }
+        }
     }
 
 

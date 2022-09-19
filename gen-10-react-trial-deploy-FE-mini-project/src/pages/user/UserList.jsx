@@ -4,7 +4,7 @@ export default function UserList(){
     const [users, setUsers] = useState([])
 
     async function getUsers(){
-        const res = await fetch("https://app-perpus-psql.herokuapp.com/users/list-user",
+        const res = await fetch("https://be-library-mini-system.herokuapp.com/users/list-user",
             {method:"GET"})
         const data = await res.json();
         setUsers(data);
@@ -25,6 +25,7 @@ export default function UserList(){
                     <th>Name</th>
                     <th>Username</th>
                     <th>Rolename</th>
+                    <th>Edit</th>
                 </tr>
             </thead>
             <tbody>
@@ -33,6 +34,13 @@ export default function UserList(){
                     <td>{user.name}</td>
                     <td>{user.username}</td>
                     <td>{user.roleName}</td>
+                    <td>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <button>Edit</button>
+                        &nbsp;&nbsp;&nbsp;
+                        <button>Delete</button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                    </td>
                 </tr>
             )}
             </tbody>

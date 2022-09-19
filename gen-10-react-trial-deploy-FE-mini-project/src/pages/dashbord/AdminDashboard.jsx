@@ -2,7 +2,9 @@ import {Link, Outlet} from "react-router-dom";
 import {responses} from "../auth/LoginForm.jsx";
 export default function AdminDashboard(){
     let personArr = []
-    console.log(personArr)
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function () { null };
     try {
         let message = responses[responses.length-1].message.toString().split(" ")
         let indicator = 0;
