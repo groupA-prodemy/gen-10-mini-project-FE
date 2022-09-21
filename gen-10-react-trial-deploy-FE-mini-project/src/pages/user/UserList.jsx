@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 export default function UserList(){
     const [users, setUsers] = useState([])
@@ -36,7 +37,11 @@ export default function UserList(){
                     <td>{user.roleName}</td>
                     <td>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <button>Edit</button>
+                        <Link to={"/users/" + user.username}>
+                            <button>
+                                view
+                            </button>
+                        </Link>
                         &nbsp;&nbsp;&nbsp;
                         <button>Delete</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;

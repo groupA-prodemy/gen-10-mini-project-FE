@@ -3,9 +3,8 @@ import {responses} from "../auth/LoginForm.jsx";
 
 export default function UserDashboard(){
     let person = []
-    function preventBack() { window.history.forward(); }
-    setTimeout("preventBack()", 0);
-    window.onunload = function () { null };
+    let username = [];
+
     try {
         let message = responses[responses.length-1].message.toString().split(" ")
         let indicator = 0;
@@ -14,10 +13,13 @@ export default function UserDashboard(){
         }
         if(indicator>0){
             person.push(responses[responses.length-1].data.name.toString())
+            username.push(responses[responses.length-1].data.username.toString())
             sessionStorage.setItem("name", person[person.length-1].toString())
+            sessionStorage.setItem("uname", username[person.length-1].toString())
         }
     }catch (error){
         person.push(sessionStorage.getItem("name"))
+        username.push(sessionStorage.getItem("uname"))
     }
 
     return<>
@@ -26,6 +28,11 @@ export default function UserDashboard(){
                 <Link to={"/book/list"}>
                     Daftar Buku
                 </Link>
+                &nbsp; &nbsp;
+                <Link to={"/users/"+username[username.length-1]}>
+                    Profile
+                </Link>
+
             </nav>
 
             <h3>Welcome in you Dashboard as {person[person.length-1]}</h3>

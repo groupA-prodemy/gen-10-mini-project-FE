@@ -2,9 +2,8 @@ import {Link, Outlet} from "react-router-dom";
 import {responses} from "../auth/LoginForm.jsx";
 export default function AdminDashboard(){
     let personArr = []
-    function preventBack() { window.history.forward(); }
-    setTimeout("preventBack()", 0);
-    window.onunload = function () { null };
+    let usernameArr = []
+
     try {
         let message = responses[responses.length-1].message.toString().split(" ")
         let indicator = 0;
@@ -13,10 +12,13 @@ export default function AdminDashboard(){
         }
         if(indicator>0){
             personArr.push(responses[responses.length-1].data.name.toString())
+            usernameArr.push(responses[responses.length-1].data.username.toString())
             sessionStorage.setItem("name", personArr[personArr.length-1].toString())
+            sessionStorage.setItem("uname", usernameArr[usernameArr.length-1].toString())
         }
     }catch (error){
         personArr.push(sessionStorage.getItem("name"))
+        usernameArr.push(sessionStorage.getItem("uname"))
     }
 
     return<>
@@ -32,6 +34,10 @@ export default function AdminDashboard(){
                 &nbsp; &nbsp;
                 <Link to={"/users"}>
                     Daftar Pengguna
+                </Link>
+                &nbsp; &nbsp;
+                <Link to={"/users/"+usernameArr[usernameArr.length-1]}>
+                    Profile
                 </Link>
             </nav>
 
