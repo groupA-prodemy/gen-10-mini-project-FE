@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
+import axios from "axios";
 
 export default function UserList(){
     const [users, setUsers] = useState([])
@@ -9,6 +10,18 @@ export default function UserList(){
             {method:"GET"})
         const data = await res.json();
         setUsers(data);
+    }
+
+    function deleteProduct (userId) {
+        axios
+            .delete("https://be-library-mini-system.herokuapp.com/users/delete/"+userId)
+            .then(() => {
+                getUsers()
+            })
+            .catch(err => {
+                console.log(err)
+                alert('Ada masalah saat memproses data')
+            })
     }
 
     useEffect(()=>{
@@ -31,7 +44,7 @@ export default function UserList(){
             </thead>
             <tbody>
             {users.map(user=>
-                <tr key={user.id}>
+                <tr key={user.userId}>
                     <td>{user.name}</td>
                     <td>{user.username}</td>
                     <td>{user.roleName}</td>
@@ -43,7 +56,7 @@ export default function UserList(){
                             </button>
                         </Link>
                         &nbsp;&nbsp;&nbsp;
-                        <button>Delete</button>
+                        <button onClick={()=>deleteProduct(user.userId)}>Delete</button>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                     </td>
                 </tr>

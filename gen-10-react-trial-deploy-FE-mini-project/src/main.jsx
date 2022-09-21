@@ -11,6 +11,7 @@ import UserDashboard from "./pages/dashbord/UserDashbord";
 import BookList from "./pages/book/BookList";
 import AdminDashboard from "./pages/dashbord/AdminDashboard";
 import DetailsProfile from "./pages/user/DetailsProfile";
+import ChangeProfile from "./pages/user/ChangeProfile";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -20,6 +21,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                   <Route index element={<Navigate to={"/home"} replace/>}/>
                   <Route path={"/home"} element={<Home/>}/>
                   <Route path={"users"} element={<UserList/>}/>
+                  <Route path={"users/:username"} element={<DetailsProfile/>}/>
+                  <Route path={"users/:username/:userId"} element={<ChangeProfile/>}/>
                   <Route path={"users/:username"} element={<DetailsProfile/>}/>
                   <Route path={"register"} element={<RegisterForm/>}/>
                   <Route path={"login"} element={<LoginForm/>}/>

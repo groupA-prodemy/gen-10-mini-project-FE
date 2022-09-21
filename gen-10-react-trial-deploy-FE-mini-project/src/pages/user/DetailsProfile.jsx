@@ -1,9 +1,17 @@
 import {useEffect, useState} from "react";
-import {useParams} from "react-router-dom";
+import {Link, useParams} from "react-router-dom";
+import {roleArr, usernameArr} from "../dashbord/AdminDashboard.jsx";
+import prepareUpdate from "./ChangeProfile.jsx";
 
 export default function DetailsProfile(){
     const [user, setUser] = useState([])
     const params = useParams()
+    const role=roleArr;
+    const uname = usernameArr;
+    let a = "*******"
+
+    console.log(role[role.length-1]);
+    console.log(uname[uname.length-1])
 
     async function getUsers(){
         const res = await fetch("https://be-library-mini-system.herokuapp.com/users/profile/" + params.username ,
@@ -12,12 +20,18 @@ export default function DetailsProfile(){
         setUser(data.data);
     }
 
+    function handlingButton(){
+        alert("You don't have access to see this account password")
+    }
+
     useEffect(()=>{
         getUsers()
     },[])
 
     return<>
         <h1>Your Profile</h1>
+
+        <Link to={"/users/"+params.username+"/"+user.id}>Change Profile</Link>
 
         <br/><br/>
 
@@ -36,7 +50,19 @@ export default function DetailsProfile(){
                 <td>{user.id}</td>
                 <td>{user.name}</td>
                 <td>{user.username}</td>
-                <td>{user.password}</td>
+                <td>{
+                    uname[uname.length-1] === user.username ?
+                        user.password
+                        :
+                        role[role.length-1]=== "Admin" ?
+                            <button onClick={handlingButton}>
+                                {a}
+                            </button>
+
+                        :
+                        user.password
+                    }
+                </td>
                 <td>{user.roleName}</td>
                 </tr>
             </tbody>

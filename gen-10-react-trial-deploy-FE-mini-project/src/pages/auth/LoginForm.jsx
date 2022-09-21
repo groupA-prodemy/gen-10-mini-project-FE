@@ -5,6 +5,7 @@ export let responses = [];
 
 export default function LoginForm() {
     const navigate = useNavigate()
+    let msg = ""
 
     const [formInput, setFormInput] = useState({
         username: '',
@@ -51,15 +52,23 @@ export default function LoginForm() {
                 navigate("/admin/dashboard")
             }
         }else {
-            const messageArr = responses[responses.length-1].message.toString().split(" ");
-            if(messageArr.indexOf("Wrong")>=0){
-                alert(responses[responses.length-1].message.toString())
+            if(formInput.username!=="" && formInput.password!==""){
+                const messageArr = responses[responses.length-1].message.toString().split(" ");
+                if(messageArr.indexOf("Wrong")>=0){
+                    alert(responses[responses.length-1].message.toString())
+                    msg = responses[responses.length-1].message.toString();
+                }
+                else{
+                    alert(responses[responses.length-1].message.toString())
+                }
             }
             else{
-                alert(responses[responses.length-1].message.toString())
+                alert("Form must be filled fully")
             }
         }
     }
+
+    let msgArr=msg.split(" ")
 
     return <>
         <h1>Form Login</h1>
@@ -95,9 +104,7 @@ export default function LoginForm() {
 
             &nbsp; &nbsp;
 
-            <Link to={"/register"}>
-                <button>Register</button>
-            </Link>
+            <button>Register</button>
 
         </form>
 
