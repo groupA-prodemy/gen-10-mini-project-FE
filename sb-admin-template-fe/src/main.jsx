@@ -1,25 +1,54 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom'
 
 import App from './App'
-import ArticleForm from './pages/Article/ArticleForm'
-import ArticleList from './pages/Article/ArticleList'
-import AuthorForm from './pages/Author/AuthorForm'
-import AuthorList from './pages/Author/AuthorList'
+import UserList from "./pages/user/UserList.jsx";
+import DetailsProfile from "./pages/user/DetailsProfile.jsx";
+import ChangeProfile from "./pages/user/ChangeProfile.jsx";
+import Home from "./pages/Home.jsx";
+import RoleList from "./pages/role/RoleList.jsx";
+import ChangeRole from "./pages/role/ChangeRole.jsx";
+import AddRole from "./pages/role/AddRole.jsx";
+import RegisterForm from "./pages/auth/RegisterForm.jsx";
+import LoginForm from "./pages/auth/LoginForm.jsx";
+import UserDashboard from "./pages/dashbord/UserDashbord.jsx";
+import BookList from "./pages/book/BookList.jsx";
+import AdminDashboard from "./pages/dashbord/AdminDashboard.jsx";
+import EndPage from "./pages/EndPage.jsx";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<App />}>
-          <Route path="articles" element={<ArticleList />} />
-          <Route path="articles/form" element={<ArticleForm />} />
-          <Route path="articles/form/:id" element={<ArticleForm />} />
+        <Route path="/">
+          <Route index element={<Navigate to={"/home"} replace/>}/>
 
-          <Route path="authors" element={<AuthorList />} />
-          <Route path="authors/form" element={<AuthorForm />} />
-          <Route path="authors/form/:id" element={<AuthorForm />} />
+          <Route path={"/home"} element={<Home/>}/>
+
+
+          <Route path={"register"} element={<RegisterForm/>}/>
+          <Route path={"login"} element={<LoginForm/>}/>
+
+
+          <Route path={"/end"} element={<EndPage/>}/>
+
+          <Route element={<App />}>
+            <Route path="users" element={<UserList />} />
+            <Route path={"users/:username"} element={<DetailsProfile/>}/>
+            <Route path={"users/:username/:userId"} element={<ChangeProfile/>}/>
+
+            <Route path={"roles"} element={<RoleList/>}/>
+            <Route path={"roles/:roleId"} element={<ChangeRole/>}/>
+            <Route path={"roles/add"} element={<AddRole/>}/>
+
+            <Route path={"/user/dashboard"} element={<UserDashboard/>}/>
+
+            <Route path={"/book/list"} element={<BookList/>}/>
+
+            <Route path={"/admin/dashboard"} element={<AdminDashboard/>}/>
+          </Route>
+
         </Route>
       </Routes>
     </BrowserRouter>
