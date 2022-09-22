@@ -10,9 +10,6 @@ export default function DetailsProfile(){
     const uname = usernameArr;
     let a = "*******"
 
-    console.log(role[role.length-1]);
-    console.log(uname[uname.length-1])
-
     async function getUsers(){
         const res = await fetch("https://be-library-mini-system.herokuapp.com/users/profile/" + params.username ,
             {method:"GET"})
