@@ -12,6 +12,9 @@ import BookList from "./pages/book/BookList";
 import AdminDashboard from "./pages/dashbord/AdminDashboard";
 import DetailsProfile from "./pages/user/DetailsProfile";
 import ChangeProfile from "./pages/user/ChangeProfile";
+import RoleList from "./pages/role/RoleList.jsx";
+import ChangeRole from "./pages/role/ChangeRole.jsx";
+import AddRole from "./pages/role/AddRole";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -24,6 +27,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                   <Route path={"users/:username"} element={<DetailsProfile/>}/>
                   <Route path={"users/:username/:userId"} element={<ChangeProfile/>}/>
                   <Route path={"users/:username"} element={<DetailsProfile/>}/>
+                  <Route path={"roles"} element={<RoleList/>}/>
+                  <Route path={"roles/:roleId"} element={<ChangeRole/>}/>
+                  <Route path={"roles/add"} element={<AddRole/>}/>
                   <Route path={"register"} element={<RegisterForm/>}/>
                   <Route path={"login"} element={<LoginForm/>}/>
                   <Route path={"/user/dashboard"} element={<UserDashboard/>}/>

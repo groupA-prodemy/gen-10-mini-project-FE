@@ -40,6 +40,10 @@ export default function AdminDashboard(){
                     Daftar Pengguna
                 </Link>
                 &nbsp; &nbsp;
+                <Link to={"/roles"}>
+                    Daftar Role
+                </Link>
+                &nbsp; &nbsp;
                 <Link to={"/users/"+usernameArr[usernameArr.length-1]}>
                     Profile
                 </Link>
