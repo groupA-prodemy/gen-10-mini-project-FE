@@ -7,29 +7,6 @@ let userIdArr = []
 let roleArr = []
 let responsesLogout = []
 
-try {
-    let message = responses[responses.length-1].message.toString().split(" ")
-    let indicator = 0;
-    if(message.indexOf("Admin")>=0){
-        indicator+=1;
-    }
-    if(indicator>0){
-        personArr.push(responses[responses.length-1].data.name.toString())
-        usernameArr.push(responses[responses.length-1].data.username.toString())
-        roleArr.push(responses[responses.length-1].data.roleName.toString())
-        userIdArr.push(responses[responses.length-1].data.userId.toString())
-        sessionStorage.setItem("name", personArr[personArr.length-1].toString())
-        sessionStorage.setItem("uname", usernameArr[usernameArr.length-1].toString())
-        sessionStorage.setItem("role", roleArr[roleArr.length-1].toString())
-        sessionStorage.setItem("uId", userIdArr[userIdArr.length-1].toString())
-    }
-}catch (error){
-    personArr.push(sessionStorage.getItem("name"))
-    usernameArr.push(sessionStorage.getItem("uname"))
-    roleArr.push(sessionStorage.getItem("role"))
-    userIdArr.push(sessionStorage.getItem("uId"))
-}
-
 const menuList = [
     {
         title: 'Dashboard',
@@ -76,16 +53,42 @@ const menuList = [
         icon: 'fa-user-edit',
         link: '/register'
     },
-    {
-        title: 'Profile',
-        icon: 'fa-user-edit',
-        link: "/users/"+usernameArr[usernameArr.length-1]
-    },
 ]
 
 export default function Sidebar () {
 
     const navigate = useNavigate()
+
+    try {
+        let message = responses[responses.length-1].message.toString().split(" ")
+        let indicator = 0;
+        if(message.length!=0){
+            indicator+=1;
+        }
+        if(indicator>0){
+            personArr.push(responses[responses.length-1].data.name.toString())
+            usernameArr.push(responses[responses.length-1].data.username.toString())
+            roleArr.push(responses[responses.length-1].data.roleName.toString())
+            userIdArr.push(responses[responses.length-1].data.userId.toString())
+            sessionStorage.setItem("name", personArr[personArr.length-1].toString())
+            sessionStorage.setItem("uname", usernameArr[usernameArr.length-1].toString())
+            sessionStorage.setItem("role", roleArr[roleArr.length-1].toString())
+            sessionStorage.setItem("uId", userIdArr[userIdArr.length-1].toString())
+        }
+    }catch (error){
+        personArr.push(sessionStorage.getItem("name"))
+        usernameArr.push(sessionStorage.getItem("uname"))
+        roleArr.push(sessionStorage.getItem("role"))
+        userIdArr.push(sessionStorage.getItem("uId"))
+    }
+
+    const menuProfile=[
+        {
+            title: 'Profile',
+            icon: 'fa-user-edit',
+            link: "/users/"+usernameArr[usernameArr.length-1]
+        },
+    ]
 
     const menuLogOut=[
         {
@@ -120,7 +123,6 @@ export default function Sidebar () {
     }
 
 
-
 	return <>
 		<ul className="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
@@ -151,6 +153,17 @@ export default function Sidebar () {
                             </li>
                         )}
                         {
+                            menuProfile.map(profile =>
+                                <li className="nav-item">
+                                    <Link className="nav-link" to={profile.link}>
+                                        <i className={"fas fa-fw " + profile.icon}></i>
+                                        &nbsp;
+                                        <span>{profile.title}</span>
+                                    </Link>
+                                </li>
+                            )
+                        }
+                        {
                             menuLogOut.map(logOut =>
                                 <li className="nav-item">
                                     <Link className="nav-link" onClick={(event)=>logout(event)}>
@@ -161,7 +174,6 @@ export default function Sidebar () {
                                 </li>
                             )
                         }
-
                     </>
                     :
                     <>
@@ -180,10 +192,10 @@ export default function Sidebar () {
                             </Link>
                         </li>
                         <li className="nav-item">
-                            <Link className="nav-link" to={menuList[6].link}>
-                                <i className={"fas fa-fw " + menuList[6].icon}></i>
+                            <Link className="nav-link" to={menuProfile[0].link}>
+                                <i className={"fas fa-fw " + menuProfile[0].icon}></i>
                                 &nbsp;
-                                <span>{menuList[6].title}</span>
+                                <span>{menuProfile[0].title}</span>
                             </Link>
                         </li>
                         <li className="nav-item">
