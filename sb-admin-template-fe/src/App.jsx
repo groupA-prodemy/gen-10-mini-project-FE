@@ -4,7 +4,6 @@ import Footer from "./partials/Footer"
 import Sidebar from "./partials/Sidebar"
 import Topbar from "./partials/Topbar"
 
-
 function App() {
   return <>
     <div id="wrapper">

@@ -3,24 +3,23 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 import App from './App'
-import BookList from './pages/Books/BookList'
-import BookForm from './pages/Books/BookForm'
-import CategoryList from './pages/Categories/CategoryList'
-import CategoryForm from './pages/Categories/CategoryForm'
-
+import ArticleForm from './pages/Article/ArticleForm'
+import ArticleList from './pages/Article/ArticleList'
+import AuthorForm from './pages/Author/AuthorForm'
+import AuthorList from './pages/Author/AuthorList'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />}>
-          <Route path="books" element={<BookList />} />
-          <Route path="books/form" element={<BookForm />} />
-          <Route path="books/form/:bookId" element={<BookForm />} />
+          <Route path="articles" element={<ArticleList />} />
+          <Route path="articles/form" element={<ArticleForm />} />
+          <Route path="articles/form/:id" element={<ArticleForm />} />
 
-          <Route path="categories" element={<CategoryList />} />
-          <Route path="categories/form" element={<CategoryForm />} />
-          <Route path="categories/form/:categoryId" element={<CategoryForm />} />
+          <Route path="authors" element={<AuthorList />} />
+          <Route path="authors/form" element={<AuthorForm />} />
+          <Route path="authors/form/:id" element={<AuthorForm />} />
         </Route>
       </Routes>
     </BrowserRouter>

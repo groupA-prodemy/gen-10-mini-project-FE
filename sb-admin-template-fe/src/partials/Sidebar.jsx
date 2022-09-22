@@ -2,14 +2,14 @@ import { Link } from 'react-router-dom'
 
 const menuList = [
     {
-        title: 'Buku',
-        icon: 'fa-book',
-        link: '/books'
+        title: 'Artikel',
+        icon: 'fa-file-alt',
+        link: '/articles'
     },
     {
-        title: 'Kategori Buku',
-        icon: 'fa-bookmark',
-        link: '/categories'
+        title: 'Penulis',
+        icon: 'fa-user-edit',
+        link: '/authors'
     },
 ]
 
@@ -34,6 +34,7 @@ export default function Sidebar () {
                 <li className="nav-item">
                     <Link className="nav-link" to={menu.link}>
                         <i className={"fas fa-fw " + menu.icon}></i>
+                        &nbsp;
                         <span>{menu.title}</span>
                     </Link>
                 </li>
