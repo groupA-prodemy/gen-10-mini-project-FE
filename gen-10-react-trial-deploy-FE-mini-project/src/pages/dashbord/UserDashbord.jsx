@@ -47,7 +47,8 @@ export default function UserDashboard(){
             (
                 responsesLogout[responsesLogout.length-1].message.toString()
             )
-            navigate('/login')
+
+            setTimeout(()=>{navigate("/")}, 5000, navigate("/end") )
         }else {
             responsesLogout[responsesLogout.length-1].message.toString()
         }

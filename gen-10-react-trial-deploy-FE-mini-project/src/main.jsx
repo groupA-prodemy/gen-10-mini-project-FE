@@ -15,6 +15,7 @@ import ChangeProfile from "./pages/user/ChangeProfile";
 import RoleList from "./pages/role/RoleList.jsx";
 import ChangeRole from "./pages/role/ChangeRole.jsx";
 import AddRole from "./pages/role/AddRole";
+import EndPage from "./pages/EndPage";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -35,6 +36,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                   <Route path={"/user/dashboard"} element={<UserDashboard/>}/>
                   <Route path={"/book/list"} element={<BookList/>}/>
                   <Route path={"/admin/dashboard"} element={<AdminDashboard/>}/>
+                  <Route path={"/end"} element={<EndPage/>}/>
               </Route>
           </Routes>
       </BrowserRouter>
