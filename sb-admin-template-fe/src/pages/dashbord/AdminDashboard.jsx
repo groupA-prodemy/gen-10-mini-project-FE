@@ -60,7 +60,7 @@ export default function AdminDashboard(){
         <div className={"app"}>
             <nav>
                 <Link to={"/book/list"}>
-                    Daftar Buku
+                    Book List
                 </Link>
                 &nbsp; &nbsp;
                 <Link to={"/register"}>
@@ -68,18 +68,18 @@ export default function AdminDashboard(){
                 </Link>
                 &nbsp; &nbsp;
                 <Link to={"/users"}>
-                    Daftar Pengguna
+                    User List
                 </Link>
                 &nbsp; &nbsp;
                 <Link to={"/roles"}>
-                    Daftar Role
+                    Role List
                 </Link>
                 &nbsp; &nbsp;
                 <Link to={"/users/"+usernameArr[usernameArr.length-1]}>
                     Profile
                 </Link>
                 &nbsp; &nbsp;
-                <button onClick={(event)=>logout(event)}>Logout</button>
+                <button className={"btn btn-danger"} onClick={(event)=>logout(event)}>Logout</button>
             </nav>
 
             <h3>Welcome in you Dashboard as Admin, Hai {personArr[personArr.length-1]}</h3>

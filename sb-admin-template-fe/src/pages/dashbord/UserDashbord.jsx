@@ -66,7 +66,7 @@ export default function UserDashboard(){
                     Profile
                 </Link>
                 &nbsp; &nbsp;
-                <button onClick={(event)=>logout(event)}>Logout</button>
+                <button className={"btn btn-danger"} onClick={(event)=>logout(event)}>Logout</button>
 
             </nav>
 

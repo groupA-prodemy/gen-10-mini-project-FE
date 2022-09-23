@@ -1,11 +1,11 @@
 import {Link, useNavigate} from 'react-router-dom'
 import { responses } from "../pages/auth/LoginForm.jsx";
 
-let personArr = []
-let usernameArr = []
-let userIdArr = []
-let roleArr = []
-let responsesLogout = []
+export let personArrSideBar = []
+export let usernameArrSideBar = []
+export let userIdArrSideBar = []
+export let roleArrSideBar = []
+export let responsesLogoutSideBar = []
 
 const menuList = [
     {
@@ -66,27 +66,27 @@ export default function Sidebar () {
             indicator+=1;
         }
         if(indicator>0){
-            personArr.push(responses[responses.length-1].data.name.toString())
-            usernameArr.push(responses[responses.length-1].data.username.toString())
-            roleArr.push(responses[responses.length-1].data.roleName.toString())
-            userIdArr.push(responses[responses.length-1].data.userId.toString())
-            sessionStorage.setItem("name", personArr[personArr.length-1].toString())
-            sessionStorage.setItem("uname", usernameArr[usernameArr.length-1].toString())
-            sessionStorage.setItem("role", roleArr[roleArr.length-1].toString())
-            sessionStorage.setItem("uId", userIdArr[userIdArr.length-1].toString())
+            personArrSideBar.push(responses[responses.length-1].data.name.toString())
+            usernameArrSideBar.push(responses[responses.length-1].data.username.toString())
+            roleArrSideBar.push(responses[responses.length-1].data.roleName.toString())
+            userIdArrSideBar.push(responses[responses.length-1].data.userId.toString())
+            sessionStorage.setItem("name", personArrSideBar[personArrSideBar.length-1].toString())
+            sessionStorage.setItem("uname", usernameArrSideBar[usernameArrSideBar.length-1].toString())
+            sessionStorage.setItem("role", roleArrSideBar[roleArrSideBar.length-1].toString())
+            sessionStorage.setItem("uId", userIdArrSideBar[userIdArrSideBar.length-1].toString())
         }
     }catch (error){
-        personArr.push(sessionStorage.getItem("name"))
-        usernameArr.push(sessionStorage.getItem("uname"))
-        roleArr.push(sessionStorage.getItem("role"))
-        userIdArr.push(sessionStorage.getItem("uId"))
+        personArrSideBar.push(sessionStorage.getItem("name"))
+        usernameArrSideBar.push(sessionStorage.getItem("uname"))
+        roleArrSideBar.push(sessionStorage.getItem("role"))
+        userIdArrSideBar.push(sessionStorage.getItem("uId"))
     }
 
     const menuProfile=[
         {
             title: 'Profile',
             icon: 'fa-user-edit',
-            link: "/users/"+usernameArr[usernameArr.length-1]
+            link: "/users/"+usernameArrSideBar[usernameArrSideBar.length-1]
         },
     ]
 
@@ -100,7 +100,7 @@ export default function Sidebar () {
     async function logout(event){
         event.preventDefault();
 
-        const targetUrl = "https://be-library-mini-system.herokuapp.com/auth/logout/"+userIdArr[userIdArr.length-1]
+        const targetUrl = "https://be-library-mini-system.herokuapp.com/auth/logout/"+userIdArrSideBar[userIdArrSideBar.length-1]
 
         const method = "POST"
 
@@ -109,16 +109,16 @@ export default function Sidebar () {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then((re)=>re.json()).then((d)=>responsesLogout.push(d))
+        }).then((re)=>re.json()).then((d)=>responsesLogoutSideBar.push(d))
 
-        if (responsesLogout[responsesLogout.length-1].status.toString() === "true"){
+        if (responsesLogoutSideBar[responsesLogoutSideBar.length-1].status.toString() === "true"){
             alert
             (
-                responsesLogout[responsesLogout.length-1].message.toString()
+                responsesLogoutSideBar[responsesLogoutSideBar.length-1].message.toString()
             )
             setTimeout(()=>{navigate("/")}, 5000, navigate("/end") )
         }else {
-            responsesLogout[responsesLogout.length-1].message.toString()
+            responsesLogoutSideBar[responsesLogoutSideBar.length-1].message.toString()
         }
     }
 
@@ -140,7 +140,7 @@ export default function Sidebar () {
             {/* <!-- Nav Item - Dashboard --> */}
 
             {
-                roleArr[roleArr.length-1]=== "Admin" ?
+                roleArrSideBar[roleArrSideBar.length-1]=== "Admin" ?
                     <>
                         {
                             menuList.map(menu =>

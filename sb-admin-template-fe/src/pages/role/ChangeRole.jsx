@@ -1,6 +1,5 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {roleArr, usernameArr} from "../dashbord/AdminDashboard.jsx";
 
 let responses = []
 let roleArray= []
@@ -87,30 +86,39 @@ export default function ChangeRole(){
 
 
     return<>
-        <h1>Form Change Role</h1>
+        <div className="card shadow mb-4">
+            <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 className="m-0 font-weight-bold text-primary">Form Change Role</h6>
 
-        <br/><br/><br/>
+                <Link to={"/roles"}>
+                    <button className="btn btn-secondary">
+                        Kembali
+                    </button>
+                </Link>
+            </div>
 
-        <button onClick={()=>prepareUpdate(roleArray)}>Isi data</button>
+            <div className="card-body">
 
-        <br/><br/><br/>
+                <div className="form-group mb-4">
+                    <button className="btn btn-info" onClick={()=>prepareUpdate(roleArray)}>Isi data</button>
+                </div>
 
-        <form onSubmit={event => handleSubmit(event)}>
-            <label>
-                Role Name <br/>
-                <input
-                    type={"text"}
-                    value={formInput.roleName}
-                    onChange={event => handleInput(event,"roleName")}
-                />
-            </label>
+                <form className="w-50" onSubmit={event => handleSubmit(event)}>
+                    <div className="form-group mb-4">
+                        <label>Role Name</label>
+                        <input
+                            type="text"
+                            className="form-control"
+                            required
+                            value={formInput.roleName}
+                            onChange={event => handleInput(event,"roleName")} />
+                    </div>
 
-            <br/><br/>
-
-            <button>
-                Submit
-            </button>
-        </form>
-
+                    <button className="btn btn-primary">
+                        Save Changes
+                    </button>
+                </form>
+            </div>
+        </div>
     </>
 }

@@ -1,6 +1,6 @@
 import {Link, useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {roleArr, usernameArr} from "../dashbord/AdminDashboard.jsx";
+import {roleArrSideBar, usernameArrSideBar} from "../../partials/Sidebar.jsx";
 
 let responses = []
 export default function ChangeProfile(){
@@ -15,8 +15,8 @@ export default function ChangeProfile(){
     const [roleList, setRoleList] = useState([])
     const params = useParams();
 
-    const role=roleArr;
-    const uname = usernameArr;
+    const role=roleArrSideBar;
+    const uname = usernameArrSideBar;
 
 
     function handleInput (event, inputName) {
@@ -109,14 +109,19 @@ export default function ChangeProfile(){
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 className="m-0 font-weight-bold text-primary">Form Change Profile</h6>
 
-                <Link>
+                <Link to={"/users/"+params.username}>
                     <button className="btn btn-secondary">
                         Kembali
                     </button>
                 </Link>
             </div>
+
             <div className="card-body">
-                <button className="btn" onClick={()=>prepareUpdate(user)}>Isi data</button>
+
+                <div className="form-group mb-4">
+                    <button className="btn btn-info" onClick={()=>prepareUpdate(user)}>Isi data</button>
+                </div>
+
                 <form className="w-50" onSubmit={event => handleSubmit(event)}>
                     <div className="form-group mb-4">
                         <label>Your Name</label>
@@ -206,7 +211,7 @@ export default function ChangeProfile(){
                     </div>
 
                     <button className="btn btn-primary">
-                        Submit
+                        Save Changes
                     </button>
                 </form>
             </div>

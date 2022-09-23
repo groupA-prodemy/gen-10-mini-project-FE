@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
 
+let responses = []
 export default function RoleList(){
     const [roles, setRoles] = useState([])
 
@@ -15,6 +16,14 @@ export default function RoleList(){
     function deleteRole (roleId) {
         axios
             .delete("https://be-library-mini-system.herokuapp.com/role/delete/"+roleId)
+            .then((re)=>{responses.push(re.data)
+            })
+            .then(()=>{
+                    responses[responses.length-1].status.toString() === "false" ?
+                        alert(responses[responses.length-1].message.toString())
+                        :
+                        ""
+            })
             .then(() => {
                 getUsers()
             })
@@ -22,6 +31,7 @@ export default function RoleList(){
                 console.log(err)
                 alert('Ada masalah saat memproses data')
             })
+
     }
 
     useEffect(()=>{
@@ -29,40 +39,48 @@ export default function RoleList(){
     },[])
 
     return<>
-        <h1>Daftar Role</h1>
+        <div className="card shadow mb-4">
+            <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 className="m-0 font-weight-bold text-primary">Daftar Role</h6>
 
-        <Link to={"/roles/add"}>Create New Role</Link>
+                <Link to={"/roles/add"}>
+                    <button className="btn btn-primary">
+                       Create New Role
+                    </button>
+                </Link>
+            </div>
+            <div className="card-body">
+                <table className="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Rolename</th>
+                        <th scope="col">Role Id</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {roles.map((role, index) =>
+                        <tr key={role.roleId}>
+                            <th scope="row">{index + 1}</th>
+                            <td>{role.roleName}</td>
+                            <td>{role.roleId}</td>
+                            <td>
+                                <Link to={"/roles/" + role.roleId}>
+                                    <button className="btn btn-primary">Edit</button>
+                                </Link>
+                                &nbsp;&nbsp;
 
-        <br/><br/>
-
-        <table width={"100%"} border={"1"}>
-            <thead>
-                <tr>
-                    <th>Role Id</th>
-                    <th>Rolename</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-            {roles.map(role=>
-                <tr key={role.roleId}>
-                    <td>{role.roleId}</td>
-                    <td>{role.roleName}</td>
-                    <td>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <Link to={"/roles/" + role.roleId}>
-                            <button>
-                                Edit
-                            </button>
-                        </Link>
-                        &nbsp;&nbsp;&nbsp;
-                        <button onClick={()=>deleteRole(role.roleId)}>Delete</button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                    </td>
-                </tr>
-            )}
-            </tbody>
-        </table>
-
+                                <button
+                                    className="btn btn-danger"
+                                    onClick={()=>deleteRole(role.roleId)}>
+                                    Delete
+                                </button>
+                            </td>
+                        </tr>
+                    )}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </>
 }

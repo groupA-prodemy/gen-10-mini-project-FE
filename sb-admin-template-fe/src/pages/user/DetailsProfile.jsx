@@ -1,36 +1,45 @@
 import {useEffect, useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import {roleArr, usernameArr} from "../dashbord/AdminDashboard.jsx";
 import prepareUpdate from "./ChangeProfile.jsx";
+import {roleArrSideBar, usernameArrSideBar} from "../../partials/Sidebar.jsx";
 
-export default function DetailsProfile(){
+export default function DetailsProfile() {
     const [user, setUser] = useState([])
     const params = useParams()
-    const role=roleArr;
-    const uname = usernameArr;
+    const role = roleArrSideBar;
+    const uname = usernameArrSideBar;
     let a = "*******"
 
-    async function getUsers(){
-        const res = await fetch("https://be-library-mini-system.herokuapp.com/users/profile/" + params.username ,
-            {method:"GET"})
+    console.log(uname[uname.length - 1])
+
+    async function getUsers() {
+        const res = await fetch("https://be-library-mini-system.herokuapp.com/users/profile/" + params.username,
+            {method: "GET"})
         const data = await res.json();
         setUser(data.data);
     }
 
-    function handlingButton(){
+    function handlingButton() {
         alert("You don't have access to see this account password")
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         getUsers()
-    },[])
+    }, [])
 
-    return<>
+    return <>
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 className="m-0 font-weight-bold text-primary">Your Profile</h6>
+                <h6 className="m-0 font-weight-bold text-primary">
+                    {
+                        uname[uname.length - 1] === user.username ?
+                            "Your Profile"
+                            :
+                            "Profile"
+                    }
+                </h6>
 
-                <Link to={"/users/"+params.username+"/"+user.id}>
+                <Link to={"/users/" + params.username + "/" + user.id}>
                     <button className="btn btn-primary">
                         Change Profile
                     </button>
@@ -53,10 +62,10 @@ export default function DetailsProfile(){
                         <td>{user.name}</td>
                         <td>{user.username}</td>
                         <td>{
-                            uname[uname.length-1] === user.username ?
+                            uname[uname.length - 1] === user.username ?
                                 user.password
                                 :
-                                role[role.length-1]=== "Admin" ?
+                                role[role.length - 1] === "Admin" ?
                                     <button
                                         className="btn btn-danger"
                                         onClick={handlingButton}>
@@ -67,7 +76,7 @@ export default function DetailsProfile(){
                         }
                         </td>
                         <td>{user.roleName}</td>
-                        </tr>
+                    </tr>
                     </tbody>
                 </table>
             </div>
