@@ -59,7 +59,7 @@ export default function UserDashboard(){
         <div className={"app"}>
             <nav>
                 <Link to={"/book/list"}>
-                    Daftar Buku
+                    Book List
                 </Link>
                 &nbsp; &nbsp;
                 <Link to={"/users/"+username[username.length-1]}>
