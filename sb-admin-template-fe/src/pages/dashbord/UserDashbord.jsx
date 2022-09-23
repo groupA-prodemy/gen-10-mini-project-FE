@@ -11,7 +11,7 @@ export default function UserDashboard(){
     try {
         let message = responses[responses.length-1].message.toString().split(" ")
         let indicator = 0;
-        if(message.indexOf("Visitor")>=0){
+        if(message.indexOf("Admin")<0){
             indicator+=1;
         }
         if(indicator>0){

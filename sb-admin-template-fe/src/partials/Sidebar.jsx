@@ -10,22 +10,22 @@ export let responsesLogoutSideBar = [];
 const menuList = [
   {
     title: "Dashboard",
-    icon: "fa-file-alt",
+    icon: "fa-home",
     link: "/admin/dashboard",
   },
   {
     title: "Book List",
-    icon: "fa-user-edit",
+    icon: "fa-book",
     link: "/book/list",
   },
   {
     title: "Category List",
-    icon: "fa-user-edit",
+    icon: "fa-folder",
     link: "",
   },
   {
     title: "Author",
-    icon: "fas fa-fw fa-user-edit",
+    icon: "fa-tag",
     link: "/author",
   },
   {
@@ -35,12 +35,12 @@ const menuList = [
   },
   {
     title: "User List",
-    icon: "fa-user-edit",
+    icon: "fa-users",
     link: "/users",
   },
   {
     title: "Role List",
-    icon: "fa-user-edit",
+    icon: "fa-mars-double",
     link: "/roles",
   },
   {
@@ -50,7 +50,7 @@ const menuList = [
   },
   {
     title: "Form Register",
-    icon: "fa-user-edit",
+    icon: "fa-list-alt",
     link: "/register",
   },
 ];
@@ -65,26 +65,12 @@ export default function Sidebar() {
       indicator += 1;
     }
     if (indicator > 0) {
-      personArrSideBar.push(
-        responses[responses.length - 1].data.name.toString()
-      );
-      usernameArrSideBar.push(
-        responses[responses.length - 1].data.username.toString()
-      );
-      roleArrSideBar.push(
-        responses[responses.length - 1].data.roleName.toString()
-      );
-      userIdArrSideBar.push(
-        responses[responses.length - 1].data.userId.toString()
-      );
-      sessionStorage.setItem(
-        "name",
-        personArrSideBar[personArrSideBar.length - 1].toString()
-      );
-      sessionStorage.setItem(
-        "uname",
-        usernameArrSideBar[usernameArrSideBar.length - 1].toString()
-      );
+      personArrSideBar.push( responses[responses.length - 1].data.name.toString());
+      usernameArrSideBar.push(responses[responses.length - 1].data.username.toString());
+      roleArrSideBar.push(responses[responses.length - 1].data.roleName.toString());
+      userIdArrSideBar.push(responses[responses.length - 1].data.userId.toString());
+      sessionStorage.setItem("name", personArrSideBar[personArrSideBar.length - 1].toString());
+      sessionStorage.setItem("uname", usernameArrSideBar[usernameArrSideBar.length - 1].toString());
       sessionStorage.setItem(
         "role",
         roleArrSideBar[roleArrSideBar.length - 1].toString()
@@ -94,7 +80,8 @@ export default function Sidebar() {
         userIdArrSideBar[userIdArrSideBar.length - 1].toString()
       );
     }
-  } catch (error) {
+  }
+  catch (error) {
     personArrSideBar.push(sessionStorage.getItem("name"));
     usernameArrSideBar.push(sessionStorage.getItem("uname"));
     roleArrSideBar.push(sessionStorage.getItem("role"));
@@ -104,7 +91,7 @@ export default function Sidebar() {
   const menuProfile = [
     {
       title: "Profile",
-      icon: "fa-user-edit",
+      icon: "fa-user",
       link: "/users/" + usernameArrSideBar[usernameArrSideBar.length - 1],
     },
   ];
@@ -112,16 +99,15 @@ export default function Sidebar() {
   const menuLogOut = [
     {
       title: "Log Out",
-      icon: "fa-user-edit",
+      icon: "fa-power-off",
     },
   ];
 
   async function logout(event) {
     event.preventDefault();
 
-    const targetUrl =
-      "https://be-library-mini-system.herokuapp.com/auth/logout/" +
-      userIdArrSideBar[userIdArrSideBar.length - 1];
+    const targetUrl
+        = "https://be-library-mini-system.herokuapp.com/auth/logout/" + userIdArrSideBar[userIdArrSideBar.length - 1];
 
     const method = "POST";
 
@@ -220,10 +206,10 @@ export default function Sidebar() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to={menuList[2].link}>
-                <i className={"fas fa-fw " + menuList[2].icon}></i>
+              <Link className="nav-link" to={menuList[1].link}>
+                <i className={"fas fa-fw " + menuList[1].icon}></i>
                 &nbsp;
-                <span>{menuList[2].title}</span>
+                <span>{menuList[1].title}</span>
               </Link>
             </li>
             <li className="nav-item">

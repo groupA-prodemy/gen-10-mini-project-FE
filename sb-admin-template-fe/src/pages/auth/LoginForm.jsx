@@ -45,7 +45,7 @@ export default function LoginForm() {
                 + "\n" + "username: " + responses[responses.length-1].data.username.toString()
                 + "\n" + "role: " + responses[responses.length-1].data.roleName.toString()
             )
-            if(responses[responses.length-1].data.roleName.toString() === "Visitor"){
+            if(responses[responses.length-1].data.roleName.toString() !== "admin"){
                 navigate("/user/dashboard")
             }
             if(responses[responses.length-1].data.roleName.toString() === "Admin"){
@@ -68,45 +68,50 @@ export default function LoginForm() {
         }
     }
 
-    let msgArr=msg.split(" ")
-
     return <>
-        <h1>Form Login</h1>
+        <div className="container-auth bg-light-auth">
+            <div className="row text-center">
+                <div className="col-md-2 col-12"/>
+                <div className="col-md-8 col-12">
+                    <div className="wrapper-auth bordered-auth bg-md-white-auth d-flex-auth flex-column align-items-between">
+                        <div className="form">
+                            <div className="h4 font-weight-bold text-center mb-4">Login to Dashboard</div>
+                            <form onSubmit={event => handleSubmit(event)}>
+                                <div className="form-group text-center mb-4" >
+                                    <label>Username <br/></label>
+                                        <input type={"text"}
+                                               value={formInput.username}
+                                               required
+                                               onChange={event => handleInput(event, "username")}
+                                               className={"form-control"}
+                                        />
+                                </div>
+                                <div className="form-group text-center mb-4" >
+                                    <label>
+                                        Password <br/></label>
+                                        <input type={"password"}
+                                               value={formInput.password}
+                                               required
+                                               onChange={event => handleInput(event, "password")}
+                                               className={"form-control"}
+                                        />
+                                </div>
+                                <div className="form-group text-center mb-4" >
+                                    <button className="btn btn-primary btn-block rounded-0">Log In</button>
+                                </div>
+                            </form>
+                        </div>
+                        <Link to={"/register"}>
+                            <button className=" text-center mb-4 btn btn-primary btn-block rounded-0">Register</button>
+                        </Link>
+                        <div className="text-center text-muted mt-auto">
+                            Need help? <span><a href={"https://github.com/groupA-prodemy"}>Contact Us</a></span>
+                        </div>
+                    </div>
 
-        <br/><br/><br/>
-
-        <form onSubmit={event => handleSubmit(event)}>
-            <label>
-                Username <br/>
-                <input
-                    type={"text"}
-                    value={formInput.username}
-                    onChange={event => handleInput(event, "username")}
-                />
-            </label>
-
-            <br/><br/>
-
-            <label>
-                Password <br/>
-                <input
-                    type={"password"}
-                    value={formInput.password}
-                    onChange={event => handleInput(event, "password")}
-                />
-            </label>
-
-            <br/><br/>
-
-            <button>
-                Login
-            </button>
-
-            &nbsp; &nbsp;
-
-            <button>Register</button>
-
-        </form>
-
+                </div>
+                <div className="col-md-2 col-12"/>
+            </div>
+        </div>
     </>
 }

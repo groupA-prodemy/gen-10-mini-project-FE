@@ -3,57 +3,57 @@ import {useEffect, useState} from "react";
 import {roleArrSideBar, usernameArrSideBar} from "../../partials/Sidebar.jsx";
 
 let responses = []
-export default function ChangeProfile(){
+export default function ChangeProfile() {
     const navigate = useNavigate()
     const [formInput, setFormInput] = useState({
         name: '',
         username: '',
         password: '',
-        roleId:""
+        roleId: ""
     })
     const [user, setUser] = useState([])
     const [roleList, setRoleList] = useState([])
     const params = useParams();
 
-    const role=roleArrSideBar;
+    const role = roleArrSideBar;
     const uname = usernameArrSideBar;
 
 
-    function handleInput (event, inputName) {
+    function handleInput(event, inputName) {
         const copyFormInput = {...formInput}
         copyFormInput[inputName] = event.target.value
         setFormInput(copyFormInput)
     }
 
-    async function getUsers(){
-        const res = await fetch("https://be-library-mini-system.herokuapp.com/users/profile/" + params.username ,
-            {method:"GET"})
+    async function getUsers() {
+        const res = await fetch("https://be-library-mini-system.herokuapp.com/users/profile/" + params.username,
+            {method: "GET"})
         const data = await res.json();
         setUser(data.data);
     }
 
-    async function getRoleList(){
-        const res = await fetch("https://be-library-mini-system.herokuapp.com/role/list-role" ,
-            {method:"GET"})
+    async function getRoleList() {
+        const res = await fetch("https://be-library-mini-system.herokuapp.com/role/list-role",
+            {method: "GET"})
         const data = await res.json();
         setRoleList(data);
     }
 
-    function getRoleById(){
-        for(let roles of roleList){
-            if(roles.roleName === user.roleName){
+    function getRoleById() {
+        for (let roles of roleList) {
+            if (roles.roleName === user.roleName) {
                 return roles.roleId;
             }
         }
     }
 
-    function prepareUpdate(user){
+    function prepareUpdate(user) {
         const fillForm = {...user}
         fillForm["roleId"] = getRoleById()
         setFormInput(fillForm)
     }
 
-    async function handleSubmit (event) {
+    async function handleSubmit(event) {
         event.preventDefault()
 
         const payload = JSON.stringify({
@@ -71,45 +71,50 @@ export default function ChangeProfile(){
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then((re)=>re.json()).then((d)=>responses.push(d))
+        }).then((re) => re.json()).then((d) => responses.push(d))
 
-        if (responses[responses.length-1].status.toString() === "true"){
+        if (responses[responses.length - 1].status.toString() === "true") {
             alert
             (
-                responses[responses.length-1].message.toString()
+                responses[responses.length - 1].message.toString()
             )
-            navigate('/users/'+responses[responses.length-1].data.username.toString())
-        }else {
-            if(formInput.name !== "" && formInput.username !== "" && formInput.password !== "" && formInput.roleId !== ""){
-                const messageArr = responses[responses.length-1].message.toString().split(" ");
-                if(messageArr.indexOf("Id")>=0 && messageArr.indexOf("found")>=0){
-                    alert(responses[responses.length-1].message.toString())
+            navigate('/users/' + responses[responses.length - 1].data.username.toString())
+        } else {
+            if (formInput.name !== "" && formInput.username !== "" && formInput.password !== "" && formInput.roleId !== "") {
+                const messageArr = responses[responses.length - 1].message.toString().split(" ");
+                if (messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0) {
+                    alert(responses[responses.length - 1].message.toString())
+                } else {
+                    alert(responses[responses.length - 1].message.toString())
                 }
-                else {
-                    alert(responses[responses.length-1].message.toString())
-                }
-            }
-            else{
+            } else {
                 alert("Form must be filled fully")
             }
         }
     }
 
-    useEffect(()=>{
+    function handleCancel(){
+        let text = "Your change will not save"
+        if (confirm(text) === true) {
+            navigate("/users/"+params.username)
+        }
+    }
+
+    useEffect(() => {
         getUsers()
-    },[])
+    }, [])
 
-    useEffect(()=>{
+    useEffect(() => {
         getRoleList()
-    },[])
+    }, [])
 
 
-    return<>
+    return <>
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 className="m-0 font-weight-bold text-primary">Form Change Profile</h6>
 
-                <Link to={"/users/"+params.username}>
+                <Link to={"/users/" + params.username}>
                     <button className="btn btn-secondary">
                         Kembali
                     </button>
@@ -119,7 +124,7 @@ export default function ChangeProfile(){
             <div className="card-body">
 
                 <div className="form-group mb-4">
-                    <button className="btn btn-info" onClick={()=>prepareUpdate(user)}>Isi data</button>
+                    <button className="btn btn-info" onClick={() => prepareUpdate(user)}>Isi data</button>
                 </div>
 
                 <form className="w-50" onSubmit={event => handleSubmit(event)}>
@@ -130,7 +135,7 @@ export default function ChangeProfile(){
                             className="form-control"
                             required
                             value={formInput.name}
-                            onChange={event => handleInput(event,"name")} />
+                            onChange={event => handleInput(event, "name")}/>
                     </div>
 
                     <div className="form-group mb-4">
@@ -140,28 +145,28 @@ export default function ChangeProfile(){
                             className="form-control"
                             required
                             value={formInput.username}
-                            onChange={event => handleInput(event,"username")} />
+                            onChange={event => handleInput(event, "username")}/>
                     </div>
 
                     <div className="form-group mb-4">
                         <label>Password</label>
                         {
-                            uname[uname.length-1] === user.username ?
+                            uname[uname.length - 1] === user.username ?
                                 <input
                                     type={"password"}
                                     className="form-control"
                                     required
                                     value={formInput.password}
-                                    onChange={event => handleInput(event,"password")}
+                                    onChange={event => handleInput(event, "password")}
                                 />
                                 :
-                                role[role.length-1]=== "Admin" ?
+                                role[role.length - 1] === "Admin" ?
                                     <input
                                         type={"password"}
                                         className="form-control"
                                         required
                                         value={formInput.password}
-                                        onChange={event => handleInput(event,"password")}
+                                        onChange={event => handleInput(event, "password")}
                                         disabled
                                     />
 
@@ -171,7 +176,7 @@ export default function ChangeProfile(){
                                         className="form-control"
                                         required
                                         value={formInput.password}
-                                        onChange={event => handleInput(event,"password")}
+                                        onChange={event => handleInput(event, "password")}
                                     />
                         }
                     </div>
@@ -179,12 +184,12 @@ export default function ChangeProfile(){
                     <div className="form-group mb-4">
                         <label>Role Name</label>
                         {
-                            role[role.length-1]=== "Admin" ?
+                            role[role.length - 1] === "Admin" ?
                                 <select
                                     className="form-control"
                                     required
                                     value={formInput.roleId}
-                                    onChange={event => handleInput(event,"roleId")} >
+                                    onChange={event => handleInput(event, "roleId")}>
                                     <option value="" disabled></option>
                                     {roleList.map(listRole =>
                                         <option value={listRole.roleId}>
@@ -197,7 +202,7 @@ export default function ChangeProfile(){
                                     className="form-control"
                                     required
                                     value={formInput.roleId}
-                                    onChange={event => handleInput(event,"roleId")}
+                                    onChange={event => handleInput(event, "roleId")}
                                     disabled>
                                     <option value="" disabled></option>
                                     {roleList.map(listRole =>
@@ -214,6 +219,9 @@ export default function ChangeProfile(){
                         Save Changes
                     </button>
                 </form>
+                <button className="btn btn-danger" onClick={()=>handleCancel()}>
+                    cancel
+                </button>
             </div>
         </div>
     </>

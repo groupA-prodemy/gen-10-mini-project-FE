@@ -1,25 +1,33 @@
-import {useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 let responses = []
 
-export default function RegisterForm(){
-   const navigate = useNavigate()
+export default function RegisterForm() {
+    const navigate = useNavigate()
+    const [roleList, setRoleList] = useState([])
     const [formInput, setFormInput] = useState({
         name: '',
         username: '',
         password: '',
-        roleId:""
+        roleId: ""
     })
 
+    async function getRoleList() {
+        const res = await fetch("https://be-library-mini-system.herokuapp.com/role/list-role",
+            {method: "GET"})
+        const data = await res.json();
+        setRoleList(data);
+    }
 
-    function handleInput (event, inputName) {
+
+    function handleInput(event, inputName) {
         const copyFormInput = {...formInput}
         copyFormInput[inputName] = event.target.value
         setFormInput(copyFormInput)
     }
 
-    async function handleSubmit (event) {
+    async function handleSubmit(event) {
         event.preventDefault()
 
         const payload = JSON.stringify({
@@ -37,91 +45,106 @@ export default function RegisterForm(){
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then((re)=>re.json()).then((d)=>responses.push(d))
+        }).then((re) => re.json()).then((d) => responses.push(d))
 
-        if (responses[responses.length-1].status.toString() === "true"){
+        if (responses[responses.length - 1].status.toString() === "true") {
             alert
             (
-                responses[responses.length-1].message.toString()
-                + "\n" + "name: " + responses[responses.length-1].data.name.toString()
-                + "\n" + "username: " + responses[responses.length-1].data.username.toString()
-                + "\n" + "password: " + responses[responses.length-1].data.password.toString()
-                + "\n" + "role Id: " + responses[responses.length-1].data.roleId.toString()
+                responses[responses.length - 1].message.toString()
+                + "\n" + "name: " + responses[responses.length - 1].data.name.toString()
+                + "\n" + "username: " + responses[responses.length - 1].data.username.toString()
+                + "\n" + "password: " + responses[responses.length - 1].data.password.toString()
+                + "\n" + "role Id: " + responses[responses.length - 1].data.roleId.toString()
                 + "\n \n" + "Please login to Continue"
             )
             navigate('/login')
-        }else {
-            if(formInput.name !== "" && formInput.username !== "" && formInput.password !== "" && formInput.roleId !== ""){
-                const messageArr = responses[responses.length-1].message.toString().split(" ");
-                if(messageArr.indexOf("data")>=0 && messageArr.indexOf("exists")>=0){
-                    alert(responses[responses.length-1].message.toString())
+        } else {
+            if (formInput.name !== "" && formInput.username !== "" && formInput.password !== "" && formInput.roleId !== "") {
+                const messageArr = responses[responses.length - 1].message.toString().split(" ");
+                if (messageArr.indexOf("data") >= 0 && messageArr.indexOf("exists") >= 0) {
+                    alert(responses[responses.length - 1].message.toString())
+                } else {
+                    alert(responses[responses.length - 1].message.toString())
                 }
-                else {
-                    alert(responses[responses.length-1].message.toString())
-                }
-            }
-            else{
+            } else {
                 alert("Form must be filled fully")
             }
         }
     }
 
+    useEffect(() => {
+        getRoleList()
+    }, [])
 
-    return<>
-        <h1>Form Register</h1>
+    console.log(roleList)
 
-        <br/><br/><br/>
 
-        <form onSubmit={event => handleSubmit(event)}>
-            <label>
-                Your Name <br/>
-                <input
-                    type={"text"}
-                    value={formInput.name}
-                    onChange={event => handleInput(event,"name")}
-                />
-            </label>
+    return <>
+        <div className="container-auth bg-light-auth">
+            <div className="row text-center">
+                <div className="col-md-2 col-12"/>
+                <div className="col-md-8 col-12">
+                    <div className="wrapper-auth bordered-auth bg-md-white-auth d-flex-auth flex-column align-items-between">
+                        <div className="form">
+                            <div className="h4 font-weight-bold text-center mb-4">Register</div>
+                            <form onSubmit={event => handleSubmit(event)}>
+                                <div className="form-group mb-4">
+                                    <label>Your Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        required
+                                        value={formInput.name}
+                                        onChange={event => handleInput(event, "name")}/>
+                                </div>
 
-            <br/><br/>
+                                <div className="form-group mb-4">
+                                    <label>Username</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        required
+                                        value={formInput.username}
+                                        onChange={event => handleInput(event, "username")}/>
+                                </div>
 
-            <label>
-                Username <br/>
-                <input
-                    type={"text"}
-                    value={formInput.username}
-                    onChange={event => handleInput(event,"username")}
-                />
-            </label>
+                                <div className="form-group mb-4">
+                                    <label>Password</label>
+                                    <input
+                                        type={"password"}
+                                        className="form-control"
+                                        required
+                                        value={formInput.password}
+                                        onChange={event => handleInput(event, "password")}
+                                    />
+                                </div>
 
-            <br/><br/>
+                                <div className="form-group mb-4">
+                                    <label>Role Name</label>
+                                    <select
+                                        className="form-control"
+                                        required
+                                        value={formInput.roleId}
+                                        onChange={event => handleInput(event, "roleId")}>
+                                        <option value="" disabled></option>
+                                        {roleList.map(listRole =>
+                                            <option value={listRole.roleId}>
+                                                {listRole.roleName}
+                                            </option>
+                                        )}
+                                    </select>
 
-            <label>
-                Password <br/>
-                <input
-                    type={"password"}
-                    value={formInput.password}
-                    onChange={event => handleInput(event,"password")}
-                />
-            </label>
+                                </div>
 
-            <br/><br/>
-
-            <label>
-                Role Id <br/>
-                <input
-                    type={"number"}
-                    value={formInput.roleId}
-                    onChange={event => handleInput(event,"roleId")}
-                />
-
-            </label>
-
-            <br/><br/>
-
-            <button>
-                Submit
-            </button>
-        </form>
-
+                                <button className="btn btn-primary">
+                                    Register
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div className="col-md-2 col-12"/>
+            </div>
+        </div>
     </>
 }

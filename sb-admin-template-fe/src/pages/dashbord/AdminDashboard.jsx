@@ -9,7 +9,7 @@ export default function AdminDashboard(){
     const navigate = useNavigate()
 
     try {
-        let message = responses[responses.length-1].message.toString().split(" ")
+        let message = responses[responses.length-1].message.toString().split(" ") //
         let indicator = 0;
         if(message.indexOf("Admin")>=0){
             indicator+=1;
