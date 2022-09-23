@@ -1,50 +1,50 @@
-import axios from "axios";
 import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-export default function AuthorList() {
-  const [authors, setAuthors] = useState([]);
+export default function PublisherList() {
+  const [publishers, setPublishers] = useState([]);
 
-  async function getAuthorList() {
+  async function getPublisherList() {
     try {
       const response = await axios.get(
-        "https://be-library-mini-system.herokuapp.com/author/all"
+        "https://be-library-mini-system.herokuapp.com/publisher/list"
       );
 
       console.log(response.data);
-      setAuthors(response.data);
+      setPublishers(response.data);
     } catch (err) {
+      console.log(err);
       alert("Terjadi Masalah");
     }
   }
 
-  function deleteAuthor(id) {
+  function deletePublisher(id) {
     axios
       .delete(
-        "https://be-library-mini-system.herokuapp.com/author/delete/" + id
+        "https://be-library-mini-system.herokuapp.com/publisher/delete/" + id
       )
       .then(() => {
-        getAuthorList();
+        getPublisherList();
       })
       .catch((err) => {
         console.log(err);
-        alert("Error woi");
+        alert("error");
       });
   }
 
   useEffect(() => {
-    getAuthorList();
+    getPublisherList();
   }, []);
 
   return (
     <>
       <div class="card shadow mb-4">
         <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">Daftar Penulis</h6>
-          <Link to="/author/form">
-            <button className="btn btn-primary"> Tambah Penulis </button>
+          <h6 class="m-0 font-weight-bold text-primary">Daftar Penerbit</h6>
+          <Link to="/publisher/form">
+            <button className="btn btn-primary"> Tambah Penerbit </button>
           </Link>
         </div>
 
@@ -59,27 +59,25 @@ export default function AuthorList() {
               <thead>
                 <tr>
                   <th scope="col">No</th>
-                  <th>Nama</th>
+                  <th>Penerbit</th>
                   <th>Alamat</th>
-                  <th>No Hp</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                {authors.map((author, index) => (
+                {publishers.map((publisher, index) => (
                   <tr>
-                    <td key={author.authorId} scope="row">
+                    <td key={publisher.publisherId} scope="row">
                       {index + 1}
                     </td>
-                    <td>{author.authorName}</td>
-                    <td>{author.authorAddress}</td>
-                    <td>{author.noHp}</td>
+                    <td>{publisher.publisherName}</td>
+                    <td>{publisher.addressPublisher}</td>
                     <td>
-                      <Link to={"/author/form/" + author.authorId}>
+                      <Link to={"/publisher/form/" + publisher.idPublisher}>
                         <button className="btn btn-primary"> Edit </button>
                       </Link>{" "}
                       <button
-                        onClick={() => deleteAuthor(author.authorId)}
+                        onClick={() => deletePublisher(publisher.idPublisher)}
                         className="btn btn-danger"
                       >
                         {" "}
