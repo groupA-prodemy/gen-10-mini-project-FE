@@ -82,7 +82,7 @@ a:hover .fa-arrow-right-auth {
 
 .container-auth .wrapper-auth {
     padding: 40px 20px;
-    width: 350px;
+    width: 335px;
     height: auto;
     position: relative;
     left: auto;
@@ -187,15 +187,27 @@ img {
 
 /* Media Queries */
 
-@media(min-width:992px) and (max-width: 1199px) {
+@media(min-width:992px) and (max-width: 1366px) {
     .container-auth .wrapper-auth {
-        left: 18%;
+        position: relative;
+
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 25px;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 25px;
+        margin-bottom: 25px;
     }
 }
 
 @media(min-width:768px) and (max-width: 991px) {
     .container-auth .wrapper-auth {
-        left: 20%;
+        position: relative;
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 25px;
+        margin-bottom: 25px;
     }
 }
 
@@ -206,9 +218,13 @@ img {
 
     .container-auth .wrapper-auth {
         position: relative;
-        width: max-content;
         display: -moz-inline-block;
         background-color: #ebebeb;
+
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 45px;
+        margin-bottom: 45px;
     }
 
     .bordered-auth {
@@ -231,23 +247,34 @@ img {
 @media(max-width:575px) {
     .container-auth {
         padding: 20px;
-        margin: 10px;
+        margin-right: 10px;
+        margin-left: 10px;
     }
 
     .container-auth .wrapper-auth {
-        width: 400px
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 45px;
+        margin-bottom: 45px;
+        position: relative;
     }
 }
 
 @media(max-width: 424px) {
     .container-auth .wrapper-auth {
         width: inherit;
+        margin-left: 10px;
+        margin-right: 50px;
+        margin-top: 45px;
+        margin-bottom: 45px;
+        position: relative;
     }
 }
 
 .card-header-home-1{
     padding: .75rem 1.25rem;
     margin-bottom: 0;
+    margin-top: 45px;
     background-color: #f8f9fcc7;
 }
 .card-header-home-2 h1{
@@ -270,4 +297,9 @@ img {
     flex: 1 1 auto;
     min-height: 1px;
     padding: 1.25rem;
+}
+.row-2 {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -.75rem;
 }

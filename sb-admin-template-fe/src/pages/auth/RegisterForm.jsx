@@ -81,7 +81,7 @@ export default function RegisterForm() {
 
     return <>
         <div className="container-auth bg-light-auth">
-            <div className="row text-center">
+            <div className="row-2 text-center">
                 <div className="col-md-2 col-12"/>
                 <div className="col-md-8 col-12">
                     <div className="wrapper-auth bordered-auth bg-md-white-auth d-flex-auth flex-column align-items-between">
