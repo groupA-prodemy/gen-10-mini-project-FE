@@ -24,6 +24,11 @@ export default function UserList() {
             })
     }
 
+    function back(event){
+        event.preventDefault()
+        history.go(-1)
+    }
+
 
     useEffect(() => {
         getUsers()
@@ -32,6 +37,10 @@ export default function UserList() {
     return <>
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"} onClick={event => back(event)}>
+                    &nbsp;
+                    Back
+                </div>
                 <h6 className="m-0 font-weight-bold text-primary">Daftar User</h6>
 
                 <Link to="/articles/form">

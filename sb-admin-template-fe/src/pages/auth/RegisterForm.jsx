@@ -72,11 +72,14 @@ export default function RegisterForm() {
         }
     }
 
+    function back(event){
+        event.preventDefault()
+        history.go(-1)
+    }
+
     useEffect(() => {
         getRoleList()
     }, [])
-
-    console.log(roleList)
 
 
     return <>
@@ -86,6 +89,12 @@ export default function RegisterForm() {
                 <div className="col-md-8 col-12">
                     <div className="wrapper-auth bordered-auth bg-md-white-auth d-flex-auth flex-column align-items-between">
                         <div className="form">
+                            <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"} onClick={event => back(event)}>
+                                &nbsp;
+                                Back
+                            </div>
+                            <br/>
+                            <br/>
                             <div className="h4 font-weight-bold text-center mb-4">Register</div>
                             <form onSubmit={event => handleSubmit(event)}>
                                 <div className="form-group mb-4">

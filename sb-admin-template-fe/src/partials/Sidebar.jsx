@@ -179,7 +179,7 @@ export default function Sidebar() {
             ))}
             {menuProfile.map((profile) => (
               <li className="nav-item">
-                <Link className="nav-link" to={profile.link}>
+                <Link className="nav-link" to={profile.link} onClick={location.reload} >
                   <i className={"fas fa-fw " + profile.icon}></i>
                   &nbsp;
                   <span>{profile.title}</span>

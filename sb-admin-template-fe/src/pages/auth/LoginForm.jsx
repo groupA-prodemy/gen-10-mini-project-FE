@@ -68,6 +68,11 @@ export default function LoginForm() {
         }
     }
 
+    function back(event){
+        event.preventDefault()
+        history.go(-1)
+    }
+
     return <>
         <div className="container-auth bg-light-auth">
             <div className="row-2 text-center">
@@ -75,6 +80,12 @@ export default function LoginForm() {
                 <div className="col-md-8 col-12">
                     <div className="wrapper-auth bordered-auth bg-md-white-auth d-flex-auth flex-column align-items-between">
                         <div className="form">
+                            <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"} onClick={event => back(event)}>
+                                &nbsp;
+                                Back
+                            </div>
+                            <br/>
+                            <br/>
                             <div className="h4 font-weight-bold text-center mb-4">Login to Dashboard</div>
                             <form onSubmit={event => handleSubmit(event)}>
                                 <div className="form-group text-center mb-4" >
@@ -100,12 +111,18 @@ export default function LoginForm() {
                                     <button className="btn btn-primary btn-block rounded-0">Log In</button>
                                 </div>
                             </form>
-                        </div>
-                        <Link to={"/register"}>
-                            <button className=" text-center mb-4 btn btn-primary btn-block rounded-0">Register</button>
-                        </Link>
-                        <div className="text-center text-muted mt-auto">
-                            Need help? <span><a href={"https://github.com/groupA-prodemy"}>Contact Us</a></span>
+                            <div className="form-group text-center mb-4" >
+                                <p className={ "m-0 font-weight-bold text-primary"}>or</p>
+                            </div>
+                            <div className="form-group text-center mb-4" >
+                                <Link to={"/register"}>
+                                    <button className=" text-center mb-4 btn btn-outline-primary btn-block rounded-0">Register</button>
+                                </Link>
+                            </div>
+
+                            <div className="text-center text-muted mt-auto">
+                                Need help? <span><a href={"https://github.com/groupA-prodemy"}>Contact Us</a></span>
+                            </div>
                         </div>
                     </div>
 

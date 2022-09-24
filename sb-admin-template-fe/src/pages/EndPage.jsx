@@ -10,30 +10,36 @@ export default function EndPage() {
     }, 1000);
 
     return <>
-        <div className="container-auth bg-light-auth">
-            <div className="row text-center">
+        <div className="container-auth-end">
+            <div className="row-2-end text-center">
                 <div className="col-md-2 col-12"/>
                 <div className="col-md-8 col-12">
-                    <div className="wrapper-auth bordered-auth bg-md-white-auth d-flex-auth flex-column align-items-between">
+                    <div
+                        className="wrapper-auth-end bordered-auth-end bg-md-white-auth-end d-flex-auth flex-column align-items-between">
                         <div className="form">
-                            <div className="h4 font-weight-bold text-center mb-4">Bye-bye</div>
-                            <div className={"card-header-end"}>
-                                <div className="text-center">
-                                    <div className={"app"} id={"home"}>
-                                        <h1>Thanks for Visit</h1>
+                            <div className="book-end">
+                                <span className="page-end turn-end"></span>
+                                <span className="page-end turn-end"></span>
+                                <span className="page-end turn-end"></span>
+                                <span className="page-end turn-end"></span>
+                                <span className="page-end turn-end"></span>
+                                <span className="page-end turn-end">
+                                    <div className="text-center">
+                                        <div className={"app"} id={"home"}>
+                                            <h5>Thanks for Visit</h5>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div className="text-center">
+                                        <button className={"btn btn-lg"} id={"time"}>{count}</button>
+                                    </div>
+                                </span>
+                                <span className="cover-book-end"></span>
+                                <span className="page-end"></span>
                             </div>
-                            <div className={"card-body-end"}>
-                                <div className="text-center">
-                                    <button className={"btn btn-facebook"} id={"time"}>{count}</button>
-                                </div>
-                            </div>
-                            <Outlet/>
                         </div>
                     </div>
+                    <div className="col-md-2 col-12"/>
                 </div>
-                <div className="col-md-2 col-12"/>
             </div>
         </div>
     </>

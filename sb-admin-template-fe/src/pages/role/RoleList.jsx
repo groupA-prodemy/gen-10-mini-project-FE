@@ -34,6 +34,11 @@ export default function RoleList(){
 
     }
 
+    function back(event){
+        event.preventDefault()
+        history.go(-1)
+    }
+
     useEffect(()=>{
         getUsers()
     },[])
@@ -41,6 +46,11 @@ export default function RoleList(){
     return<>
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"} onClick={event => back(event)}>
+                    &nbsp;
+                    Back
+                </div>
+
                 <h6 className="m-0 font-weight-bold text-primary">Daftar Role</h6>
 
                 <Link to={"/roles/add"}>
@@ -56,6 +66,7 @@ export default function RoleList(){
                         <th scope="col">#</th>
                         <th scope="col">Rolename</th>
                         <th scope="col">Role Id</th>
+                        <th scope="col">Action</th>
                     </tr>
                     </thead>
                     <tbody>
