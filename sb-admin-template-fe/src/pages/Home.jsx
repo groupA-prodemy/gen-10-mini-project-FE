@@ -1,7 +1,7 @@
 import {Link, Outlet} from "react-router-dom";
 
-export default function Home(){
-    return<>
+export default function Home() {
+    return <>
         <div className="container-auth bg-light-auth">
             <div className={"card-header-home-1"}>
                 <div className="text-center">
@@ -19,7 +19,8 @@ export default function Home(){
             </div>
             <div className={"card-body"}>
                 <div className="text-center">
-                        <img className={"img-profile"} src={"https://media.getredy.id/images/users/12168/15039894701611635740.png"}/>
+                    <img className={"img-profile"}
+                         src={"https://media.getredy.id/images/users/12168/15039894701611635740.png"}/>
                 </div>
             </div>
             <div className={"sticky-footer"}>

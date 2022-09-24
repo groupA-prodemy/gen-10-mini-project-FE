@@ -55,16 +55,12 @@ export default function ChangeProfile() {
 
     async function handleSubmit(event) {
         event.preventDefault()
-
         const payload = JSON.stringify({
             ...formInput,
             roleId: parseInt(formInput.roleId)
         })
-
         const targetUrl = "https://be-library-mini-system.herokuapp.com/users/update/" + params.userId;
-
         const method = "PUT"
-
         await fetch(targetUrl, {
             method: method,
             body: payload,
@@ -72,7 +68,6 @@ export default function ChangeProfile() {
                 'Content-Type': 'application/json'
             }
         }).then((re) => re.json()).then((d) => responses.push(d))
-
         if (responses[responses.length - 1].status.toString() === "true") {
             alert
             (
@@ -93,14 +88,14 @@ export default function ChangeProfile() {
         }
     }
 
-    function handleCancel(){
+    function handleCancel() {
         let text = "Your change will not save"
         if (confirm(text) === true) {
-            navigate("/users/"+params.username)
+            navigate("/users/" + params.username)
         }
     }
 
-    function back(event){
+    function back(event) {
         event.preventDefault()
         history.go(-1)
     }
@@ -117,7 +112,8 @@ export default function ChangeProfile() {
     return <>
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"} onClick={event => back(event)}>
+                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"}
+                     onClick={event => back(event)}>
                     &nbsp;
                     Back
                 </div>
@@ -229,7 +225,7 @@ export default function ChangeProfile() {
                         Save Changes
                     </button>
                 </form>
-                <button className="btn btn-danger" onClick={()=>handleCancel()}>
+                <button className="btn btn-danger" onClick={() => handleCancel()}>
                     cancel
                 </button>
             </div>

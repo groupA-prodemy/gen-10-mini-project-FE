@@ -29,16 +29,12 @@ export default function RegisterForm() {
 
     async function handleSubmit(event) {
         event.preventDefault()
-
         const payload = JSON.stringify({
             ...formInput,
             roleId: parseInt(formInput.roleId)
         })
-
         const targetUrl = "https://be-library-mini-system.herokuapp.com/auth/register"
-
         const method = "POST"
-
         await fetch(targetUrl, {
             method: method,
             body: payload,
@@ -46,7 +42,6 @@ export default function RegisterForm() {
                 'Content-Type': 'application/json'
             }
         }).then((re) => re.json()).then((d) => responses.push(d))
-
         if (responses[responses.length - 1].status.toString() === "true") {
             alert
             (
@@ -72,7 +67,7 @@ export default function RegisterForm() {
         }
     }
 
-    function back(event){
+    function back(event) {
         event.preventDefault()
         history.go(-1)
     }
@@ -87,9 +82,11 @@ export default function RegisterForm() {
             <div className="row-2 text-center">
                 <div className="col-md-2 col-12"/>
                 <div className="col-md-8 col-12">
-                    <div className="wrapper-auth bordered-auth bg-md-white-auth d-flex-auth flex-column align-items-between">
+                    <div
+                        className="wrapper-auth bordered-auth bg-md-white-auth d-flex-auth flex-column align-items-between">
                         <div className="form">
-                            <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"} onClick={event => back(event)}>
+                            <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"}
+                                 onClick={event => back(event)}>
                                 &nbsp;
                                 Back
                             </div>

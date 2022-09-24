@@ -16,16 +16,12 @@ export default function AddRole() {
 
     async function handleSubmit(event) {
         event.preventDefault()
-
         const payload = JSON.stringify({
             ...formInput,
             roleId: parseInt(formInput.roleId)
         })
-
         const targetUrl = "https://be-library-mini-system.herokuapp.com/role/save-role"
-
         const method = "POST"
-
         await fetch(targetUrl, {
             method: method,
             body: payload,
@@ -33,8 +29,6 @@ export default function AddRole() {
                 'Content-Type': 'application/json'
             }
         }).then((re) => re.json()).then((d) => responses.push(d))
-
-
         if (responses[responses.length - 1].status.toString() === "true") {
             alert
             (
@@ -52,7 +46,7 @@ export default function AddRole() {
         }
     }
 
-    function back(event){
+    function back(event) {
         event.preventDefault()
         history.go(-1)
     }
@@ -60,7 +54,8 @@ export default function AddRole() {
     return <>
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"} onClick={event => back(event)}>
+                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"}
+                     onClick={event => back(event)}>
                     &nbsp;
                     Back
                 </div>
