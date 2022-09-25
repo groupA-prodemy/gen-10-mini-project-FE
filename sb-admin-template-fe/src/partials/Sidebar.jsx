@@ -148,7 +148,6 @@ export default function Sidebar() {
                 {/* <!-- Sidebar - Brand --> */}
                 <a
                     className="sidebar-brand d-flex align-items-center justify-content-center"
-                    href="index.html"
                 >
                     <div className="sidebar-brand-icon rotate-n-15">
                         <i className="fas fa-book"></i>
@@ -164,7 +163,7 @@ export default function Sidebar() {
                 {roleArrSideBar[roleArrSideBar.length - 1] === "Admin" ? (
                     <>
                         {menuList.map((menu) => (
-                            <li className="nav-item">
+                            <li className="nav-item" key={menu.title}>
                                 <Link className="nav-link" to={menu.link}>
                                     <i className={"fas fa-fw " + menu.icon}></i>
                                     &nbsp;
@@ -173,7 +172,7 @@ export default function Sidebar() {
                             </li>
                         ))}
                         {menuProfile.map((profile) => (
-                            <li className="nav-item">
+                            <li className="nav-item" key={profile.title}>
                                 <Link className="nav-link" to={profile.link} onClick={location.reload}>
                                     <i className={"fas fa-fw " + profile.icon}></i>
                                     &nbsp;
@@ -182,7 +181,7 @@ export default function Sidebar() {
                             </li>
                         ))}
                         {menuLogOut.map((logOut) => (
-                            <li className="nav-item">
+                            <li className="nav-item" key={logOut.title}>
                                 <Link className="nav-link" onClick={(event) => logout(event)}>
                                     <i className={"fas fa-fw " + logOut.icon}></i>
                                     &nbsp;
@@ -193,28 +192,28 @@ export default function Sidebar() {
                     </>
                 ) : (
                     <>
-                        <li className="nav-item">
+                        <li className="nav-item" key={menuList[0].title}>
                             <Link className="nav-link" to={"/user/dashboard"}>
                                 <i className={"fas fa-fw " + menuList[0].icon}></i>
                                 &nbsp;
                                 <span>{menuList[0].title}</span>
                             </Link>
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-item" key={menuList[1].title}>
                             <Link className="nav-link" to={menuList[1].link}>
                                 <i className={"fas fa-fw " + menuList[1].icon}></i>
                                 &nbsp;
                                 <span>{menuList[1].title}</span>
                             </Link>
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-item" key={menuProfile[0].title}>
                             <Link className="nav-link" to={menuProfile[0].link}>
                                 <i className={"fas fa-fw " + menuProfile[0].icon}></i>
                                 &nbsp;
                                 <span>{menuProfile[0].title}</span>
                             </Link>
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-item" key={menuLogOut[0].title}>
                             <Link className="nav-link" onClick={(event) => logout(event)}>
                                 <i className={"fas fa-fw " + menuLogOut[0].icon}></i>
                                 &nbsp;

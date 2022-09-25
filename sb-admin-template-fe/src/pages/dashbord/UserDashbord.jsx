@@ -4,6 +4,7 @@ import {responses} from "../auth/LoginForm.jsx";
 export default function UserDashboard() {
     let person = []
     let username = [];
+    let roleArr = []
     let userIdArr = [];
     let responsesLogout = [];
     const navigate = useNavigate();
@@ -18,14 +19,17 @@ export default function UserDashboard() {
             person.push(responses[responses.length - 1].data.name.toString())
             username.push(responses[responses.length - 1].data.username.toString())
             userIdArr.push(responses[responses.length - 1].data.userId.toString())
+            roleArr.push(responses[responses.length - 1].data.roleName.toString())
             sessionStorage.setItem("name", person[person.length - 1].toString())
             sessionStorage.setItem("uname", username[person.length - 1].toString())
             sessionStorage.setItem("uId", userIdArr[userIdArr.length - 1].toString())
+            sessionStorage.setItem("role", roleArr[roleArr.length - 1].toString())
         }
     } catch (error) {
         person.push(sessionStorage.getItem("name"))
         username.push(sessionStorage.getItem("uname"))
         userIdArr.push(sessionStorage.getItem("uId"))
+        roleArr.push(sessionStorage.getItem("role"))
     }
 
     async function logout(event) {
@@ -63,16 +67,15 @@ export default function UserDashboard() {
                     Profile
                 </Link>
                 &nbsp; &nbsp;
-                <button className={"btn btn-danger"} onClick={(event) => logout(event)}>Logout</button>
-
+                <button className={"btn btn-danger"} onClick={(event) => logout(event)}>
+                    Logout
+                </button>
             </nav>
-
-            <h3>Welcome in your Dashboard as Visitor, Hai {person[person.length - 1]}</h3>
-
+            <h3>
+                Welcome in your Dashboard as {roleArr[roleArr.length - 1]}, Hai {person[person.length - 1]}
+            </h3>
             <br/>
-
             <Outlet/>
-
         </div>
     </>
 }

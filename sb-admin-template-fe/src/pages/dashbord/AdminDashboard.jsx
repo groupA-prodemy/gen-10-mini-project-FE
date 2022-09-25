@@ -80,13 +80,11 @@ export default function AdminDashboard() {
                 &nbsp; &nbsp;
                 <button className={"btn btn-danger"} onClick={(event) => logout(event)}>Logout</button>
             </nav>
-
-            <h3>Welcome in you Dashboard as Admin, Hai {personArr[personArr.length - 1]}</h3>
-
+            <h3>
+                Welcome in you Dashboard as {roleArr[roleArr.length - 1]}, Hai {personArr[personArr.length - 1]}
+            </h3>
             <br/>
-
             <Outlet/>
-
         </div>
     </>
 }
