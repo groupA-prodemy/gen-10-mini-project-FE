@@ -92,6 +92,7 @@ export default function Sidebar() {
             title: "Profile",
             icon: "fa-user",
             link: "/users/" + usernameArrSideBar[usernameArrSideBar.length - 1],
+
         },
     ];
     const menuLogOut = [

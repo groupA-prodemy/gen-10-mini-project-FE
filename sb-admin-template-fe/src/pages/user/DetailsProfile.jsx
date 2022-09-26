@@ -131,13 +131,24 @@ export default function DetailsProfile() {
                                         </div>
                                         <div className="col-lg-8 col-md-8 col-12">
                                             <h4 className="m-t-0 m-b-0" key={user.id}>
-                                                <strong>
-                                                    {firstName}
-                                                </strong>
-                                                &nbsp;
-                                                {midName}
-                                                &nbsp;
-                                                {additionalName}
+                                                {
+                                                    userArr.length===1?
+                                                        <strong>
+                                                            {firstName}
+                                                        </strong>
+                                                        :
+                                                        userArr.length>1?
+                                                        <>
+                                                            <strong>
+                                                                {firstName}
+                                                            </strong>
+                                                            &nbsp;
+                                                            {midName}
+                                                            &nbsp;
+                                                            {additionalName}
+                                                        </>
+                                                            : ""
+                                                }
                                             </h4>
                                             <h5>{"( ID : " + user.id + " )"}</h5>
                                             <span className="job_post">{user.roleName}</span>
