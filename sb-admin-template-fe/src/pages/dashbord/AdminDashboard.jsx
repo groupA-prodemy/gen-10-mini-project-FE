@@ -20,16 +20,16 @@ export default function AdminDashboard() {
             usernameArr.push(responses[responses.length - 1].data.username.toString())
             roleArr.push(responses[responses.length - 1].data.roleName.toString())
             userIdArr.push(responses[responses.length - 1].data.userId.toString())
-            sessionStorage.setItem("name", personArr[personArr.length - 1].toString())
-            sessionStorage.setItem("uname", usernameArr[usernameArr.length - 1].toString())
-            sessionStorage.setItem("role", roleArr[roleArr.length - 1].toString())
-            sessionStorage.setItem("uId", userIdArr[userIdArr.length - 1].toString())
+            localStorage.setItem("name", personArr[personArr.length - 1].toString())
+            localStorage.setItem("uname", usernameArr[usernameArr.length - 1].toString())
+            localStorage.setItem("role", roleArr[roleArr.length - 1].toString())
+            localStorage.setItem("uId", userIdArr[userIdArr.length - 1].toString())
         }
     } catch (error) {
-        personArr.push(sessionStorage.getItem("name"))
-        usernameArr.push(sessionStorage.getItem("uname"))
-        roleArr.push(sessionStorage.getItem("role"))
-        userIdArr.push(sessionStorage.getItem("uId"))
+        personArr.push(localStorage.getItem("name"))
+        usernameArr.push(localStorage.getItem("uname"))
+        roleArr.push(localStorage.getItem("role"))
+        userIdArr.push(localStorage.getItem("uId"))
     }
 
     async function logout(event) {

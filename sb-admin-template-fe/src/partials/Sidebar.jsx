@@ -69,22 +69,22 @@ export default function Sidebar() {
             usernameArrSideBar.push(responses[responses.length - 1].data.username.toString());
             roleArrSideBar.push(responses[responses.length - 1].data.roleName.toString());
             userIdArrSideBar.push(responses[responses.length - 1].data.userId.toString());
-            sessionStorage.setItem("name", personArrSideBar[personArrSideBar.length - 1].toString());
-            sessionStorage.setItem("uname", usernameArrSideBar[usernameArrSideBar.length - 1].toString());
-            sessionStorage.setItem(
+            localStorage.setItem("name", personArrSideBar[personArrSideBar.length - 1].toString());
+            localStorage.setItem("uname", usernameArrSideBar[usernameArrSideBar.length - 1].toString());
+            localStorage.setItem(
                 "role",
                 roleArrSideBar[roleArrSideBar.length - 1].toString()
             );
-            sessionStorage.setItem(
+            localStorage.setItem(
                 "uId",
                 userIdArrSideBar[userIdArrSideBar.length - 1].toString()
             );
         }
     } catch (error) {
-        personArrSideBar.push(sessionStorage.getItem("name"));
-        usernameArrSideBar.push(sessionStorage.getItem("uname"));
-        roleArrSideBar.push(sessionStorage.getItem("role"));
-        userIdArrSideBar.push(sessionStorage.getItem("uId"));
+        personArrSideBar.push(localStorage.getItem("name"));
+        usernameArrSideBar.push(localStorage.getItem("uname"));
+        roleArrSideBar.push(localStorage.getItem("role"));
+        userIdArrSideBar.push(localStorage.getItem("uId"));
     }
 
     const menuProfile = [

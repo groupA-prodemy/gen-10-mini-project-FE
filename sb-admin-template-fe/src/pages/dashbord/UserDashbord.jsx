@@ -20,10 +20,10 @@ export default function UserDashboard() {
             username.push(responses[responses.length - 1].data.username.toString())
             userIdArr.push(responses[responses.length - 1].data.userId.toString())
             roleArr.push(responses[responses.length - 1].data.roleName.toString())
-            sessionStorage.setItem("name", person[person.length - 1].toString())
-            sessionStorage.setItem("uname", username[person.length - 1].toString())
-            sessionStorage.setItem("uId", userIdArr[userIdArr.length - 1].toString())
-            sessionStorage.setItem("role", roleArr[roleArr.length - 1].toString())
+            localStorage.setItem("name", person[person.length - 1].toString())
+            localStorage.setItem("uname", username[person.length - 1].toString())
+            localStorage.setItem("uId", userIdArr[userIdArr.length - 1].toString())
+            localStorage.setItem("role", roleArr[roleArr.length - 1].toString())
         }
     } catch (error) {
         person.push(sessionStorage.getItem("name"))
