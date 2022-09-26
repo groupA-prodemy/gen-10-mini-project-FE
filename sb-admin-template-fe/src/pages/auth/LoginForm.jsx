@@ -82,7 +82,7 @@ export default function LoginForm() {
                             <br/>
                             <br/>
                             <div className="h4 font-weight-bold text-center mb-4">Login to Dashboard</div>
-                            <form onSubmit={event => handleSubmit(event)}>
+                            <form onSubmit={event => handleSubmit(event)} key={formInput.id}>
                                 <div className="form-group text-center mb-4">
                                     <label>Username <br/></label>
                                     <input type={"text"}

@@ -29,7 +29,7 @@ export default function DetailsProfile() {
         }
 
         firstName = userArr[0]
-        midName = userArr[1]
+        userArrLocal.length > 1 ? midName = userArr[1] : midName = ""
         let triggerArr = []
         for (let x = 0; x < userArrLocal.length; x++) {
             let processNameFront = firstName + " " + midName
