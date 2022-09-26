@@ -92,3 +92,9 @@ img{
     margin-top: 22px;
     margin-bottom: 22px;
 }
+
+.footer-card-profile-detail .footer-body-profile-detail {
+    font-size: 20px;
+    color: #295aba;
+    background-color: #1cc88a;
+}

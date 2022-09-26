@@ -8,10 +8,13 @@ let midName;
 let additionalName;
 export default function DetailsProfile() {
     const [user, setUser] = useState([])
+    const [userBooks, setUserBooks] = useState([])
     const params = useParams()
     const role = roleArrSideBar;
     const uname = usernameArrSideBar;
     let a = "*******"
+    let totalBooks = 0;
+    let isPassDueDate = false
 
     async function getUsers() {
         const res = await fetch("https://be-library-mini-system.herokuapp.com/users/profile/" + params.username,
@@ -45,6 +48,37 @@ export default function DetailsProfile() {
         setUser(data.data);
     }
 
+    async function getUserBooks() {
+        const res = await fetch("https://be-library-mini-system.herokuapp.com/userbook/list-userbook",
+            {method: "GET"})
+        const data = await res.json();
+        setUserBooks(data);
+    }
+
+    function getUserBooksById() {
+        let dueDates;
+        let returnDates;
+        for (let i = 0; i < userBooks.length; i++) {
+            dueDates = new Date(userBooks[i].dueDate)
+            returnDates = new Date(userBooks[i].returnDate)
+            if (userBooks[i].userName === params.username && returnDates !== null) {
+                totalBooks = totalBooks - 1
+                if (totalBooks < 0) {
+                    totalBooks = 0
+                }
+            }
+            if (userBooks[i].userName === params.username && userBooks[i].returnDate === null) {
+                totalBooks = totalBooks + 1
+                dueDates.getDate() - new Date().getDate() < 0 ?
+                    isPassDueDate = true
+                    :
+                    isPassDueDate = false
+            }
+        }
+        return totalBooks
+    }
+
+
     function handlingButton() {
         alert("You don't have access to see this account password")
     }
@@ -56,6 +90,9 @@ export default function DetailsProfile() {
 
     useEffect(() => {
         getUsers()
+    }, [])
+    useEffect(() => {
+        getUserBooks()
     }, [])
 
     return <>
@@ -107,15 +144,15 @@ export default function DetailsProfile() {
                                             <p>PSM Mini Library</p>
                                             <div
                                                 className={"card-button-profile card-button-outline-primary-profile"}>
-                                                <h5profile className={"fa fa-user-circle"}>
+                                                <h5 className={"fa fa-user-circle"}>
                                                     &nbsp;
                                                     {user.username}
-                                                </h5profile>
+                                                </h5>
                                             </div>
                                             <br/>
                                             <div
                                                 className={"card-button-profile card-button-outline-primary-profile"}>
-                                                <h5profile className={"fa fa-key"}>
+                                                <h5 className={"fa fa-key"}>
                                                     &nbsp;
                                                     {
                                                         uname[uname.length - 1] === user.username ?
@@ -130,7 +167,95 @@ export default function DetailsProfile() {
                                                                 :
                                                                 user.password
                                                     }
-                                                </h5profile>
+                                                </h5>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-xl-6 col-lg-7 col-md-12">
+                            <div className="card-profile-detail profile-header-profile-detail">
+                                <div className="body-profile-detail">
+                                    <div className="row">
+                                        <div className="col-lg-8 col-md-8 col-12">
+                                            <h4 className="m-t-0 m-b-0" key={user.id}>
+                                                <strong>
+                                                    Total Books
+                                                </strong>
+                                            </h4>
+                                            <h1 className={"big-text"}> {getUserBooksById()}</h1>
+                                            <div
+                                                className={"card-button-profile card-button-outline-primary-profile"}>
+                                                <h6 className={"fa"}>
+                                                    &nbsp;
+                                                    You're Borrowed
+                                                </h6>
+                                            </div>
+                                            <div
+                                                className={"card-button-profile card-button-outline-primary-profile"}>
+                                                <h5>
+                                                    <Link to={"/users/" + params.username + "/list-book"}>
+                                                        <button
+                                                            className="btn btn-outline-success"
+                                                        >
+                                                            Detail
+                                                        </button>
+                                                    </Link>
+                                                </h5>
+                                            </div>
+                                            <div className={"footer-card-profile-detail footer-body-profile-detail"}>
+                                                <h5 className={"text-center"}>
+                                                    {
+                                                        isPassDueDate === true ?
+                                                            <>
+                                                                <div className="btn-danger">
+                                                                    <p>Due Date Passed.</p>
+                                                                </div>
+                                                                <div className={"btn-outline-danger"}>
+                                                                    <strong>Back Your Book!!!</strong>
+                                                                </div>
+                                                            </>
+                                                            :
+                                                            getUserBooksById() > 0 ?
+                                                                <>
+                                                                    <br/>
+                                                                    <h4 className="btn-success fa">
+                                                                        Happy Read !!!
+                                                                    </h4>
+                                                                </>
+                                                                :
+                                                                <>
+                                                                    <br/>
+                                                                    <h4 className="btn-primary fa">
+                                                                        Let's Borrow !!!
+                                                                    </h4>
+                                                                </>
+                                                    }
+                                                </h5>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-4 col-md-4 col-12">
+
+                                            <div className="profile-image-profile-detail float-md-right">
+                                                {getUserBooksById() === 0 ?
+
+                                                    <img
+                                                        src="https://cdn0.iconfinder.com/data/icons/ban-sign/512/sign-48-512.png"
+                                                        alt=""/>
+
+                                                    :
+                                                    getUserBooksById() === 1 ?
+                                                        <img
+                                                            src="https://cdn.onlinewebfonts.com/svg/img_18895.png"
+                                                            alt=""/>
+
+                                                        :
+
+                                                        <img
+                                                            src="https://th.bing.com/th/id/R.1dc6fabd97bf37ca4f4205435b2ddd2c?rik=x0wO3MEiFLC5dw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fbook-transparent-png%2fbook-transparent-png-22.png&ehk=1Up0crZ35gdC4AmIR6jIp9coG2VdoOTVzhQA84BpkSQ%3d&risl=&pid=ImgRaw&r=0"
+                                                            alt=""/>
+                                                }
                                             </div>
                                         </div>
                                     </div>

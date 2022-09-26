@@ -2,12 +2,11 @@ import {Outlet} from "react-router-dom";
 
 export default function EndPage() {
     let count = 5;
-    setInterval(function () {
-        count--;
-        if (count > 0) {
-            document.getElementById("time").innerHTML = count;
-        }
-    }, 1000);
+    setInterval(
+        function () {
+            count--;
+            count > 0 ? document.getElementById("time").innerHTML = count : " "
+        }, 1000);
 
     return <>
         <div className="container-auth-end">

@@ -20,6 +20,7 @@ import AuthorList from "./pages/Author/AuthorList";
 import AuthorForm from "./pages/Author/AuthorForm";
 import PublisherList from "./pages/Publisher/PublisherList";
 import PublisherForm from "./pages/Publisher/PublisherForm";
+import DetailProfileUserBooks from "./pages/user/DetailProfileUserBooks";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
@@ -38,6 +39,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                     <Route element={<App/>}>
                         <Route path="users" element={<UserList/>}/>
                         <Route path={"users/:username"} element={<DetailsProfile/>}/>
+                        <Route path={"users/:username/list-book"} element={<DetailProfileUserBooks/>}/>
                         <Route
                             path={"users/:username/:userId"}
                             element={<ChangeProfile/>}
