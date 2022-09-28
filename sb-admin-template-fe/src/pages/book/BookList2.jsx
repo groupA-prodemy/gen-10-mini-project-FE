@@ -39,9 +39,9 @@ export default function BookList() {
 
     return(
         <>
-        <div class="card shadow mb-4">
+        <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">
+                <h6 className="m-0 font-weight-bold text-primary">
                     List Buku
                 </h6>
                     <Link to="/book/form">
@@ -49,13 +49,13 @@ export default function BookList() {
                     </Link>
             </div>
 
-            <div class="card-body">
-                <div class="table-responsive">
+            <div className="card-body">
+                <div className="table-responsive">
                     <table
-                    class="table table-bordered"
+                    className="table table-bordered"
                     id="databuku"
                     width="100%"
-                    cellspacing="0">
+                    cellSpacing="0">
                         <thead>
                             <tr>
                                 <th scope="col">No</th>

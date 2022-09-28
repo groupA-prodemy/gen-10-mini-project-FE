@@ -13,7 +13,10 @@ import AddRole from "./pages/role/AddRole.jsx";
 import RegisterForm from "./pages/auth/RegisterForm.jsx";
 import LoginForm from "./pages/auth/LoginForm.jsx";
 import UserDashboard from "./pages/dashbord/UserDashbord.jsx";
-import BookList from "./pages/book/BookList.jsx";
+import BookList2 from "./pages/book/BookList2.jsx";
+import BookForm from "./pages/book/BookForm.jsx";
+import UserBookList from "./pages/userbook/UserbookList.jsx";
+import UserBookForm from "./pages/userbook/UserbookForm.jsx";
 import AdminDashboard from "./pages/dashbord/AdminDashboard.jsx";
 import EndPage from "./pages/EndPage.jsx";
 import AuthorList from "./pages/Author/AuthorList";
@@ -51,7 +54,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
                             <Route path={"/user/dashboard"} element={<UserDashboard/>}/>
 
-                            <Route path={"/book/list"} element={<BookList/>}/>
+                            <Route path="/book/form" element={<BookForm/>}/>
+                            <Route path="/book/form/:bookId" element={<BookForm/>}/>
+                            <Route path={"/book/list"} element={<BookList2/>}/>
+
+                            <Route path="userbook/form" element={<UserBookForm/>}/>
+                            <Route path="userbook/form/:bookId" element={<UserBookForm/>}/>
+                            <Route path={"/userbook/list"} element={<UserBookList/>}/>
 
                             <Route path={"/admin/dashboard"} element={<AdminDashboard/>}/>
 

@@ -1,85 +1,103 @@
 import axios from "axios";
-import React, {useEffect, useState} from "react";
-import {Link, useNavigate, useParams} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+
+let responParams = [];
 
 export default function BookForm() {
-    const navigate = useNavigate();
-    const params = useParams();
+  const navigate = useNavigate();
+  const params = useParams();
 
-    const isEditting = params.bookId;
+  const isEditting = params.bookId;
 
-    const [books, setBooks] = useState ([]) ;
-    const [formInput, setFormInput] = useState({
-        bookTitle : "",
-        authorId : "",
-        categoryId : "",
-        publisherId : "",
-        bookYear : "",
-        bookStatus : "",
-    });
+  const [books, setBooks] = useState([]);
+  const [formInput, setFormInput] = useState({
+    bookTitle: "",
+    authorId: "",
+    categoryId: "",
+    publisherId: "",
+    bookYear: "",
+    bookStatus: "",
+  });
 
-    function handleInput (event, propName) {
-        const copyFormInput = {...formInput}
-        copyFormInput[inputName] = event.target.value
-        setFormInput(copyFormInput)
+  function handleInput(event, inputName) {
+    const copyFormInput = { ...formInput }
+    copyFormInput[inputName] = event.target.value
+    setFormInput(copyFormInput)
+  }
+
+  async function getBooks() {
+    const res = await axios.get(
+      "https://be-library-mini-system.herokuapp.com/book/books"
+    );
+    
+    setBooks(res.data);
+  }
+
+  async function getFormInput() {
+    const res = await axios.get(
+      "https://be-library-mini-system.herokuapp.com/book/" +
+      params.bookId
+    );
+
+    console.log(res.data)
+    setFormInput(res.data);
+  }
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+    const payload = JSON.stringify({
+      ...formInput,
+      bookStatus: Boolean(formInput.bookStatus)
+  })
+  const targetUrl = "https://be-libray-mini-system.herokuapp.com/book/add-book"
+  const method = "POST"
+  await fetch(targetUrl, {
+      method: method,
+      body: payload,
+      headers: {
+          'Content-Type': 'application/json'
+      }
+  })
+  
+    // if (isEditting) {
+    //   await axios.put(
+    //     "https://be-libray-mini-system.herokuapp.com/book/update/" +
+    //     params.bookId,
+    //     formInput
+    //   );
+    // } else {
+    //   await axios.post(
+    //     "https://be-library-mini-system.herokuapp.com/book/add-book",
+    //     formInput
+
+    //   );
+    // }
+
+    navigate("/book/list");
+  }
+
+  useEffect(() => {
+    getBooks();
+    if (isEditting) {
+      getFormInput();
     }
+  }, []);
 
-    async function getBooks () {
-        const res = await axios.get(
-            "https://be-library-mini-system.herokuapp.com/book/books"
-        );
+  return <>
 
-        setBooks(res.data);
-    }
+    <div className="card shadow mb-4">
+      <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+        <h6 className="m-0 font-weight-bold text-primary">Form Buku</h6>
+        <Link to="/book/list">
+          <button className="btn btn-secondary">Kembali</button>
+        </Link>
+      </div>
 
-    async function getFormInput() {
-        const res = await axios.get(
-            "https://be-library-mini-system.herokuapp.com/book" + 
-            params.bookId
-        );
-
-        console.log(res.data);
-        setFormInput(res.data);
-    }
-
-
-    async function handleSubmit (event) {
-        event.preventDefault();
-
-        if (isEditting) {
-            await axios.put(
-                "https://be-libray-mini-system.herokuapp.com/book/update/" +
-                params.bookId,
-                formInput
-            );
-        } else {
-            await axios.post(
-                "https://be-library-mini-system.herokuapp.com/book/add-book"
-            );
-        }
-
-        navigate("/book");
-    }
-
-    useEffect(() => {
-        getBooks();
-        if (isEditting) {
-            getFormInput();
-        }
-    }, []);
-
-    return (
-        <>
-        <div className="card shadow mb-4">
-        <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h6 className="m-0 font-weight-bold text-primary">Form Penulis</h6>
-
-          <Link to="/book">
-            <button className="btn btn-secondary">Kembali</button>
-          </Link>
-        </div>
+      <div>
         <div className="card-body">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={(event) => handleSubmit(event)}>
+
             <div className="mb-3">
               <label className="form-label">Judul Buku</label>
               <input
@@ -91,7 +109,7 @@ export default function BookForm() {
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Kategori</label>
+              <label className="form-label">Kategori ID</label>
               <input
                 className="form-control"
                 type="text"
@@ -101,7 +119,7 @@ export default function BookForm() {
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Author</label>
+              <label className="form-label">Author ID</label>
               <input
                 className="form-control"
                 type="text"
@@ -111,7 +129,7 @@ export default function BookForm() {
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Publisher</label>
+              <label className="form-label">Publisher ID</label>
               <input
                 className="form-control"
                 type="text"
@@ -130,21 +148,19 @@ export default function BookForm() {
               />
             </div>
 
-            <div className="mb-3">
-              <label className="form-label">Tersedia</label>
-              <input
-                className="form-control"
-                type="radio"
-                value="y"
-                onChange={(event) => handleInput(event.target.value, "bookStatus")}
-                checked={bookStatus === "y" ? true : false}
-              />
-            </div>
+              <label className="form-label">Book Status : </label>
+              <select onChange={(event) => handleInput(event,"bookStatus")}>
+              <option value={true}>Tersedia</option>
+              <option value={false}>Tidak Tersedia</option>
+              </select>
 
+            <div>
             <button className="btn btn-primary">Submit</button>
+            </div>
           </form>
         </div>
       </div>
-        </>
-    );
+    </div>
+
+  </>
 }
