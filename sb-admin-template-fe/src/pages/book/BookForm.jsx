@@ -10,12 +10,11 @@ export default function BookForm() {
 
   const isEditting = params.bookId;
 
-  const [books, setBooks] = useState([]);
+  const [authors, setAuthors] = useState([]);
+  const [categorys, setCategorys] = useState([]);
+  const [publishers, setPublishers] = useState([]);
   const [formInput, setFormInput] = useState({
     bookTitle: "",
-    authorId: "",
-    categoryId: "",
-    publisherId: "",
     bookYear: "",
     bookStatus: "",
   });
@@ -26,61 +25,82 @@ export default function BookForm() {
     setFormInput(copyFormInput)
   }
 
-  async function getBooks() {
+  async function getAuthors() {
     const res = await axios.get(
-      "https://be-library-mini-system.herokuapp.com/book/books"
+      "https://be-library-mini-system.herokuapp.com/author/all"
     );
-    
-    setBooks(res.data);
+    setAuthors(res.data);
+  }
+
+  async function getCategorys() {
+    const res = await axios.get(
+      "https://be-library-mini-system.herokuapp.com/category/list"
+    );
+    setCategorys(res.data);
+  }
+
+  async function getPublishers() {
+    const res = await axios.get(
+      "https://be-library-mini-system.herokuapp.com/publisher/list"
+    );
+    setPublishers(res.data);
   }
 
   async function getFormInput() {
-    const res = await axios.get(
-      "https://be-library-mini-system.herokuapp.com/book/" +
-      params.bookId
-    );
+    // ======= jalur normal ===========
+    // const res = await axios.get(
+    //   "https://be-library-mini-system.herokuapp.com/book/" +
+    //   params.bookId
+    // );
 
-    console.log(res.data)
-    setFormInput(res.data);
+    // console.log(res.data)
+    // setFormInput(res.data);
+
+    // ======= jalur sesat ===========
+    setFormInput(JSON.parse(params.bookId));
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
     const payload = JSON.stringify({
       ...formInput,
-      bookStatus: Boolean(formInput.bookStatus)
-  })
-  const targetUrl = "https://be-libray-mini-system.herokuapp.com/book/add-book"
-  const method = "POST"
-  await fetch(targetUrl, {
-      method: method,
-      body: payload,
-      headers: {
-          'Content-Type': 'application/json'
-      }
-  })
-  
-    // if (isEditting) {
-    //   await axios.put(
-    //     "https://be-libray-mini-system.herokuapp.com/book/update/" +
-    //     params.bookId,
-    //     formInput
-    //   );
-    // } else {
-    //   await axios.post(
-    //     "https://be-library-mini-system.herokuapp.com/book/add-book",
-    //     formInput
+      bookStatus: Boolean(formInput.bookStatus),
+      authorId: Number(formInput.authorId),
+      categoryId: Number(formInput.categoryId),
+      publisherId: Number(formInput.publisherId),
+    })
 
-    //   );
-    // }
+    // const targetUrl = "https://be-libray-mini-system.herokuapp.com/book/add-book"
+    // const method = "POST"
+    // await fetch(targetUrl, {
+    //     method: method,
+    //     body: payload,
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     }
+    // })
 
+    if (isEditting) {
+      await axios.put(
+        "https://be-libray-mini-system.herokuapp.com/book/update/" +
+        params.bookId,
+        formInput
+      );
+    } else {
+      await axios.post(
+        "https://be-library-mini-system.herokuapp.com/book/add-book",
+        formInput
+      );
+    }
     navigate("/book/list");
   }
 
   useEffect(() => {
-    getBooks();
+    getCategorys()
+    getAuthors()
+    getPublishers()
     if (isEditting) {
-      getFormInput();
+      getFormInput()
     }
   }, []);
 
@@ -109,33 +129,48 @@ export default function BookForm() {
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Kategori ID</label>
-              <input
+              <label className="form-label">Kategori</label>
+              <select
                 className="form-control"
-                type="text"
                 value={formInput.categoryId}
                 onChange={(event) => handleInput(event, "categoryId")}
-              />
+              >
+                {categorys.map(categroy =>
+                  <option value={categroy.categoryId}>
+                    {categroy.categoryName}
+                  </option>
+                )}
+              </select>
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Author ID</label>
-              <input
+              <label className="form-label">Author</label>
+              <select
                 className="form-control"
-                type="text"
                 value={formInput.authorId}
                 onChange={(event) => handleInput(event, "authorId")}
-              />
+              >
+                {authors.map(author =>
+                  <option value={author.authorId}>
+                    {author.authorName}
+                  </option>
+                )}
+              </select>
             </div>
 
             <div className="mb-3">
-              <label className="form-label">Publisher ID</label>
-              <input
+              <label className="form-label">Publisher</label>
+              <select
                 className="form-control"
-                type="text"
                 value={formInput.publisherId}
                 onChange={(event) => handleInput(event, "publisherId")}
-              />
+              >
+                {publishers.map(publisher =>
+                  <option value={publisher.publisherId}>
+                    {publisher.publisherName}
+                  </option>
+                )}
+              </select>
             </div>
 
             <div className="mb-3">
@@ -148,14 +183,18 @@ export default function BookForm() {
               />
             </div>
 
-              <label className="form-label">Book Status : </label>
-              <select onChange={(event) => handleInput(event,"bookStatus")}>
-              <option value={true}>Tersedia</option>
-              <option value={false}>Tidak Tersedia</option>
+            <div className="mb-3">
+              <label className="form-label">Book Status</label>
+              <br />
+              <select onChange={(event) => handleInput(event, "bookStatus")}>
+                <option value={true}>Tersedia</option>
+                <option value={false}>Tidak Tersedia</option>
               </select>
+              <br />
+            </div>
 
             <div>
-            <button className="btn btn-primary">Submit</button>
+              <button className="btn btn-primary">Submit</button>
             </div>
           </form>
         </div>

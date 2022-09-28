@@ -19,10 +19,10 @@ export default function UserBookList() {
         }
     }
 
-    function deleteUserBook(id) {
+    function deleteUserBook(userBookId) {
         axios
         .delete (
-            "https://be-library-mini-system.herokuapp.com/userbook/delete/" + id
+            "https://be-library-mini-system.herokuapp.com/userbook/delete/" + userBookId
         )
         .then(() => {
             getUserBookList();
@@ -72,11 +72,11 @@ export default function UserBookList() {
                         <tbody>
                          {userBooks.map((userBooks, index) => (
                            <tr>
-                             <td key={userBooks.userBookId} scope="row">
+                             <td key={userBooks.userbookId} scope="row">
                                  {index + 1}
                              </td>
                     
-                                <td>{userBooks.userBookId}</td>
+                                <td>{userBooks.userbookId}</td>
                                     <td>{userBooks.bookTitle}</td>
                                     <td>{userBooks.bookId}</td>
                                     <td>{userBooks.bookTitle}</td>
@@ -90,9 +90,8 @@ export default function UserBookList() {
                                     <button className="btn btn-primary"> Edit </button>
                                 </Link>{" "}
                                 <button
-                                    onClick={() => deleteBook(userBooks.userBookId)}
                                     className="btn btn-danger"
-                                >
+                                    onClick={() => deleteBook(userBooks.userBookId)}>
                                     {" "}
                                     Hapus{" "}
                                 </button>
