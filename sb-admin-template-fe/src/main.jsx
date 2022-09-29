@@ -56,7 +56,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
                             <Route path="/book/form" element={<BookForm/>}/>
                             <Route path="/book/form/:bookId" element={<BookForm/>}/>
-                            <Route path={"/book/list"} element={<BookList2/>}/>
+                            <Route path={"/book/list"} element={<BookList2/>}/> 
 
                             <Route path="userbook/form" element={<UserBookForm/>}/>
                             <Route path="userbook/form/:bookId" element={<UserBookForm/>}/>
