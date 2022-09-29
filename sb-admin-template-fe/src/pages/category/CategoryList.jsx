@@ -40,21 +40,21 @@ export default function CategoryList() {
 
   return (
     <>
-      <div class="card shadow mb-4">
+      <div className="card shadow mb-4">
         <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-          <h6 class="m-0 font-weight-bold text-primary">Daftar Kategori</h6>
+          <h6 className="m-0 font-weight-bold text-primary">Daftar Kategori</h6>
           <Link to="/category/form">
             <button className="btn btn-primary"> Tambah Kategori </button>
           </Link>
         </div>
 
-        <div class="card-body">
-          <div class="table-responsive">
+        <div className="card-body">
+          <div className="table-responsive">
             <table
-              class="table table-bordered"
+              className="table table-bordered"
               id="dataTable"
               width="100%"
-              cellspacing="0"
+              cellsSpacing="0"
             >
               <thead>
                 <tr>
@@ -71,11 +71,11 @@ export default function CategoryList() {
                     </td>
                     <td>{category.categoryName}</td>
                     <td>
-                      <Link to={"/category/form/" + category.idCategory}>
+                      <Link to={"/category/form/" + category.categoryId}>
                         <button className="btn btn-primary"> Edit </button>
                       </Link>{" "}
                       <button
-                        onClick={() => deleteCategory(category.idCategory)}
+                        onClick={() => deleteCategory(category.categoryId)}
                         className="btn btn-danger"
                       >
                         {" "}

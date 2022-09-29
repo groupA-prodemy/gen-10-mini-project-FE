@@ -24,6 +24,8 @@ import AuthorForm from "./pages/Author/AuthorForm";
 import PublisherList from "./pages/Publisher/PublisherList";
 import PublisherForm from "./pages/Publisher/PublisherForm";
 import DetailProfileUserBooks from "./pages/user/DetailProfileUserBooks";
+import CategoryList from "./pages/category/CategoryList.jsx";
+import CategoryForm from "./pages/category/CategoryForm.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
@@ -73,6 +75,13 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                             <Route
                                 path="publisher/form/:idPublisher"
                                 element={<PublisherForm/>}
+                            />
+
+                            <Route path="category/list" element={<CategoryList/>}/>
+                            <Route path="category/form" element={<CategoryForm/>}/>
+                            <Route
+                                path="category/form/:categoryId"
+                                element={<CategoryForm/>}
                             />
                         </Route>
                     </Route>
