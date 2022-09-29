@@ -38,9 +38,9 @@ export default function BookList2() {
 
     return (
         <>
-            <div class="card shadow mb-4">
+            <div className="card shadow mb-4">
                 <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">
+                    <h6 className="m-0 font-weight-bold text-primary">
                         List Buku
                     </h6>
                     <Link to="/book/form">
@@ -48,13 +48,13 @@ export default function BookList2() {
                     </Link>
                 </div>
 
-                <div class="card-body">
-                    <div class="table-responsive">
+                <div className="card-body">
+                    <div className="table-responsive">
                         <table
-                            class="table table-bordered"
+                            className="table table-bordered"
                             id="databuku"
                             width="100%"
-                            cellspacing="0">
+                            cellSpacing="0">
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
@@ -84,8 +84,9 @@ export default function BookList2() {
                                                 <button className="btn btn-primary"> Edit </button>
                                             </Link>{" "}
                                             <button
-                                                onClick={() => deleteBook(books.bookId)}
                                                 className="btn btn-danger"
+                                                onClick={() => deleteBook(books.bookId)}
+
                                             >
                                                 {" "}
                                                 Hapus{" "}

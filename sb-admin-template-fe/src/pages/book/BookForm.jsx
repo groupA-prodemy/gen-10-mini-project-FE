@@ -47,7 +47,7 @@ export default function BookForm() {
   }
 
   async function getFormInput() {
-    // ======= jalur normal ===========
+    // ======= by Id ===========
     // const res = await axios.get(
     //   "https://be-library-mini-system.herokuapp.com/book/" +
     //   params.bookId
@@ -56,20 +56,21 @@ export default function BookForm() {
     // console.log(res.data)
     // setFormInput(res.data);
 
-    // ======= jalur sesat ===========
+    // ======= data ===========
     setFormInput(JSON.parse(params.bookId));
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    const payload = JSON.stringify({
-      ...formInput,
-      bookStatus: Boolean(formInput.bookStatus),
-      authorId: Number(formInput.authorId),
-      categoryId: Number(formInput.categoryId),
-      publisherId: Number(formInput.publisherId),
-    })
-
+    //=========== fetch ===========
+    // const payload = JSON.stringify({
+    //   ...formInput,
+    //   bookStatus: Boolean(formInput.bookStatus),
+    //   authorId: parseInt(formInput.authorId),
+    //   categoryId: parseInt(formInput.categoryId),
+    //   publisherId: parseInt(formInput.publisherId),
+    // })
+    // ======================
     // const targetUrl = "https://be-libray-mini-system.herokuapp.com/book/add-book"
     // const method = "POST"
     // await fetch(targetUrl, {
@@ -79,11 +80,11 @@ export default function BookForm() {
     //         'Content-Type': 'application/json'
     //     }
     // })
+    // =============================
 
     if (isEditting) {
       await axios.put(
-        "https://be-libray-mini-system.herokuapp.com/book/update/" +
-        params.bookId,
+        "https://be-libray-mini-system.herokuapp.com/book/update/" + params.bookId,
         formInput
       );
     } else {
@@ -136,7 +137,8 @@ export default function BookForm() {
                 onChange={(event) => handleInput(event, "categoryId")}
               >
                 {categorys.map(categroy =>
-                  <option value={categroy.categoryId}>
+                  <option
+                    value={categroy.categoryId}>
                     {categroy.categoryName}
                   </option>
                 )}
@@ -166,7 +168,7 @@ export default function BookForm() {
                 onChange={(event) => handleInput(event, "publisherId")}
               >
                 {publishers.map(publisher =>
-                  <option value={publisher.publisherId}>
+                  <option value={publisher.idPublisher}>
                     {publisher.publisherName}
                   </option>
                 )}
