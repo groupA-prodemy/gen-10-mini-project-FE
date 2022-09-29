@@ -71,7 +71,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                             <Route path="publisher" element={<PublisherList/>}/>
                             <Route path="publisher/form" element={<PublisherForm/>}/>
                             <Route
-                                path="publisher/form/:publisherId"
+                                path="publisher/form/:idPublisher"
                                 element={<PublisherForm/>}
                             />
                         </Route>
