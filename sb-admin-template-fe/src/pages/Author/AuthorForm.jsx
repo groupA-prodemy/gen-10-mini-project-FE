@@ -34,7 +34,7 @@ export default function AuthorForm() {
     );
 
     console.log(res.data);
-    setFormInput(res.data);
+    setFormInput(res.data[0]);
   }
 
   async function handleSubmit(event) {
