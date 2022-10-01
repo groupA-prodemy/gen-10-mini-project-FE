@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {BrowserRouter, Routes, Route, Navigate, HashRouter} from "react-router-dom";
+import {Routes, Route, Navigate, HashRouter} from "react-router-dom";
 
 import App from "./App";
 import UserList from "./pages/user/UserList.jsx";
@@ -11,7 +11,6 @@ import RoleList from "./pages/role/RoleList.jsx";
 import ChangeRole from "./pages/role/ChangeRole.jsx";
 import AddRole from "./pages/role/AddRole.jsx";
 import RegisterForm from "./pages/auth/RegisterForm.jsx";
-import LoginForm from "./pages/auth/LoginForm.jsx";
 import UserDashboard from "./pages/dashbord/UserDashbord.jsx";
 import BookList2 from "./pages/book/BookList2.jsx";
 import BookForm from "./pages/book/BookForm.jsx";
@@ -26,22 +25,25 @@ import PublisherForm from "./pages/Publisher/PublisherForm";
 import DetailProfileUserBooks from "./pages/user/DetailProfileUserBooks";
 import CategoryList from "./pages/category/CategoryList.jsx";
 import CategoryForm from "./pages/category/CategoryForm.jsx";
+import ProtectedRoute from "./ProtectedRoute.jsx";
+import LoginForm from "./pages/auth/LoginForm.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
-            <HashRouter>
-                <Routes>
-                    <Route path="/">
-                        <Route index element={<Navigate to={"/home"} replace/>}/>
+        <HashRouter>
+            <Routes>
+                <Route path="/">
+                    <Route index element={<Navigate to={"/home"} replace/>}/>
 
-                        <Route path={"/home"} element={<Home/>}/>
+                    <Route path={"/home"} element={<Home/>}/>
 
-                        <Route path={"register"} element={<RegisterForm/>}/>
-                        <Route path={"login"} element={<LoginForm/>}/>
+                    <Route path={"/register"} element={<RegisterForm/>}/>
+                    <Route path={"/login"} element={<LoginForm/>}/>
 
-                        <Route path={"/end"} element={<EndPage/>}/>
+                    <Route path={"/end"} element={<EndPage/>}/>
 
-                        <Route element={<App/>}>
+                    <Route path={""} element={<App/>}>
+                        <Route element={<ProtectedRoute/>}>
                             <Route path="users" element={<UserList/>}/>
                             <Route path={"users/:username"} element={<DetailsProfile/>}/>
                             <Route path={"users/:username/list-book"} element={<DetailProfileUserBooks/>}/>
@@ -58,10 +60,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 
                             <Route path="/book/form" element={<BookForm/>}/>
                             <Route path="/book/form/:bookId" element={<BookForm/>}/>
-                            <Route path={"/book/list"} element={<BookList2/>}/> 
+                            <Route path={"/book/list"} element={<BookList2/>}/>
 
                             <Route path="userbook/form" element={<UserBookForm/>}/>
-                            <Route path="userbook/form/:bookId" element={<UserBookForm/>}/>
+                            <Route path="userbook/form/:userbookId" element={<UserBookForm/>}/>
                             <Route path={"/userbook/list"} element={<UserBookList/>}/>
 
                             <Route path={"/admin/dashboard"} element={<AdminDashboard/>}/>
@@ -85,7 +87,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                             />
                         </Route>
                     </Route>
-                </Routes>
-            </HashRouter>
+                </Route>
+            </Routes>
+        </HashRouter>
     </React.StrictMode>
 );
