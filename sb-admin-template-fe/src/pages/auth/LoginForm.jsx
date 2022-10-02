@@ -40,7 +40,7 @@ export default function LoginForm() {
                 + "\n" + "username: " + responses[responses.length - 1].data.username.toString()
                 + "\n" + "role: " + responses[responses.length - 1].data.roleName.toString()
             )
-            if (responses[responses.length - 1].data.roleName.toString() !== "admin") {
+            if (responses[responses.length - 1].data.roleName.toString() !== "Admin") {
                 navigate("/user/dashboard")
             }
             if (responses[responses.length - 1].data.roleName.toString() === "Admin") {
