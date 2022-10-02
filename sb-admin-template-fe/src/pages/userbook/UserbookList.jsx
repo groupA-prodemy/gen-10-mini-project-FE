@@ -19,10 +19,10 @@ export default function UserBookList() {
         }
     }
 
-    function deleteUserBook(userBookId) {
+    function deleteUserBook(userbookId) {
         axios
         .delete (
-            "https://be-library-mini-system.herokuapp.com/userbook/delete/" + userBookId
+            "https://be-library-mini-system.herokuapp.com/userbook/delete/" + userbookId
         )
         .then(() => {
             getUserBookList();
@@ -59,12 +59,12 @@ export default function UserBookList() {
                         <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th>Id Buku</th>
                                 <th>Judul Buku</th>
                                 <th>Username</th>
                                 <th>Tanggal Peminjaman</th>
                                 <th>Batas Akhir Peminjaman</th>
                                 <th>Tanggal Pengembalian</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,22 +73,20 @@ export default function UserBookList() {
                              <td key={userBooks.userbookId} scope="row">
                                  {index + 1}
                              </td>
-                    
-                                <td>{userBooks.userbookId}</td>
                                     <td>{userBooks.bookTitle}</td>
-                                    <td>{userBooks.username}</td>
+                                    <td>{userBooks.userName}</td>
                                     <td>{userBooks.startDate}</td>
                                     <td>{userBooks.dueDate}</td>
                                     <td>{userBooks.returnDate}</td>
-                                <td>
+                            <td>
                                 <Link to=
                                 // {"/userbook/form/" + userBooks.userBookId}
-                                {"userbook/form" + JSON.stringify(userBooks)}>
+                                {"/userbook/form" + JSON.stringify(userBooks)}>
                                     <button className="btn btn-primary"> Edit </button>
                                 </Link>{" "}
                                 <button
                                     className="btn btn-danger"
-                                    onClick={() => deleteBook(userBooks.userBookId)}>
+                                    onClick={() => deleteBook(userBooks.userbookId)}>
                                     {" "}
                                     Hapus{" "}
                                 </button>

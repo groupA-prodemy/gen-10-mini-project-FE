@@ -27,25 +27,25 @@ export default function UserBookForm() {
     const res = await axios.get(
       "https://be-library-mini-system.herokuapp.com/book/books"
     );
-    setPublishers(res.data);
+    setBooks(res.data);
   }
 
   async function getUsers() {
     const res = await axios.get(
       "https://be-library-mini-system.herokuapp.com/users/list-user"
     );
-    setPublishers(res.data);
+    setUsers(res.data);
   }
 
   async function getUserBooks() {
-    const res = await fetch("https://be-library-mini-system.herokuapp.com/book/books",
+    const res = await fetch("https://be-library-mini-system.herokuapp.com/userbook/list-userbook",
       { method: "GET" })
     const data = await res.json();
     setUserBooks(data);
   }
 
   async function getFormInput() {
-    setFormInput(JSON.parse(params.userBookId))
+    setFormInput(JSON.parse(params.userbookId))
   }
 
   async function handleSubmit(event) {
@@ -54,7 +54,7 @@ export default function UserBookForm() {
     if (isEditting) {
       await axios.put(
         "https://be-library-mini-system.herokuapp.com/userbook/update/" +
-        params.userBookId,
+        params.userbookId,
         formInput
       );
     } else {
@@ -115,7 +115,7 @@ export default function UserBookForm() {
                 {users.map(user =>
                   <option
                     value={user.userId}>
-                    {user.userName}
+                    {user.username}
                   </option>
                 )}
               </select>
