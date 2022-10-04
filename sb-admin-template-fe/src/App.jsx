@@ -9,41 +9,41 @@ import AuthProvider from "./contexts/AuthProvider.jsx";
 function App() {
     return<div id="wrapper">
 
-                {/* <!-- Sidebar --> */}
-                <Sidebar/>
-                {/* <!-- End of Sidebar --> */}
+        {/* <!-- Sidebar --> */}
+        <Sidebar/>
+        {/* <!-- End of Sidebar --> */}
 
-                {/* <!-- Content Wrapper --> */}
-                <div id="content-wrapper" className="d-flex flex-column">
+        {/* <!-- Content Wrapper --> */}
+        <div id="content-wrapper" className="d-flex flex-column">
 
-                    {/* <!-- Main Content --> */}
-                    <div id="content">
+            {/* <!-- Main Content --> */}
+            <div id="content">
 
-                        {/* <!-- Topbar --> */}
-                        <Topbar/>
-                        {/* <!-- End of Topbar --> */}
+                {/* <!-- Topbar --> */}
+                <Topbar/>
+                {/* <!-- End of Topbar --> */}
 
-                        {/* <!-- Begin Page Content --> */}
-                        <div className="container-fluid">
+                {/* <!-- Begin Page Content --> */}
+                <div className="container-fluid">
 
-                            {/* <!-- Page Heading --> */}
-                            <Outlet/>
-
-                        </div>
-                        {/* <!-- /.container-fluid --> */}
-
-                    </div>
-                    {/* <!-- End of Main Content --> */}
-
-                    {/* <!-- Footer --> */}
-                    <Footer/>
-                    {/* <!-- End of Footer --> */}
+                    {/* <!-- Page Heading --> */}
+                    <Outlet/>
 
                 </div>
-                {/* <!-- End of Content Wrapper --> */}
+                {/* <!-- /.container-fluid --> */}
 
             </div>
-            {/* <!-- End of Page Wrapper --> */}
+            {/* <!-- End of Main Content --> */}
+
+            {/* <!-- Footer --> */}
+            <Footer/>
+            {/* <!-- End of Footer --> */}
+
+        </div>
+        {/* <!-- End of Content Wrapper --> */}
+
+    </div>
+    {/* <!-- End of Page Wrapper --> */}
 }
 
 export default App

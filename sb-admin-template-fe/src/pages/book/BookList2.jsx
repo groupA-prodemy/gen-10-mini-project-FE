@@ -9,7 +9,7 @@ export default function BookList2() {
     async function getBookList() {
         try {
             const res = await axios.get(
-                "https://be-library-mini-system.herokuapp.com/book/books"
+                "https://be-psm-mini-library-system.herokuapp.com/book/books"
             );
             console.log(res.data);
             setBooks(res.data);
@@ -21,7 +21,7 @@ export default function BookList2() {
     function deleteBook(id) {
         axios
             .delete(
-                "https://be-library-mini-system.herokuapp.com/book/delete/" + id
+                "https://be-psm-mini-library-system.herokuapp.com/book/delete/" + id
             )
             .then(() => {
                 getBookList();
@@ -56,43 +56,43 @@ export default function BookList2() {
                             width="100%"
                             cellSpacing="0">
                             <thead>
-                                <tr>
-                                    <th scope="col">No</th>
-                                    <th>Judul Buku</th>
-                                    <th>Kategori</th>
-                                    <th>Tahun Terbit</th>
-                                    <th>Author</th>
-                                    <th>Publisher</th>
-                                    <th>Status Buku</th>
-                                    <th>Action</th>
-                                </tr>
+                            <tr>
+                                <th scope="col">No</th>
+                                <th>Judul Buku</th>
+                                <th>Kategori</th>
+                                <th>Tahun Terbit</th>
+                                <th>Author</th>
+                                <th>Publisher</th>
+                                <th>Status Buku</th>
+                                <th>Action</th>
+                            </tr>
                             </thead>
                             <tbody>
-                                {books.map((books, index) => (
-                                    <tr>
-                                        <td key={books.bookId} scope="row">{index + 1}</td>
-                                        <td>{books.bookTitle}</td>
-                                        <td>{books.categoryName}</td>
-                                        <td>{books.bookYear}</td>
-                                        <td>{books.authorName}</td>
-                                        <td>{books.publisherName}</td>
-                                        <td>{books.bookStatus === true ? "Tersedia" : "Dipinjam"}</td>
-                                        <td>
-                                            <Link to=
-                                                      {"/book/form/" + books.bookId}>
-                                                <button className="btn btn-primary"> Edit </button>
-                                            </Link>{" "}
-                                            <button
-                                                className="btn btn-danger"
-                                                onClick={() => deleteBook(books.bookId)}
+                            {books.map((books, index) => (
+                                <tr>
+                                    <td key={books.bookId} scope="row">{index + 1}</td>
+                                    <td>{books.bookTitle}</td>
+                                    <td>{books.categoryName}</td>
+                                    <td>{books.bookYear}</td>
+                                    <td>{books.authorName}</td>
+                                    <td>{books.publisherName}</td>
+                                    <td>{books.bookStatus === true ? "Tersedia" : "Dipinjam"}</td>
+                                    <td>
+                                        <Link to=
+                                                  {"/book/form/" + books.bookId}>
+                                            <button className="btn btn-primary"> Edit </button>
+                                        </Link>{" "}
+                                        <button
+                                            className="btn btn-danger"
+                                            onClick={() => deleteBook(books.bookId)}
 
-                                            >
-                                                {" "}
-                                                Hapus{" "}
-                                            </button>
-                                        </td>
-                                    </tr>
-                                ))}
+                                        >
+                                            {" "}
+                                            Hapus{" "}
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
                             </tbody>
                         </table>
                     </div>

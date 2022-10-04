@@ -17,7 +17,7 @@ export default function DetailsProfile() {
     let isPassDueDate = false
 
     async function getUsers() {
-        const res = await fetch("https://be-library-mini-system.herokuapp.com/users/profile/" + params.username,
+        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/" + params.username,
             {method: "GET"})
         const data = await res.json();
         const userArrLocal = data.data.name.split(" ")
@@ -49,7 +49,7 @@ export default function DetailsProfile() {
     }
 
     async function getUserBooks() {
-        const res = await fetch("https://be-library-mini-system.herokuapp.com/userbook/list-userbook",
+        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/userbook/list-userbook",
             {method: "GET"})
         const data = await res.json();
         setUserBooks(data);
@@ -61,6 +61,7 @@ export default function DetailsProfile() {
         for (let i = 0; i < userBooks.length; i++) {
             dueDates = new Date(userBooks[i].dueDate)
             returnDates = new Date(userBooks[i].returnDate)
+            let userBooksDetailsArr = []
             if (userBooks[i].userName === params.username && returnDates !== null) {
                 totalBooks = totalBooks - 1
                 if (totalBooks < 0) {
@@ -68,7 +69,8 @@ export default function DetailsProfile() {
                 }
             }
             if (userBooks[i].userName === params.username && userBooks[i].returnDate === null) {
-                totalBooks = totalBooks + 1
+                userBooksDetailsArr.push(userBooks[i].userName)
+                totalBooks = totalBooks + userBooksDetailsArr.length
                 dueDates.getDate() - new Date().getDate() < 0 ?
                     isPassDueDate = true
                     :
@@ -138,15 +140,15 @@ export default function DetailsProfile() {
                                                         </strong>
                                                         :
                                                         userArr.length>1?
-                                                        <>
-                                                            <strong>
-                                                                {firstName}
-                                                            </strong>
-                                                            &nbsp;
-                                                            {midName}
-                                                            &nbsp;
-                                                            {additionalName}
-                                                        </>
+                                                            <>
+                                                                <strong>
+                                                                    {firstName}
+                                                                </strong>
+                                                                &nbsp;
+                                                                {midName}
+                                                                &nbsp;
+                                                                {additionalName}
+                                                            </>
                                                             : ""
                                                 }
                                             </h4>

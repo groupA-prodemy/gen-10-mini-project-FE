@@ -9,7 +9,7 @@ export default function UserBookList() {
     async function getUserBookList() {
         try {
             const res = await axios.get(
-                "https://be-library-mini-system.herokuapp.com/userbook/list-userbook"
+                "https://be-psm-mini-library-system.herokuapp.com/userbook/list-userbook"
             );
 
             console.log(res.data);
@@ -21,16 +21,16 @@ export default function UserBookList() {
 
     function deleteUserBook(userbookId) {
         axios
-        .delete (
-            "https://be-library-mini-system.herokuapp.com/userbook/delete/" + userbookId
-        )
-        .then(() => {
-            getUserBookList();
-        })
-        .catch((err) => {
-            console.log(err);
-            alert("Ada Error")
-        });
+            .delete (
+                "https://be-psm-mini-library-system.herokuapp.com/userbook/delete/" + userbookId
+            )
+            .then(() => {
+                getUserBookList();
+            })
+            .catch((err) => {
+                console.log(err);
+                alert("Ada Error")
+            });
     }
 
     useEffect(() => {
@@ -39,24 +39,24 @@ export default function UserBookList() {
 
     return(
         <>
-        <div class="card shadow mb-4">
-            <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">
-                    List Pengguna Buku
-                </h6>
+            <div class="card shadow mb-4">
+                <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">
+                        List Pengguna Buku
+                    </h6>
                     <Link to="/userbook/form">
                         <button className="btn btn-primary">Tambah Pengguna Buku</button>
                     </Link>
-            </div>
+                </div>
 
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table
-                    class="table table-bordered"
-                    id="datapenggunabuku"
-                    width="100%"
-                    cellspacing="0">
-                        <thead>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table
+                            class="table table-bordered"
+                            id="datapenggunabuku"
+                            width="100%"
+                            cellspacing="0">
+                            <thead>
                             <tr>
                                 <th scope="col">No</th>
                                 <th>Judul Buku</th>
@@ -66,37 +66,37 @@ export default function UserBookList() {
                                 <th>Tanggal Pengembalian</th>
                                 <th>Action</th>
                             </tr>
-                        </thead>
-                        <tbody>
-                         {userBooks.map((userBooks, index) => (
-                           <tr>
-                             <td key={userBooks.userbookId} scope="row">
-                                 {index + 1}
-                             </td>
+                            </thead>
+                            <tbody>
+                            {userBooks.map((userBooks, index) => (
+                                <tr>
+                                    <td key={userBooks.userbookId} scope="row">
+                                        {index + 1}
+                                    </td>
                                     <td>{userBooks.bookTitle}</td>
                                     <td>{userBooks.userName}</td>
                                     <td>{userBooks.startDate}</td>
                                     <td>{userBooks.dueDate}</td>
                                     <td>{userBooks.returnDate}</td>
-                            <td>
-                                <Link to=
-                                {"/userbook/form/" + userBooks.userbookId}>
-                                    <button className="btn btn-primary"> Edit </button>
-                                </Link>{" "}
-                                <button
-                                    className="btn btn-danger"
-                                    onClick={() => deleteBook(userBooks.userbookId)}>
-                                    {" "}
-                                    Hapus{" "}
-                                </button>
-                                </td>
-                            </tr>
+                                    <td>
+                                        <Link to=
+                                                  {"/userbook/form/" + userBooks.userbookId}>
+                                            <button className="btn btn-primary"> Edit </button>
+                                        </Link>{" "}
+                                        <button
+                                            className="btn btn-danger"
+                                            onClick={() => deleteUserBook(userBooks.userbookId)}>
+                                            {" "}
+                                            Hapus{" "}
+                                        </button>
+                                    </td>
+                                </tr>
                             ))}
-              </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
         </>
     )
 }
