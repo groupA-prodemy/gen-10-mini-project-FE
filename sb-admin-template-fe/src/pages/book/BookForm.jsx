@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import {responses} from "../auth/LoginForm.jsx";
 
 // let responParams = [];
 
@@ -17,6 +18,9 @@ export default function BookForm() {
     bookTitle: "",
     bookYear: "",
     bookStatus: "",
+    publisherId:"",
+    authorId:"",
+    categoryId:""
   });
 
   function handleInput(event, inputName) {
@@ -47,7 +51,6 @@ export default function BookForm() {
   }
 
   async function getFormInput() {
-    // ======= by Id ===========
     const res = await axios.get(
         "https://be-psm-mini-library-system.herokuapp.com/book/" +
         params.bookId
@@ -56,32 +59,10 @@ export default function BookForm() {
     console.log(res.data)
     setFormInput(res.data.data);
 
-    // ======= data ===========
-    //setFormInput(JSON.parse(params.bookId));
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    //=========== fetch ===========
-    // const payload = JSON.stringify({
-    //   ...formInput,
-    //   bookStatus: Boolean(formInput.bookStatus),
-    //   authorId: parseInt(formInput.authorId),
-    //   categoryId: parseInt(formInput.categoryId),
-    //   publisherId: parseInt(formInput.publisherId),
-    // })
-    // ======================
-    // const targetUrl = "https://be-libray-mini-system.herokuapp.com/book/add-book"
-    // const method = "POST"
-    // await fetch(targetUrl, {
-    //     method: method,
-    //     body: payload,
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     }
-    // })
-    // =============================
-
     if (isEditting) {
       await axios.put(
           "https://be-psm-mini-library-system.herokuapp.com/book/update/" + params.bookId,
@@ -90,8 +71,15 @@ export default function BookForm() {
     } else {
       await axios.post(
           "https://be-psm-mini-library-system.herokuapp.com/book/add-book",
-          formInput
-      );
+          {
+            bookTitle: formInput.bookTitle,
+            bookYear: parseInt(formInput.bookYear),
+            bookStatus: Boolean(formInput.bookStatus),
+            publisherId:parseInt(formInput.publisherId),
+            authorId:parseInt(formInput.authorId),
+            categoryId:parseInt(formInput.categoryId)
+          }
+      ).then((re)=>console.log(re));
     }
     navigate("/book/list");
   }
@@ -136,10 +124,11 @@ export default function BookForm() {
                   value={formInput.categoryId}
                   onChange={(event) => handleInput(event, "categoryId")}
               >
-                {categorys.map(categroy =>
+                <option value={""} disabled></option>
+                {categorys.map(category =>
                     <option
-                        value={categroy.categoryId}>
-                      {categroy.categoryName}
+                        value={category.categoryId}>
+                      {category.categoryName}
                     </option>
                 )}
               </select>
@@ -152,6 +141,7 @@ export default function BookForm() {
                   value={formInput.authorId}
                   onChange={(event) => handleInput(event, "authorId")}
               >
+                <option value={""} disabled></option>
                 {authors.map(author =>
                     <option value={author.authorId}>
                       {author.authorName}
@@ -167,6 +157,7 @@ export default function BookForm() {
                   value={formInput.publisherId}
                   onChange={(event) => handleInput(event, "publisherId")}
               >
+                <option value={""} disabled></option>
                 {publishers.map(publisher =>
                     <option value={publisher.idPublisher}>
                       {publisher.publisherName}
@@ -179,7 +170,7 @@ export default function BookForm() {
               <label className="form-label">Tahun Terbit</label>
               <input
                   className="form-control"
-                  type="text"
+                  type="number"
                   value={formInput.bookYear}
                   onChange={(event) => handleInput(event, "bookYear")}
               />
@@ -188,9 +179,10 @@ export default function BookForm() {
             <div className="mb-3">
               <label className="form-label">Book Status</label>
               <br />
-              <select onChange={(event) => handleInput(event, "bookStatus")}>
-                <option value={true}>Tersedia</option>
-                <option value={false}>Tidak Tersedia</option>
+              <select value={formInput.bookStatus} onChange={(event) => handleInput(event, "bookStatus")}>
+                <option value={""} disabled></option>
+                <option value={"true"}>Tersedia</option>
+                <option value={"false"}>Tidak Tersedia</option>
               </select>
               <br />
             </div>
