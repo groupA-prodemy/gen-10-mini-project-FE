@@ -27,7 +27,7 @@ export default function UserList() {
                 getUsers()
             })
             .catch(err => {
-                alert("Delete Failed!!! This user still have book not returned")
+                alert("Delete Failed!!! This data was referenced in user book list, delete them before delete this.")
             })
     }
 
@@ -84,7 +84,6 @@ export default function UserList() {
                                         <button className="btn btn-primary">view</button>
                                     </Link>
                                     &nbsp;&nbsp;
-
                                     <button
                                         className="btn btn-danger"
                                         onClick={() => deleteProduct(user.userId)}>
