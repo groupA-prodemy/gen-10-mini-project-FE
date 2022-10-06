@@ -8,6 +8,7 @@ export default function UserBookForm() {
 
     const isEditting = params.userbookId;
 
+    const [bookById, setBookById] = useState([]);
     const [books, setBooks] = useState([]);
     const [users, setUsers] = useState([]);
     const [userBooks, setUserBooks] = useState([]);
@@ -71,7 +72,6 @@ export default function UserBookForm() {
 
     localStorage.setItem("usname", userWhoCanBorrow())
     const dataUsBook = localStorage.getItem("usname").split(",")
-    console.log(dataUsBook)
 
     function usBookCounter() {
         let counter = 0
@@ -85,20 +85,11 @@ export default function UserBookForm() {
                         arrB.push(dataUsBook[y])
                         counter = 0
                     }
-                    /*else{
-                        arrB.push(dataUsBook[y])
-                    }*/
                 }
-                /*arrB=dataUsBook.filter((n) => {
-                    users[x].username
-                })*/
             }
         }
-        console.log(arrB)
         return arrB
     }
-
-    console.log(usBookCounter())
 
     const setArrB = new Set(usBookCounter())
 
@@ -132,6 +123,26 @@ export default function UserBookForm() {
             await axios.post(
                 "https://be-psm-mini-library-system.herokuapp.com/userbook/add-userbook",
                 payload
+            );
+
+            const res = await axios.get(
+                "https://be-psm-mini-library-system.herokuapp.com/book/" +
+                payload.bookId
+            )
+            setBookById(res.data.data)
+
+            const payloadUpdateBookStatus = {
+                bookTitle: res.data.data.bookTitle,
+                bookYear: res.data.data.bookYear,
+                bookStatus: false,
+                publisherId:res.data.data.publisherId,
+                authorId:res.data.data.authorId,
+                categoryId:res.data.data.categoryId
+            }
+
+            await axios.put(
+                "https://be-psm-mini-library-system.herokuapp.com/book/update/" + payload.bookId,
+                payloadUpdateBookStatus
             );
         }
         navigate("/userbook/list");
