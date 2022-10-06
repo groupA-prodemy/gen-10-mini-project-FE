@@ -71,7 +71,7 @@ export default function UserBookForm() {
     }
 
     localStorage.setItem("usname", userWhoCanBorrow())
-    const dataUsBook = localStorage.getItem("usname").split(",")
+    let dataUsBook = localStorage.getItem("usname").split(",")
 
     function usBookCounter() {
         let counter = 0
@@ -90,8 +90,7 @@ export default function UserBookForm() {
         }
         return arrB
     }
-
-    const setArrB = new Set(usBookCounter())
+    let setArrB = new Set(usBookCounter())
 
     async function getFormInput() {
         const res = await axios.get(
