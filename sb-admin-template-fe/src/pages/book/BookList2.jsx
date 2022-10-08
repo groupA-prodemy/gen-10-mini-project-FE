@@ -1,7 +1,6 @@
 import axios from "axios";
-import React from "react";
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
 
 export default function BookList2() {
     const [books, setBooks] = useState([]);
@@ -11,10 +10,18 @@ export default function BookList2() {
             const res = await axios.get(
                 "https://be-psm-mini-library-system.herokuapp.com/book/books"
             );
-            console.log(res.data);
             setBooks(res.data);
         } catch (err) {
             alert("Terjadi Kesalahan")
+        }
+    }
+
+    function getUserData() {
+        const savedDataUser = localStorage.getItem("user")
+        if (savedDataUser) {
+            return JSON.parse(savedDataUser)
+        } else {
+            return {}
         }
     }
 
@@ -26,8 +33,7 @@ export default function BookList2() {
             .then(() => {
                 getBookList();
             })
-            .catch((err) => {
-                console.log(err);
+            .catch(() => {
                 alert("Ada Error")
             });
     }
@@ -43,7 +49,7 @@ export default function BookList2() {
                     <h6 className="m-0 font-weight-bold text-primary">
                         List Buku
                     </h6>
-                    {localStorage.getItem("role") != "Admin" ?
+                    {getUserData().roleName !== "Admin" ?
                         <></> :
                         <Link to="/book/form">
                             <button className="btn btn-primary">Tambah Buku</button>
@@ -67,7 +73,7 @@ export default function BookList2() {
                                     <th>Author</th>
                                     <th>Publisher</th>
                                     <th>Status Buku</th>
-                                    {localStorage.getItem("role") != "Admin" ?
+                                    {getUserData().roleName !== "Admin" ?
                                         <></> :
                                         <th>Action</th>
                                     }
@@ -84,7 +90,7 @@ export default function BookList2() {
                                         <td>{books.authorName}</td>
                                         <td>{books.publisherName}</td>
                                         <td>{books.bookStatus === true ? "Tersedia" : "Dipinjam"}</td>
-                                        {localStorage.getItem("role") != "Admin" ?
+                                        {getUserData().roleName !== "Admin" ?
                                             <></> :
                                             <td>
                                                 <Link to=
