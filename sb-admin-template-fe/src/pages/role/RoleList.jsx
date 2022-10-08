@@ -2,7 +2,8 @@ import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
 
-let responses = []
+let respStatusDelete = []
+let respRoleNameRest =[]
 export default function RoleList() {
     const [roles, setRoles] = useState([])
 
@@ -13,25 +14,42 @@ export default function RoleList() {
         setRoles(data.sort((a,b)=>a.roleId-b.roleId));
     }
 
-    function deleteRole(roleId) {
-        axios
-            .delete("https://be-psm-mini-library-system.herokuapp.com/role/delete/" + roleId)
-            .then((re) => {
-                responses.push(re.data)
-            })
-            .then(() => {
-                responses[responses.length - 1].status.toString() === "false" ?
-                    alert(responses[responses.length - 1].message.toString())
-                    :
-                    ""
-            })
-            .then(() => {
-                getUsers()
-            })
-            .catch(err => {
-                console.log(err)
-                alert('Ada masalah saat memproses data')
-            })
+   /* async function getRoleById(roleId){
+        await fetch("https://be-psm-mini-library-system.herokuapp.com/role/" + roleId,
+            {method:"GET"})
+            .then((res)=>res.json())
+            .then((resp)=>setRoleById(resp.data))
+            .then(console.log(roleById))
+
+        deleteRole(roleId)
+    }*/
+
+    async function deleteRole(roleId) {
+        const trigger = ("Role Rest")
+        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/role/" + roleId,
+            {method:"GET"})
+        const resp = await res.json();
+        respRoleNameRest.push(resp.data.roleName)
+        trigger.toLowerCase() === respRoleNameRest[respRoleNameRest.length-1].toLowerCase() ?
+            alert("This Role was set no be deleted")
+            :
+            axios
+                .delete("https://be-psm-mini-library-system.herokuapp.com/role/delete/" + roleId)
+                .then((re) => {
+                    respStatusDelete.push(re.data)
+                })
+                .then(() => {
+                    respStatusDelete[respStatusDelete.length - 1].status.toString() === "false" ?
+                        alert("Delete Failed!!!\nThis data was referenced in user list, change them to Rest Role before delete this.")
+                        :
+                        ""
+                })
+                .then(() => {
+                    getUsers()
+                })
+                .catch(err => {
+                    alert("Delete Failed!!!\nThis data was referenced in user list, change them to Rest Role before delete this.")
+                })
 
     }
 
@@ -53,7 +71,7 @@ export default function RoleList() {
                     Back
                 </div>
 
-                <h6 className="m-0 font-weight-bold text-primary">Daftar Role</h6>
+                <h6 className="m-0 font-weight-bold text-primary">List Role</h6>
 
                 <Link to={"/roles/add"}>
                     <button className="btn btn-primary">
@@ -71,7 +89,6 @@ export default function RoleList() {
                         <tr>
                             <th scope="col">No</th>
                             <th scope="col">Rolename</th>
-                            <th scope="col">Role Id</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
@@ -80,7 +97,6 @@ export default function RoleList() {
                             <tr key={role.roleId}>
                                 <th scope="row">{index + 1}</th>
                                 <td>{role.roleName}</td>
-                                <td>{role.roleId}</td>
                                 <td>
                                     <Link to={"/roles/" + role.roleId}>
                                         <button className="btn btn-primary">Edit</button>
