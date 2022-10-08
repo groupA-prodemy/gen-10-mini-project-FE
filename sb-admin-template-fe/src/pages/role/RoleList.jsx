@@ -25,7 +25,7 @@ export default function RoleList() {
     }*/
 
     async function deleteRole(roleId) {
-        const trigger = ("Role Rest")
+        const trigger = ("Rest")
         const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/role/" + roleId,
             {method:"GET"})
         const resp = await res.json();
@@ -40,7 +40,7 @@ export default function RoleList() {
                 })
                 .then(() => {
                     respStatusDelete[respStatusDelete.length - 1].status.toString() === "false" ?
-                        alert("Delete Failed!!!\nThis data was referenced in user list, change them to Rest Role before delete this.")
+                        alert("Delete Failed!!!\nThis data was referenced in user list, change them to "+trigger+" before delete this.")
                         :
                         ""
                 })
@@ -48,7 +48,7 @@ export default function RoleList() {
                     getUsers()
                 })
                 .catch(err => {
-                    alert("Delete Failed!!!\nThis data was referenced in user list, change them to Rest Role before delete this.")
+                    alert("Delete Failed!!!\nThis data was referenced in user list, change them to "+trigger+" before delete this.")
                 })
 
     }
