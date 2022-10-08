@@ -38,6 +38,7 @@ export default function AddRole() {
         event.preventDefault()
         const payload = JSON.stringify({
             ...formInput,
+            roleName: formInput.roleName.charAt(0).toUpperCase() + formInput.roleName.slice(1),
             roleId: parseInt(formInput.roleId)
         })
 
