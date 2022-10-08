@@ -61,7 +61,7 @@ export default function DetailProfileUserBooks() {
                             params.username === userBook.userName ?
                                 userBook.returnDate === null ?
                                     <tbody>
-                                        <tr key={v4}>
+                                        <tr key={userBook.id}>
                                             <td>{userBook.bookTitle}</td>
                                             <td>{userBook.dueDate}</td>
                                             <td className={"text-center"}>
@@ -82,15 +82,12 @@ export default function DetailProfileUserBooks() {
                                             </td>
                                         </tr>
                                     </tbody>
+
                                     :
-                                    <tbody>
-                                        <tr key={v4}/>
-                                    </tbody>
+                                        <tr/>
 
                                 :
-                                <tbody>
-                                    <tr key={v4}/>
-                                </tbody>
+                                    <tr/>
                         )}
                     </table>
                 </div>
