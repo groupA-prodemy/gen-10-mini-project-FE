@@ -13,7 +13,8 @@ export default function UserDashboard() {
         }
     }
 
-    async function logout() {
+    async function logout(event) {
+        event.preventDefault()
         const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/auth/logout/" + getUserData().userId
         const method = "POST"
         await fetch(targetUrl, {
