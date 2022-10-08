@@ -39,9 +39,9 @@ export default function CategoryList() {
         <>
             <div className="card shadow mb-4">
                 <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 className="m-0 font-weight-bold text-primary">Daftar Kategori</h6>
+                    <h6 className="m-0 font-weight-bold text-primary">List Category</h6>
                     <Link to="/category/form">
-                        <button className="btn btn-primary"> Tambah Kategori</button>
+                        <button className="btn btn-primary"> Add Category</button>
                     </Link>
                 </div>
 
@@ -56,7 +56,7 @@ export default function CategoryList() {
                             <thead>
                             <tr>
                                 <th scope="col">No</th>
-                                <th>Kategori</th>
+                                <th>Category</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -76,7 +76,7 @@ export default function CategoryList() {
                                             className="btn btn-danger"
                                         >
                                             {" "}
-                                            Hapus{" "}
+                                            Delete{" "}
                                         </button>
                                     </td>
                                 </tr>
