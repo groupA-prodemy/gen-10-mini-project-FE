@@ -20,15 +20,15 @@ export default function UserList() {
         setUserBooks(data.sort((a,b)=>a.userbookId-b.userbookId));
     }
 
-    function deleteProduct(userId) {
-        axios
-            .delete("https://be-psm-mini-library-system.herokuapp.com/users/delete/" + userId)
-            .then(() => {
-                getUsers()
-            })
-            .catch(err => {
-                alert("Delete Failed!!! This data was referenced in user book list, delete them before delete this.")
-            })
+    async function deleteData(userId) {
+        const res = await axios.delete("https://be-psm-mini-library-system.herokuapp.com/users/delete/" + userId)
+        const resp = res.data
+
+        resp.status === false ?
+            alert("Delete Failed!!!\nThis data was referenced in user book list, delete them before delete this.")
+            :
+            ""
+        getUsers()
     }
 
     function back(event) {
@@ -49,11 +49,11 @@ export default function UserList() {
                     &nbsp;
                     Back
                 </div>
-                <h6 className="m-0 font-weight-bold text-primary">Daftar User</h6>
+                <h6 className="m-0 font-weight-bold text-primary">List User</h6>
 
                 <Link to="/register">
                     <button className="btn btn-primary">
-                        Tambah Data
+                       Add User
                     </button>
                 </Link>
             </div>
@@ -68,7 +68,7 @@ export default function UserList() {
                             <th scope="col">No</th>
                             <th scope="col">Name</th>
                             <th scope="col">Username</th>
-                            <th scope="col">Rolename</th>
+                            <th scope="col">Role</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
@@ -86,7 +86,7 @@ export default function UserList() {
                                     &nbsp;&nbsp;
                                     <button
                                         className="btn btn-danger"
-                                        onClick={() => deleteProduct(user.userId)}>
+                                        onClick={() => deleteData(user.userId)}>
                                         Delete
                                     </button>
                                 </td>
