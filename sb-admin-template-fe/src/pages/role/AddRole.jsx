@@ -17,16 +17,14 @@ export default function AddRole() {
         setRoles(data.sort((a,b)=>a.roleId-b.roleId));
     }
 
-    function roleNameChecker(){
+    function roleNameChecker(paramsRoleName){
         for(let role of roles){
-            if(role.roleName.toLowerCase()===formInput.roleName.toLowerCase()){
+            if(role.roleName.toLowerCase()===paramsRoleName.toLowerCase()){
                 alert("Failed to save data, data was exists")
                 statusCheckerName = false
             }
         }
     }
-
-
 
     function handleInput(event, inputName) {
         const copyFormInput = {...formInput}
@@ -36,42 +34,94 @@ export default function AddRole() {
 
     async function handleSubmit(event) {
         event.preventDefault()
-        const payload = JSON.stringify({
-            ...formInput,
-            roleName: formInput.roleName.charAt(0).toUpperCase() + formInput.roleName.slice(1),
-            roleId: parseInt(formInput.roleId)
-        })
-
-        roleNameChecker()
-        if(statusCheckerName === false ){
-            statusCheckerName = true
-        }else {
-            const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/role/save-role"
-            const method = "POST"
-            const res = await fetch(targetUrl, {
-                method: method,
-                body: payload,
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+        if(formInput.roleName.split(" ").length === 1){
+            const payload = JSON.stringify({
+                ...formInput,
+                roleName: formInput.roleName.charAt(0).toUpperCase() + formInput.roleName.slice(1).toLowerCase(),
+                roleId: parseInt(formInput.roleId)
             })
-            const resp = await res.json()
-            responses.push(resp)
-            if (responses[responses.length - 1].status === true) {
-                alert
-                (
-                    responses[responses.length - 1].message
-                    + "\n" + "role Id: " + responses[responses.length - 1].data.roleId.toString()
-                    + "\n" + "role Name: " + responses[responses.length - 1].data.roleName.toString()
-                )
+
+            roleNameChecker(formInput.roleName.charAt(0).toUpperCase() + formInput.roleName.slice(1).toLowerCase())
+
+            if(statusCheckerName === false) {
                 statusCheckerName = true
-                navigate('/roles')
-            } else {
-                statusCheckerName = true
-                if (formInput.roleName !== "") {
-                    alert(responses[responses.length - 1].message)
+            }else {
+                const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/role/save-role";
+                const method = "POST"
+                await fetch(targetUrl, {
+                    method: method,
+                    body: payload,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((re) => re.json()).then((d) => responses.push(d))
+
+                if (responses[responses.length - 1].status.toString() === "true") {
+                    statusCheckerName = true
+                    alert
+                    (
+                        responses[responses.length - 1].message.toString()
+                    )
+                    navigate('/roles')
                 } else {
-                    alert("Form must be filled fully")
+                    if (formInput.roleName !== "") {
+                        const messageArr = responses[responses.length - 1].message.toString().split(" ");
+                        if (messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0) {
+                            alert(responses[responses.length - 1].message.toString())
+                        } else {
+                            alert(responses[responses.length - 1].message.toString())
+                        }
+                    } else {
+                        alert("Form must be filled fully")
+                    }
+                }
+                statusCheckerName = true
+            }
+        }else{
+            let strRoleName = ""
+            for(let inputRoleName of formInput.roleName.split(" ")){
+                strRoleName += inputRoleName.charAt(0).toUpperCase() + inputRoleName.slice(1).toLowerCase() + " "
+            }
+            const payload = JSON.stringify({
+                ...formInput,
+                roleName: strRoleName.substring(0,strRoleName.length-1),
+                roleId: parseInt(formInput.roleId)
+            })
+
+            roleNameChecker(strRoleName.substring(0,strRoleName.length-1))
+
+            if(statusCheckerName===false){
+                statusCheckerName = true
+            }else {
+                const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/role/save-role";
+                const method = "POST"
+                await fetch(targetUrl, {
+                    method: method,
+                    body: payload,
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then((re) => re.json()).then((d) => responses.push(d))
+
+                if (responses[responses.length - 1].status.toString() === "true") {
+                    statusCheckerName = true
+                    alert
+                    (
+                        responses[responses.length - 1].message.toString()
+                    )
+                    navigate('/roles')
+                } else {
+                    statusCheckerName = true
+                    if (formInput.roleName !== "") {
+                        const messageArr = responses[responses.length - 1].message.toString().split(" ");
+                        if (messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0) {
+                            alert(responses[responses.length - 1].message.toString())
+                        } else {
+                            alert(responses[responses.length - 1].message.toString())
+                        }
+                    } else {
+                        alert("Form must be filled fully")
+                    }
                 }
             }
         }
