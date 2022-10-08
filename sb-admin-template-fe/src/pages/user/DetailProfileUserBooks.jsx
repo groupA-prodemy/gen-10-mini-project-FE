@@ -3,22 +3,33 @@ import {useEffect, useState} from "react";
 import {v4} from "uuid"
 
 export default function DetailProfileUserBooks() {
-    const [user, setUser] = useState([])
     const [userBooks, setUserBooks] = useState([])
     const params = useParams()
-
-    async function getUser() {
-        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/" + params.username,
-            {method: "GET"})
-        const data = await res.json();
-        setUser(data.data);
-    }
 
     async function getUserBooks() {
         const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/userbook/list-userbook",
             {method: "GET"})
         const data = await res.json();
         setUserBooks(data);
+    }
+
+    function dueDate(paramDueDate){
+        return<>
+            {
+                new Date(paramDueDate.dueDate).getDate() - new Date().getDate() >= 0 ?
+                    <h4 className={"btn-outline-success"}>
+                        {new Date(paramDueDate.dueDate).getDate() - new Date().getDate() + " Days"}
+                    </h4>
+                    :
+                    <h4 className={"btn-outline-danger"}>
+                        {
+                            "Due Date Passed " +
+                            (0 - (new Date(paramDueDate.dueDate).getDate() - new Date().getDate())) +
+                            " Days"
+                        }
+                    </h4>
+            }
+        </>
     }
 
     function back(event) {
@@ -28,7 +39,6 @@ export default function DetailProfileUserBooks() {
 
 
     useEffect(() => {
-        getUser()
         getUserBooks()
     }, [])
 
@@ -61,33 +71,18 @@ export default function DetailProfileUserBooks() {
                             params.username === userBook.userName ?
                                 userBook.returnDate === null ?
                                     <tbody>
-                                        <tr key={userBook.id}>
-                                            <td>{userBook.bookTitle}</td>
+                                        <tr>
+                                            <td >{userBook.bookTitle}</td>
                                             <td>{userBook.dueDate}</td>
                                             <td className={"text-center"}>
-                                                {
-                                                    new Date(userBook.dueDate).getDate() - new Date().getDate() >= 0 ?
-                                                        <h4 className={"btn-outline-success"}>
-                                                            {new Date(userBook.dueDate).getDate() - new Date().getDate() + " Days"}
-                                                        </h4>
-                                                        :
-                                                        <h4 className={"btn-outline-danger"}>
-                                                            {
-                                                                "Due Date Passed " +
-                                                                (0 - (new Date(userBook.dueDate).getDate() - new Date().getDate())) +
-                                                                " Days"
-                                                            }
-                                                        </h4>
-                                                }
+                                                {dueDate(userBook)}
                                             </td>
                                         </tr>
                                     </tbody>
-
                                     :
-                                        <tr/>
-
+                                    <></>
                                 :
-                                    <tr/>
+                                <></>
                         )}
                     </table>
                 </div>
