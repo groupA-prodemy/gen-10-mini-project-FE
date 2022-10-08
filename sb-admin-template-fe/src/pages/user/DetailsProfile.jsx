@@ -94,8 +94,6 @@ export default function DetailsProfile() {
 
     useEffect(() => {
         getUsers()
-    }, [])
-    useEffect(() => {
         getUserBooks()
     }, [])
 
@@ -220,7 +218,7 @@ export default function DetailsProfile() {
                                                 </h5>
                                             </div>
                                             <div className={"footer-card-profile-detail footer-body-profile-detail"}>
-                                                <h5 className={"text-center"}>
+                                                <div className={"text-center"}>
                                                     {
                                                         isPassDueDate === true ?
                                                             <>
@@ -247,7 +245,7 @@ export default function DetailsProfile() {
                                                                     </h4>
                                                                 </>
                                                     }
-                                                </h5>
+                                                </div>
                                             </div>
                                         </div>
                                         <div className="col-lg-4 col-md-4 col-12">
