@@ -6,6 +6,7 @@ let respStatusDelete = []
 let respRoleNameRest =[]
 export default function RoleList() {
     const [roles, setRoles] = useState([])
+    const trigger = ("Rest")
 
     async function getUsers() {
         const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/role/list-role",
@@ -25,7 +26,6 @@ export default function RoleList() {
     }*/
 
     async function deleteRole(roleId) {
-        const trigger = ("Rest")
         const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/role/" + roleId,
             {method:"GET"})
         const resp = await res.json();
@@ -98,9 +98,19 @@ export default function RoleList() {
                                 <th scope="row">{index + 1}</th>
                                 <td>{role.roleName}</td>
                                 <td>
-                                    <Link to={"/roles/" + role.roleId}>
-                                        <button className="btn btn-primary">Edit</button>
-                                    </Link>
+                                    {role.roleName === trigger ?
+                                        <button
+                                            className="btn btn-primary"
+                                            onClick={()=>alert("This Role was set no be edited")}
+                                        >
+                                            Edit
+                                        </button>
+                                        :
+                                        <Link to={"/roles/" + role.roleId}>
+                                            <button className="btn btn-primary">Edit</button>
+                                        </Link>
+                                    }
+
                                     &nbsp;&nbsp;
 
                                     <button
