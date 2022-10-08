@@ -15,16 +15,6 @@ export default function RoleList() {
         setRoles(data.sort((a,b)=>a.roleId-b.roleId));
     }
 
-   /* async function getRoleById(roleId){
-        await fetch("https://be-psm-mini-library-system.herokuapp.com/role/" + roleId,
-            {method:"GET"})
-            .then((res)=>res.json())
-            .then((resp)=>setRoleById(resp.data))
-            .then(console.log(roleById))
-
-        deleteRole(roleId)
-    }*/
-
     async function deleteRole(roleId) {
         const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/role/" + roleId,
             {method:"GET"})
