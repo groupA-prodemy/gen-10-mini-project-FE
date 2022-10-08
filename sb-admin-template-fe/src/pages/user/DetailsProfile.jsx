@@ -82,6 +82,51 @@ export default function DetailsProfile() {
         }
     }
 
+    function profileView(){
+        return<>
+            {
+                userArr.length===1? <strong>{firstName}</strong>
+                    : userArr.length>1 ? <><strong>{firstName}</strong>&nbsp;{midName}&nbsp;{additionalName}</>
+                        : ""
+            }
+        </>
+    }
+
+    function passView(){
+        return<>
+            {
+                getUserData().username === user.username ? user.password
+                    :
+                    getUserData().roleName === "Admin" ? <button className="btn btn-danger" onClick={handlingButton}>{a}</button>
+                        :
+                        user.password
+            }
+        </>
+    }
+
+    function remindLoan(){
+        return<>
+            {
+                isPassDueDate === true ? <><div className="btn-danger"><p>Due Date Passed.</p></div><div className={"btn-outline-danger"}><strong>Back Your Book!!!</strong></div></>
+                    :
+                    getUserBooksById() > 0 ? <><br/><h4 className="btn-success fa">Happy Read !!!</h4></>
+                        :
+                        <><br/><h4 className="btn-primary fa">Let's Borrow !!!</h4></>
+            }
+        </>
+    }
+
+    function pictureBook(){
+        return<>
+            {
+                getUserBooksById() === 0 ? <img src="https://cdn0.iconfinder.com/data/icons/ban-sign/512/sign-48-512.png" alt=""/>
+                    :
+                    getUserBooksById() === 1 ? <img src="https://cdn.onlinewebfonts.com/svg/img_18895.png" alt=""/>
+                        :
+                        <img src="https://th.bing.com/th/id/R.1dc6fabd97bf37ca4f4205435b2ddd2c?rik=x0wO3MEiFLC5dw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fbook-transparent-png%2fbook-transparent-png-22.png&ehk=1Up0crZ35gdC4AmIR6jIp9coG2VdoOTVzhQA84BpkSQ%3d&risl=&pid=ImgRaw&r=0" alt=""/>
+            }
+        </>
+    }
 
     function handlingButton() {
         alert("You don't have access to see this account password")
@@ -106,12 +151,7 @@ export default function DetailsProfile() {
                     Back
                 </div>
                 <h6 className="m-0 font-weight-bold text-primary">
-                    {
-                        getUserData().username === user.username ?
-                            "Your Profile"
-                            :
-                            "Profile"
-                    }
+                    {getUserData().username === user.username ? "Your Profile" : "Profile"}
                 </h6>
                 <Link to={"/users/" + params.username + "/" + user.id}>
                     <button className="btn btn-primary">
@@ -133,24 +173,7 @@ export default function DetailsProfile() {
                                         </div>
                                         <div className="col-lg-8 col-md-8 col-12">
                                             <h4 className="m-t-0 m-b-0" key={user.id}>
-                                                {
-                                                    userArr.length===1?
-                                                        <strong>
-                                                            {firstName}
-                                                        </strong>
-                                                        :
-                                                        userArr.length>1?
-                                                            <>
-                                                                <strong>
-                                                                    {firstName}
-                                                                </strong>
-                                                                &nbsp;
-                                                                {midName}
-                                                                &nbsp;
-                                                                {additionalName}
-                                                            </>
-                                                            : ""
-                                                }
+                                                {profileView()}
                                             </h4>
                                             <h5>{"( ID : " + user.id + " )"}</h5>
                                             <span className="job_post">{user.roleName}</span>
@@ -167,19 +190,7 @@ export default function DetailsProfile() {
                                                 className={"card-button-profile card-button-outline-primary-profile"}>
                                                 <h5 className={"fa fa-key"}>
                                                     &nbsp;
-                                                    {
-                                                        getUserData().username === user.username ?
-                                                            user.password
-                                                            :
-                                                            getUserData().roleName === "Admin" ?
-                                                                <button
-                                                                    className="btn btn-danger"
-                                                                    onClick={handlingButton}>
-                                                                    {a}
-                                                                </button>
-                                                                :
-                                                                user.password
-                                                    }
+                                                    {passView()}
                                                 </h5>
                                             </div>
                                         </div>
@@ -201,7 +212,6 @@ export default function DetailsProfile() {
                                             <div
                                                 className={"card-button-profile card-button-outline-primary-profile"}>
                                                 <h6 className={"fa"}>
-                                                    &nbsp;
                                                     You're Borrowed
                                                 </h6>
                                             </div>
@@ -209,9 +219,7 @@ export default function DetailsProfile() {
                                                 className={"card-button-profile card-button-outline-primary-profile"}>
                                                 <h5>
                                                     <Link to={"/users/" + params.username + "/list-book"}>
-                                                        <button
-                                                            className="btn btn-outline-success"
-                                                        >
+                                                        <button className="btn btn-outline-success">
                                                             Detail
                                                         </button>
                                                     </Link>
@@ -219,56 +227,13 @@ export default function DetailsProfile() {
                                             </div>
                                             <div className={"footer-card-profile-detail footer-body-profile-detail"}>
                                                 <div className={"text-center"}>
-                                                    {
-                                                        isPassDueDate === true ?
-                                                            <>
-                                                                <div className="btn-danger">
-                                                                    <p>Due Date Passed.</p>
-                                                                </div>
-                                                                <div className={"btn-outline-danger"}>
-                                                                    <strong>Back Your Book!!!</strong>
-                                                                </div>
-                                                            </>
-                                                            :
-                                                            getUserBooksById() > 0 ?
-                                                                <>
-                                                                    <br/>
-                                                                    <h4 className="btn-success fa">
-                                                                        Happy Read !!!
-                                                                    </h4>
-                                                                </>
-                                                                :
-                                                                <>
-                                                                    <br/>
-                                                                    <h4 className="btn-primary fa">
-                                                                        Let's Borrow !!!
-                                                                    </h4>
-                                                                </>
-                                                    }
+                                                    {remindLoan()}
                                                 </div>
                                             </div>
                                         </div>
                                         <div className="col-lg-4 col-md-4 col-12">
-
                                             <div className="profile-image-profile-detail float-md-right">
-                                                {getUserBooksById() === 0 ?
-
-                                                    <img
-                                                        src="https://cdn0.iconfinder.com/data/icons/ban-sign/512/sign-48-512.png"
-                                                        alt=""/>
-
-                                                    :
-                                                    getUserBooksById() === 1 ?
-                                                        <img
-                                                            src="https://cdn.onlinewebfonts.com/svg/img_18895.png"
-                                                            alt=""/>
-
-                                                        :
-
-                                                        <img
-                                                            src="https://th.bing.com/th/id/R.1dc6fabd97bf37ca4f4205435b2ddd2c?rik=x0wO3MEiFLC5dw&riu=http%3a%2f%2fclipart-library.com%2fimages_k%2fbook-transparent-png%2fbook-transparent-png-22.png&ehk=1Up0crZ35gdC4AmIR6jIp9coG2VdoOTVzhQA84BpkSQ%3d&risl=&pid=ImgRaw&r=0"
-                                                            alt=""/>
-                                                }
+                                                {pictureBook()}
                                             </div>
                                         </div>
                                     </div>
