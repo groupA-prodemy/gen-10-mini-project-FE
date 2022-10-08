@@ -1,5 +1,6 @@
 import {useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {v4} from "uuid"
 
 export default function DetailProfileUserBooks() {
     const [user, setUser] = useState([])
@@ -27,12 +28,10 @@ export default function DetailProfileUserBooks() {
 
 
     useEffect(() => {
+        getUser()
         getUserBooks()
     }, [])
 
-    useEffect(() => {
-        getUser()
-    }, [])
 
     return <>
         <div className="card shadow mb-4">
@@ -52,20 +51,17 @@ export default function DetailProfileUserBooks() {
                            cellSpacing="0">
                         <thead>
                         <tr>
-                            <th scope="col">Id User Book</th>
                             <th scope="col">Title</th>
                             <th scope="col">Due Date</th>
                             <th scope="col">Time</th>
                         </tr>
                         </thead>
 
-                        {userBooks.map((userBook, index) =>
+                        {userBooks.map((userBook) =>
                             params.username === userBook.userName ?
                                 userBook.returnDate === null ?
                                     <tbody>
-                                    <>
-                                        <tr key={userBook.userBookId}>
-                                            <th scope="row">{userBook.returnDate===null?index:""}</th>
+                                        <tr key={v4}>
                                             <td>{userBook.bookTitle}</td>
                                             <td>{userBook.dueDate}</td>
                                             <td className={"text-center"}>
@@ -85,16 +81,16 @@ export default function DetailProfileUserBooks() {
                                                 }
                                             </td>
                                         </tr>
-                                    </>
                                     </tbody>
                                     :
-                                    <>
-
-                                    </>
+                                    <tbody>
+                                        <tr key={v4}/>
+                                    </tbody>
 
                                 :
-                                <>
-                                </>
+                                <tbody>
+                                    <tr key={v4}/>
+                                </tbody>
                         )}
                     </table>
                 </div>
