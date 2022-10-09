@@ -1,15 +1,22 @@
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import axios from "axios";
+import {useDebounce} from "use-debounce";
 
 let respStatusDelete = []
 let respRoleNameRest =[]
 export default function RoleList() {
     const [roles, setRoles] = useState([])
+    const [searchKeyword, setSearchKeyword] = useState('')
+    const [filteredUsers, setFilteredUsers] = useState([])
+    const [searchKeywordDebounced] = useDebounce(searchKeyword, 500)
     const trigger = ("Rest")
 
     async function getUsers() {
-        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/role/list-role",
+        const keyword = searchKeyword.length > 0
+            ? '&q=' + searchKeyword
+            : ''
+        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/role/list-role?_expand=role" + keyword,
             {method: "GET"})
         const data = await res.json();
         setRoles(data.sort((a,b)=>a.roleId-b.roleId));
@@ -42,17 +49,43 @@ export default function RoleList() {
 
     useEffect(() => {
         getUsers()
-    }, [])
+    }, [searchKeywordDebounced])
+
+    useEffect(() => {
+        if (searchKeyword.length > 0) {
+            const filterResult = roles.filter((role) => {
+                const a = role.roleName.toLowerCase().includes(searchKeyword.toLowerCase())
+                return a
+            })
+            setFilteredUsers(filterResult)
+        } else {
+            setFilteredUsers(roles)
+        }
+    }, [searchKeyword, roles])
 
     return <>
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"} onClick={event => back(event)}>
+                {/*<div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"} onClick={event => back(event)}>
                     &nbsp;
                     Back
-                </div>
+                </div>*/}
 
                 <h6 className="m-0 font-weight-bold text-primary">List Role</h6>
+
+                <form
+                    className="d-none d-sm-inline-block form-inline navbar-search">
+                    <div className="input-group">
+                        <input type="text" className="form-control bg-md-white-auth-end border-0 small" placeholder="find role"
+                               aria-label="Search" aria-describedby="basic-addon2" value={searchKeyword}
+                               onChange={evt => setSearchKeyword(evt.target.value)}/>
+                        <div className="input-group-append">
+                            <button className="btn btn-primary" type="button">
+                                <i className="fas fa-search fa-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
 
                 <Link to={"/roles/add"}>
                     <button className="btn btn-primary">
@@ -71,7 +104,7 @@ export default function RoleList() {
                         </tr>
                         </thead>
                         <tbody>
-                        {roles.map((role, index) =>
+                        {filteredUsers.map((role, index) =>
                             <tr key={role.roleId}>
                                 <th scope="row">{index + 1}</th>
                                 <td>{role.roleName}</td>
