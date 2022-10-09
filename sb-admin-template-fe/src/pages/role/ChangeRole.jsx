@@ -52,45 +52,33 @@ export default function ChangeRole() {
 
             roleNameChecker(formInput.roleName.charAt(0).toUpperCase() + formInput.roleName.slice(1).toLowerCase())
 
-            if(statusCheckerName === false) {
-                statusCheckerName = true
-            }else {
+            if(statusCheckerName === false) {statusCheckerName = true}
+            else {
                 const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/role/update/" + params.roleId;
                 const method = "PUT"
-                await fetch(targetUrl, {
-                    method: method,
-                    body: payload,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }).then((re) => re.json()).then((d) => responses.push(d))
+                await fetch(targetUrl, {method: method, body: payload, headers: {'Content-Type': 'application/json'}})
+                    .then((re) => re.json())
+                    .then((d) => responses.push(d))
 
                 if (responses[responses.length - 1].status.toString() === "true") {
                     localStorage.removeItem("tempRoleName")
-                    alert
-                    (
-                        responses[responses.length - 1].message.toString()
-                    )
+                    alert(responses[responses.length - 1].message.toString())
                     navigate('/roles')
                 } else {
                     if (formInput.roleName !== "") {
                         const messageArr = responses[responses.length - 1].message.toString().split(" ");
-                        if (messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0) {
-                            alert(responses[responses.length - 1].message.toString())
-                        } else {
-                            alert(responses[responses.length - 1].message.toString())
-                        }
-                    } else {
-                        alert("Form must be filled fully")
-                    }
+                        messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0 ? alert(responses[responses.length - 1].message.toString()): alert(responses[responses.length - 1].message.toString())
+                    } else {alert("Form must be filled fully")}
                 }
                 statusCheckerName = true
             }
-        }else{
+        }
+        else{
             let strRoleName = ""
-            for(let inputRoleName of formInput.roleName.split(" ")){
+            for(let inputRoleName of formInput.roleName.split(" ")) {
                 strRoleName += inputRoleName.charAt(0).toUpperCase() + inputRoleName.slice(1).toLowerCase() + " "
             }
+
             const payload = JSON.stringify({
                 ...formInput,
                 roleName: strRoleName.substring(0,strRoleName.length-1),
@@ -99,37 +87,24 @@ export default function ChangeRole() {
 
             roleNameChecker(strRoleName.substring(0,strRoleName.length-1))
 
-            if(statusCheckerName===false){
-                statusCheckerName = true
-            }else {
+            if(statusCheckerName===false){statusCheckerName = true}
+            else {
                 const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/role/update/" + params.roleId;
                 const method = "PUT"
-                await fetch(targetUrl, {
-                    method: method,
-                    body: payload,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }).then((re) => re.json()).then((d) => responses.push(d))
+                await fetch(targetUrl, {method: method, body: payload, headers: {'Content-Type': 'application/json'}})
+                    .then((re) => re.json())
+                    .then((d) => responses.push(d))
 
                 if (responses[responses.length - 1].status.toString() === "true") {
                     localStorage.removeItem("tempRoleName")
-                    alert
-                    (
-                        responses[responses.length - 1].message.toString()
-                    )
+                    alert(responses[responses.length - 1].message.toString())
                     navigate('/roles')
                 } else {
                     if (formInput.roleName !== "") {
                         const messageArr = responses[responses.length - 1].message.toString().split(" ");
-                        if (messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0) {
-                            alert(responses[responses.length - 1].message.toString())
-                        } else {
-                            alert(responses[responses.length - 1].message.toString())
-                        }
-                    } else {
-                        alert("Form must be filled fully")
+                        messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0 ? alert(responses[responses.length - 1].message.toString()):alert(responses[responses.length - 1].message.toString())
                     }
+                    else {alert("Form must be filled fully")}
                 }
 
                 statusCheckerName = true
@@ -160,12 +135,7 @@ export default function ChangeRole() {
                 <form className="w-50" onSubmit={event => handleSubmit(event)}>
                     <div className="form-group mb-4">
                         <label>Role Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            required
-                            value={formInput.roleName}
-                            onChange={event => handleInput(event, "roleName")}/>
+                        <input type="text" className="form-control" required value={formInput.roleName} onChange={event => handleInput(event, "roleName")}/>
                     </div>
 
                     <button className="btn btn-primary">
