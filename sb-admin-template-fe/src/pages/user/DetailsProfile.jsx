@@ -12,35 +12,35 @@ export default function DetailsProfile() {
     let a = "*******"
     let isPassDueDate = false
 
-    async function getUsers() {
-        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/" + params.username,
-            {method: "GET"})
-        const data = await res.json();
-        const userArrLocal = data.data.name.split(" ")
+    function handlingName(paramName){
+        let triggerArr = []
+        const userArrLocal = paramName.data.name.split(" ")
+
         for (let x = 0; x < userArrLocal.length; x++) {
-            x > 1 ?
-                userArr[x] = userArrLocal[x].substring(0, 1)
-                :
-                userArr[x] = userArrLocal[x];
+            x > 1 ? userArr[x] = userArrLocal[x].substring(0, 1) : userArr[x] = userArrLocal[x];
         }
 
         firstName = userArr[0]
         userArrLocal.length > 1 ? midName = userArr[1] : midName = ""
-        let triggerArr = []
+
         for (let x = 0; x < userArrLocal.length; x++) {
             let processNameFront = firstName + " " + midName
-            let trigger = data.data.name.replace(processNameFront, "")
+            let trigger = paramName.data.name.replace(processNameFront, "")
             if (x > 1) {
                 trigger = trigger.replace(userArrLocal[x], userArr[x])
-                trigger.search(userArr[x]) !== -1 ?
-                    triggerArr.push(userArr[x])
-                    :
-                    " "
+                trigger.search(userArr[x]) !== -1 ? triggerArr.push(userArr[x]) : " "
             } else {
                 trigger = trigger
             }
             additionalName = [...triggerArr]
         }
+    }
+
+    async function getUsers() {
+        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/" + params.username,
+            {method: "GET"})
+        const data = await res.json();
+        handlingName(data)
         setUser(data.data);
     }
 
