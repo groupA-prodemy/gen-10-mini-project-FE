@@ -35,8 +35,6 @@ export default function Sidebar() {
     function scopeAdmin(){
         return<>
             {menuList.map((menu) => <li className="nav-item" key={menu.title}><Link className="nav-link" to={menu.link}><i className={"fas fa-fw " + menu.icon}></i>&nbsp;<span>{menu.title}</span></Link></li>)}
-            {menuProfile.map((profile) => <li className="nav-item" key={profile.title}><Link className="nav-link" to={profile.link} onClick={location.reload}><i className={"fas fa-fw " + profile.icon}></i>&nbsp;<span>{profile.title}</span></Link></li>)}
-            {menuLogOut.map((logOut) => <li className="nav-item" key={logOut.title}><Link className="nav-link" onClick={() => {logout().then(r => r)}}><i className={"fas fa-fw " + logOut.icon}></i>&nbsp;<span>{logOut.title}</span></Link></li>)}
         </>
     }
 
@@ -44,8 +42,6 @@ export default function Sidebar() {
         return<>
             <li className="nav-item" key={menuList[0].title}><Link className="nav-link" to={"/user/dashboard"}><i className={"fas fa-fw " + menuList[0].icon}></i>&nbsp;<span>{menuList[0].title}</span></Link></li>
             <li className="nav-item" key={menuList[1].title}><Link className="nav-link" to={menuList[1].link}><i className={"fas fa-fw " + menuList[1].icon}></i>&nbsp;<span>{menuList[1].title}</span></Link></li>
-            <li className="nav-item" key={menuProfile[0].title}><Link className="nav-link" to={menuProfile[0].link}><i className={"fas fa-fw " + menuProfile[0].icon}></i>&nbsp;<span>{menuProfile[0].title}</span></Link></li>
-            <li className="nav-item" key={menuLogOut[0].title}><Link className="nav-link" onClick={() => {logout().then(r => r)}}><i className={"fas fa-fw " + menuLogOut[0].icon}></i>&nbsp;<span>{menuLogOut[0].title}</span></Link></li>
         </>
     }
 
