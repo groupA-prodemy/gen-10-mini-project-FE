@@ -16,30 +16,22 @@ export default function RoleList() {
     }
 
     async function deleteRole(roleId) {
-        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/role/" + roleId,
-            {method:"GET"})
+        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/role/" + roleId, {method:"GET"})
         const resp = await res.json();
+
         respRoleNameRest.push(resp.data.roleName)
+
         trigger.toLowerCase() === respRoleNameRest[respRoleNameRest.length-1].toLowerCase() ?
             alert("This Role was set no be deleted")
             :
-            axios
-                .delete("https://be-psm-mini-library-system.herokuapp.com/role/delete/" + roleId)
-                .then((re) => {
-                    respStatusDelete.push(re.data)
-                })
-                .then(() => {
-                    respStatusDelete[respStatusDelete.length - 1].status.toString() === "false" ?
-                        alert("Delete Failed!!!\nThis data was referenced in user list, change them to "+trigger+" before delete this.")
-                        :
-                        ""
-                })
-                .then(() => {
-                    getUsers()
-                })
-                .catch(err => {
+            axios.delete("https://be-psm-mini-library-system.herokuapp.com/role/delete/" + roleId)
+                .then((re) => {respStatusDelete.push(re.data)})
+                .then(() => {respStatusDelete[respStatusDelete.length - 1].status.toString() === "false" ?
                     alert("Delete Failed!!!\nThis data was referenced in user list, change them to "+trigger+" before delete this.")
-                })
+                        :
+                        ""})
+                .then(() => {getUsers()})
+                .catch(err => {alert("Delete Failed!!!\nThis data was referenced in user list, change them to "+trigger+" before delete this.")})
 
     }
 
@@ -55,8 +47,7 @@ export default function RoleList() {
     return <>
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"}
-                     onClick={event => back(event)}>
+                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"} onClick={event => back(event)}>
                     &nbsp;
                     Back
                 </div>
@@ -65,16 +56,13 @@ export default function RoleList() {
 
                 <Link to={"/roles/add"}>
                     <button className="btn btn-primary">
-                        Create New Role
+                        Add Role
                     </button>
                 </Link>
             </div>
             <div className="card-body">
                 <div className="table-responsive">
-                    <table className="table table-bordered"
-                           id="dataTable"
-                           width="100%"
-                           cellSpacing="0">
+                    <table className="table table-bordered" id="dataTable" width="100%" cellSpacing="0">
                         <thead>
                         <tr>
                             <th scope="col">No</th>
@@ -87,27 +75,14 @@ export default function RoleList() {
                             <tr key={role.roleId}>
                                 <th scope="row">{index + 1}</th>
                                 <td>{role.roleName}</td>
-                                <td>
-                                    {role.roleName === trigger ?
-                                        <button
-                                            className="btn btn-primary"
-                                            onClick={()=>alert("This Role was set no be edited")}
-                                        >
-                                            Edit
-                                        </button>
-                                        :
-                                        <Link to={"/roles/" + role.roleId}>
-                                            <button className="btn btn-primary">Edit</button>
-                                        </Link>
+                                <td>{
+                                        role.roleName === trigger ?
+                                            <button className="btn btn-primary" onClick={()=>alert("This Role was set no be edited")}>Edit</button>
+                                            :
+                                            <Link to={"/roles/" + role.roleId}><button className="btn btn-primary">Edit</button></Link>
                                     }
-
                                     &nbsp;&nbsp;
-
-                                    <button
-                                        className="btn btn-danger"
-                                        onClick={() => deleteRole(role.roleId)}>
-                                        Delete
-                                    </button>
+                                    <button className="btn btn-danger" onClick={() => deleteRole(role.roleId)}>Delete</button>
                                 </td>
                             </tr>
                         )}
