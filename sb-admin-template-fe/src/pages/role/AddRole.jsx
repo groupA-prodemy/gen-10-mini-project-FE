@@ -11,8 +11,7 @@ export default function AddRole() {
     })
 
     async function getUsers() {
-        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/role/list-role",
-            {method: "GET"})
+        const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/role/list-role", {method: "GET"})
         const data = await res.json();
         setRoles(data.sort((a,b)=>a.roleId-b.roleId));
     }
@@ -43,37 +42,24 @@ export default function AddRole() {
 
             roleNameChecker(formInput.roleName.charAt(0).toUpperCase() + formInput.roleName.slice(1).toLowerCase())
 
-            if(statusCheckerName === false) {
-                statusCheckerName = true
-            }else {
+            if(statusCheckerName === false) {statusCheckerName = true}
+            else {
                 const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/role/save-role";
                 const method = "POST"
-                await fetch(targetUrl, {
-                    method: method,
-                    body: payload,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }).then((re) => re.json()).then((d) => responses.push(d))
+                await fetch(targetUrl, {method: method, body: payload, headers: {'Content-Type': 'application/json'}})
+                    .then((re) => re.json())
+                    .then((d) => responses.push(d))
 
                 if (responses[responses.length - 1].status.toString() === "true") {
                     statusCheckerName = true
-                    alert
-                    (
-                        responses[responses.length - 1].message.toString()
-                    )
+                    alert(responses[responses.length - 1].message.toString())
                     navigate('/roles')
                 } else {
                     if (formInput.roleName !== "") {
                         const messageArr = responses[responses.length - 1].message.toString().split(" ");
-                        if (messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0) {
-                            alert(responses[responses.length - 1].message.toString())
-                        } else {
-                            alert(responses[responses.length - 1].message.toString())
-                        }
-                    } else {
-                        alert("Form must be filled fully")
+                        messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0 ? alert(responses[responses.length - 1].message.toString())  : alert(responses[responses.length - 1].message.toString())
                     }
+                    else {alert("Form must be filled fully")}
                 }
                 statusCheckerName = true
             }
@@ -95,33 +81,21 @@ export default function AddRole() {
             }else {
                 const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/role/save-role";
                 const method = "POST"
-                await fetch(targetUrl, {
-                    method: method,
-                    body: payload,
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                }).then((re) => re.json()).then((d) => responses.push(d))
+                await fetch(targetUrl, {method: method, body: payload, headers: {'Content-Type': 'application/json'}})
+                    .then((re) => re.json())
+                    .then((d) => responses.push(d))
 
                 if (responses[responses.length - 1].status.toString() === "true") {
                     statusCheckerName = true
-                    alert
-                    (
-                        responses[responses.length - 1].message.toString()
-                    )
+                    alert(responses[responses.length - 1].message.toString())
                     navigate('/roles')
                 } else {
                     statusCheckerName = true
                     if (formInput.roleName !== "") {
                         const messageArr = responses[responses.length - 1].message.toString().split(" ");
-                        if (messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0) {
-                            alert(responses[responses.length - 1].message.toString())
-                        } else {
-                            alert(responses[responses.length - 1].message.toString())
-                        }
-                    } else {
-                        alert("Form must be filled fully")
+                        messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0 ? alert(responses[responses.length - 1].message.toString()):alert(responses[responses.length - 1].message.toString())
                     }
+                    else {alert("Form must be filled fully")}
                 }
             }
         }
@@ -139,19 +113,11 @@ export default function AddRole() {
     return <>
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"}
-                     onClick={event => back(event)}>
-                    &nbsp;
-                    Back
-                </div>
+                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"} onClick={event => back(event)}>&nbsp;Back</div>
 
                 <h6 className="m-0 font-weight-bold text-primary">Form Add Role</h6>
 
-                <Link to={"/roles"}>
-                    <button className="btn btn-secondary">
-                        Kembali
-                    </button>
-                </Link>
+                <Link to={"/roles"}><button className="btn btn-secondary">Kembali</button></Link>
             </div>
 
             <div className="card-body">
@@ -159,17 +125,10 @@ export default function AddRole() {
                 <form className="w-50" onSubmit={event => handleSubmit(event)}>
                     <div className="form-group mb-4">
                         <label>Role Name</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            required
-                            value={formInput.roleName}
-                            onChange={event => handleInput(event, "roleName")}/>
+                        <input type="text" className="form-control" required value={formInput.roleName} onChange={event => handleInput(event, "roleName")}/>
                     </div>
 
-                    <button className="btn btn-primary">
-                        Submit
-                    </button>
+                    <button className="btn btn-primary">Submit</button>
                 </form>
             </div>
         </div>
