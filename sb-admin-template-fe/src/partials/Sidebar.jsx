@@ -41,7 +41,7 @@ export default function Sidebar() {
     function scopeNonAdmin(){
         return<>
             <li className="nav-item" key={menuList[0].title}><Link className="nav-link" to={"/user/dashboard"}><i className={"fas fa-fw " + menuList[0].icon}></i>&nbsp;<span>{menuList[0].title}</span></Link></li>
-            <li className="nav-item" key={menuList[1].title}><Link className="nav-link" to={menuList[1].link}><i className={"fas fa-fw " + menuList[1].icon}></i>&nbsp;<span>{menuList[1].title}</span></Link></li>
+            <li className="nav-item" key={menuList[3].title}><Link className="nav-link" to={menuList[3].link}><i className={"fas fa-fw " + menuList[3].icon}></i>&nbsp;<span>{menuList[3].title}</span></Link></li>
         </>
     }
 
