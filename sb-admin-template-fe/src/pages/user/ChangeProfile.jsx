@@ -106,7 +106,7 @@ export default function ChangeProfile() {
 
                 <Link to={"/users/" + params.username}>
                     <button className="btn btn-secondary">
-                        Kembali
+                        Back
                     </button>
                 </Link>
             </div>
@@ -178,7 +178,7 @@ export default function ChangeProfile() {
                                     onChange={event => handleInput(event, "roleId")}>
                                     <option value="" disabled></option>
                                     {roleList.map(listRole =>
-                                        <option value={listRole.roleId}>
+                                        <option key={listRole.roleId} value={listRole.roleId}>
                                             {listRole.roleName}
                                         </option>
                                     )}
@@ -192,7 +192,7 @@ export default function ChangeProfile() {
                                     disabled>
                                     <option value="" disabled></option>
                                     {roleList.map(listRole =>
-                                        <option value={listRole.roleId}>
+                                        <option key={listRole.roleId} value={listRole.roleId}>
                                             {listRole.roleName}
                                         </option>
                                     )}
