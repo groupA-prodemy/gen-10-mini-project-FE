@@ -13,22 +13,19 @@ export default function CategoryList() {
             );
             setCategories(response.data.sort((a, b) => a.categoryId - b.categoryId));
         } catch (err) {
-            alert("Terjadi Masalah");
+            alert("There's error, try again");
         }
     }
 
-    function deleteCategory(id) {
-        axios
-            .delete(
-                "https://be-psm-mini-library-system.herokuapp.com/category/delete/" + id
-            )
-            .then(() => {
-                getCategoryList();
-            })
-            .catch((err) => {
-                console.log(err);
-                alert("error");
-            });
+    async function deleteCategory(id) {
+        const res = await axios.delete("https://be-psm-mini-library-system.herokuapp.com/category/delete/" + id)
+        const resp = res.data
+
+        resp.status === false ?
+            alert("Delete Failed!!!\nThis data was referenced in book list, change or delete them before delete this.")
+            :
+            ""
+        getCategoryList()
     }
 
     useEffect(() => {
