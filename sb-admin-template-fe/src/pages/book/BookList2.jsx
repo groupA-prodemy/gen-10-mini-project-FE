@@ -56,7 +56,7 @@ export default function BookList2() {
             const filterResult = books.filter((book) => {
                 const a = book.bookTitle
                     .toLowerCase()
-                    .include(searchKeyword.toLocaleLowerCase())
+                    .includes(searchKeyword.toLocaleLowerCase())
                 return a
             })
             setFilteredBooks(filterResult)

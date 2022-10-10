@@ -14,7 +14,7 @@ export default function UserBookList() {
         const keyword = searchKeyword.length > 0 ? "&q=" + searchKeyword : ""
         try {
             const res = await axios.get(
-                "https://be-psm-mini-library-system.herokuapp.com/userbook/list-userbook?_expand=book" + keyword,
+                "https://be-psm-mini-library-system.herokuapp.com/userbook/list-userbook?_expand=userbook" + keyword,
             );
 
             // console.log(res.data);
@@ -54,7 +54,7 @@ export default function UserBookList() {
             const filterResult = userBooks.filter((userbook) => {
                 const a = userbook.bookTitle
                     .toLowerCase()
-                    .include(searchKeyword.toLocaleLowerCase())
+                    .includes(searchKeyword.toLocaleLowerCase())
                 return a
             })
             setFilteredUserbooks(filterResult)
