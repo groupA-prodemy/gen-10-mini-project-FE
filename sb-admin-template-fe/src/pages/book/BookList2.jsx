@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React from "react" ;
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDebounce } from "use-debounce";
 
@@ -10,10 +11,11 @@ export default function BookList2() {
     const [searchKeywordDebounced] = useDebounce(searchKeyword, 500)
 
     async function getBookList() {
-        const keyword = searchKeyword.length > 0 ? "&q=" + searchKeyword : "";
+        
         try {
+            const keyword = searchKeyword.length > 0 ? "&q=" + searchKeyword : "";
             const res = await axios.get(
-                "https://be-psm-mini-library-system.herokuapp.com/book/books" + keyword,
+                "https://be-psm-mini-library-system.herokuapp.com/book/books?_expand=book" + keyword,
             );
             setBooks(data.sort((a, b) => a.bookId - b.bookId));
         } catch (err) {
