@@ -76,7 +76,7 @@ export default function UserList() {
                     <h6 className="m-0 font-weight-bold text-primary">List User</h6>
                 </ul>
                 <form
-                    className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                    className="d-none d-sm-inline-block form-inline mr-md-3 ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                     <div className="input-group">
                         <input type="text" className="form-control bg-md-white-auth-end border-0 small" placeholder="find user"
                                aria-label="Search" aria-describedby="basic-addon2" value={searchKeyword}
@@ -89,7 +89,7 @@ export default function UserList() {
                     </div>
                 </form>
 
-                <ul className="navbar-nav align-content-md-center">
+                <ul className="navbar-nav md-center">
                     <div className="dropdown no-arrow d-sm-none">
                         <a className="dropdown-toggle" href="#" id="searchDropdown" role="button"
                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -122,7 +122,7 @@ export default function UserList() {
                     </Link>
                 </ul>
 
-                <Link to="/register" className="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100">
+                <Link to="/register" className="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100">
                     <button className="btn btn-primary">
                         Add User
                     </button>
