@@ -17,7 +17,7 @@ export default function UserBookList() {
                 "https://be-psm-mini-library-system.herokuapp.com/userbook/list-userbook?_expand=userbook" + keyword,
             );
 
-            // console.log(res.data);
+            console.log(res.data);
             setUserBooks(res.data.sort((a, b) => a.userbookId - b.userbookId));
         } catch (err) {
             alert("There's Something Wrong When Catch The Data")
@@ -28,7 +28,7 @@ export default function UserBookList() {
         for (let x = 0; x < userBooks.length; x++) {
             if (userBooks[x].userbookId === userbookId) {
                 if (userBooks[x].returnDate === null) {
-                    alert("Delete failed!!!\nThis book still borrowed yet")
+                    alert("Delete Failed!!!\nThis Book Still Borrowed Yet")
                 } else {
                     axios
                         .delete(
