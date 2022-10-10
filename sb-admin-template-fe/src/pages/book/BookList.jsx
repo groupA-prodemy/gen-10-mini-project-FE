@@ -1,13 +1,18 @@
 import {useEffect, useState} from "react";
+import { useDebounce } from "use-debounce";
 
 export default function BookList(){
     const [books, setBooks] = useState([])
+    const [searchKeyword, setSearchKeyword] = useState ("")
+    const [filteredBooks, setFilteredBooks] = useState ([])
+    const [searchKeywordDebounced] = useDebounce(searchKeyword, 500)
 
     async function getBooks(){
+        const keyword = searchKeyword.length > 0 ? "&q=" + searchKeyword : "";
         const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/book/books",
             {method:"GET"})
         const data = await res.json();
-        setBooks(data);
+        setBooks(data.sort((a,b) => a.bookId - b.bookId));
     }
 
     useEffect(()=>{
