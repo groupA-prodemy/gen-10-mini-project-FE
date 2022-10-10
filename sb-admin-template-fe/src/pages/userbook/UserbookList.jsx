@@ -17,7 +17,7 @@ export default function UserBookList() {
                 "https://be-psm-mini-library-system.herokuapp.com/userbook/list-userbook?_expand=userbook" + keyword,
             );
 
-            console.log(res.data);
+            // console.log(res.data);
             setUserBooks(res.data.sort((a, b) => a.userbookId - b.userbookId));
         } catch (err) {
             alert("There's Something Wrong When Catch The Data")
@@ -52,10 +52,13 @@ export default function UserBookList() {
     useEffect(() => {
         if (searchKeyword.length > 0) {
             const filterResult = userBooks.filter((userbook) => {
-                const a = userbook.bookTitle
-                    .toLowerCase()
-                    .includes(searchKeyword.toLocaleLowerCase())
-                return a
+                function params() {
+                    const a = userbook.bookTitle.toLowerCase().includes(searchKeyword.toLocaleLowerCase())
+                    const b = userbook.userName.toLowerCase().includes(searchKeyword.toLocaleLowerCase())
+                    if (a) { return a }
+                    if (b) { return b }
+                }
+                return params()
             })
             setFilteredUserbooks(filterResult)
         } else {
@@ -66,22 +69,16 @@ export default function UserBookList() {
     return (
         <>
             <div className="card shadow mb-4">
-                <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 className="m-0 font-weight-bold text-primary">
-                        User Book List
-                    </h6>
-
-                    <form className="d-none d-sm-inline-block form-inline navbar-search">
+                <div className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <ul className={"navbar-nav mr-auto"}>
+                        <h6 className="m-0 font-weight-bold text-primary">User Book List</h6>
+                    </ul>
+                    <form
+                        className="d-none d-sm-inline-block form-inline mr-md-3 ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div className="input-group">
-                            <input
-                                type="text"
-                                className="form-control bg-md-white-auth-end border-0 small"
-                                placeholder="find userbooks"
-                                aria-label="Search"
-                                aria-describedby="basic-addon2"
-                                value={searchKeyword}
-                                onChange={(event) => setSearchKeyword(event.target.value)}
-                            />
+                            <input type="text" className="form-control bg-md-white-auth-end border-0 small" placeholder="find userbook"
+                                aria-label="Search" aria-describedby="basic-addon2" value={searchKeyword}
+                                onChange={evt => setSearchKeyword(evt.target.value)} />
                             <div className="input-group-append">
                                 <button className="btn btn-primary" type="button">
                                     <i className="fas fa-search fa-sm"></i>
@@ -90,12 +87,41 @@ export default function UserBookList() {
                         </div>
                     </form>
 
-                    {getUserData().rolename !== "Admin" ?
-                    <></> :
-                    <Link to="/userbook/form">
+                    <ul className="navbar-nav md-center">
+                        <div className="dropdown no-arrow d-sm-none">
+                            <a className="dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i className="fas fa-search fa-fw"></i>
+                            </a>
+                            <div className="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
+                                aria-labelledby="searchDropdown">
+                                <form className="form-inline mr-auto w-100 navbar-search">
+                                    <div className="input-group">
+                                        <input type="text" className="form-control bg-md-white-auth-end border-0 small" placeholder="find userbook"
+                                            aria-label="Search" aria-describedby="basic-addon2" value={searchKeyword}
+                                            onChange={evt => setSearchKeyword(evt.target.value)} />
+                                        <div className="input-group-append">
+                                            <button className="btn btn-primary" type="button">
+                                                <i className="fas fa-search fa-sm"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </ul>
+
+                    <ul className={"navbar-nav ml-auto"}>
+                        <Link to={"/userbook/form"} className="dropdown no-arrow d-sm-none">
+                            <button className="btn btn-primary">
+                                <strong>+</strong>
+                            </button>
+                        </Link>
+                    </ul>
+
+                    <Link to="/userbook/form" className="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100">
                         <button className="btn btn-primary">Add User Book</button>
                     </Link>
-                    }
                 </div>
 
                 <div className="card-body">
@@ -104,7 +130,7 @@ export default function UserBookList() {
                             className="table table-bordered"
                             id="datapenggunabuku"
                             width="100%"
-                            cellspacing="0">
+                            cellSpacing="0">
                             <thead>
                                 <tr>
                                     <th scope="col">No</th>
@@ -118,7 +144,7 @@ export default function UserBookList() {
                             </thead>
                             <tbody>
                                 {filteredUserbooks.map((userBooks, index) => (
-                                    <tr>
+                                    <tr key={userBooks.userbookId}>
                                         <td key={userBooks.userbookId} scope="row">
                                             {index + 1}
                                         </td>

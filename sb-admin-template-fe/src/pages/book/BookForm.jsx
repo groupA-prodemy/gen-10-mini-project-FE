@@ -73,7 +73,7 @@ export default function BookForm() {
             authorId:parseInt(formInput.authorId),
             categoryId:parseInt(formInput.categoryId)
           }
-      ).then((re)=>console.log(re));
+      );
     }
     navigate("/book/list");
   }
