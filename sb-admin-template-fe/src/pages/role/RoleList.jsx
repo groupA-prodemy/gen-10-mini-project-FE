@@ -70,6 +70,7 @@ export default function RoleList() {
     }, [searchKeywordDebounced])
 
     useEffect(() => {
+        setIsLoading(true)
         if (searchKeyword.length > 0) {
             const filterResult = roles.filter((role) => {
                 const a = role.roleName.toLowerCase().includes(searchKeyword.toLowerCase())
