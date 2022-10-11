@@ -1,16 +1,18 @@
 import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import { useDebounce } from "use-debounce";
 import Spinner from "../../components/Spinner/Spinner";
 
 export default function BookList2() {
     const [books, setBooks] = useState([]);
+    const [statusUserById, setStatusUserById] = useState()
     const [searchKeyword, setSearchKeyword] = useState("")
     const [filteredBooks, setFilteredBooks] = useState([])
     const [searchKeywordDebounced] = useDebounce(searchKeyword, 500)
     const [isLoading, setIsLoading] = useState(true)
+    const navigate =  useNavigate()
 
     async function getBookList() {
         // const keyword = searchKeyword.length > 0 ? "&q=" + searchKeyword : "";
@@ -42,7 +44,30 @@ export default function BookList2() {
         }
     }
 
+    async function getUsersById() {
+        try {
+
+            const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/byid/"+getUserData().userId,
+                {method: "GET"})
+            const data = await res.json();
+            setStatusUserById(data.status)
+        }catch (err){
+            console.log(err)
+            alert("There's something wrong. please try again")
+        }
+    }
+
+    function userDeleteScenario(){
+        if(statusUserById === true){
+            console.log("ya data masuk")
+        }else{
+            localStorage.clear()
+            navigate("/home")
+        }
+    }
+
     function deleteBook(id) {
+        userDeleteScenario()
         setIsLoading(true)
         axios
             .delete(
@@ -62,6 +87,9 @@ export default function BookList2() {
             })
     }
 
+    useEffect(()=>{
+        getUsersById()
+    },[])
     useEffect(() => {
         getBookList()
     }, [searchKeywordDebounced]);
@@ -106,7 +134,7 @@ export default function BookList2() {
                                         aria-label="Search" aria-describedby="basic-addon2" value={searchKeyword}
                                         onChange={evt => setSearchKeyword(evt.target.value)} />
                                     <div className="input-group-append">
-                                        <button className="btn btn-primary" type="button">
+                                        <button className="btn btn-primary" type="button" onClick={()=>userDeleteScenario()}>
                                             <i className="fas fa-search fa-sm"></i>
                                         </button>
                                     </div>
@@ -127,7 +155,7 @@ export default function BookList2() {
                                                     aria-label="Search" aria-describedby="basic-addon2" value={searchKeyword}
                                                     onChange={evt => setSearchKeyword(evt.target.value)} />
                                                 <div className="input-group-append">
-                                                    <button className="btn btn-primary" type="button">
+                                                    <button className="btn btn-primary" type="button" onClick={()=>userDeleteScenario()}>
                                                         <i className="fas fa-search fa-sm"></i>
                                                     </button>
                                                 </div>
@@ -150,7 +178,7 @@ export default function BookList2() {
                                     aria-label="Search" aria-describedby="basic-addon2" value={searchKeyword}
                                     onChange={evt => setSearchKeyword(evt.target.value)} />
                                 <div className="input-group-append">
-                                    <button className="btn btn-primary" type="button">
+                                    <button className="btn btn-primary" type="button" onClick={()=>userDeleteScenario()}>
                                         <i className="fas fa-search fa-sm"></i>
                                     </button>
                                 </div>
@@ -160,7 +188,7 @@ export default function BookList2() {
                         <ul className="navbar-nav md-center">
                             <div className="dropdown no-arrow d-sm-none">
                                 <a className="dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick={()=>userDeleteScenario()}>
                                     <i className="fas fa-search fa-fw"></i>
                                 </a>
                                 <div className="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
@@ -171,7 +199,7 @@ export default function BookList2() {
                                                 aria-label="Search" aria-describedby="basic-addon2" value={searchKeyword}
                                                 onChange={evt => setSearchKeyword(evt.target.value)} />
                                             <div className="input-group-append">
-                                                <button className="btn btn-primary" type="button">
+                                                <button className="btn btn-primary" type="button" onClick={()=>userDeleteScenario()}>
                                                     <i className="fas fa-search fa-sm"></i>
                                                 </button>
                                             </div>
@@ -182,8 +210,8 @@ export default function BookList2() {
                         </ul>
 
                         <ul className={"navbar-nav ml-auto"}>
-                            <Link to={"/book/form"} className="dropdown no-arrow d-sm-none">
-                                <button className="btn btn-primary">
+                            <Link onClick={()=>userDeleteScenario()} to={"/book/form"} className="dropdown no-arrow d-sm-none">
+                                <button className="btn btn-primary" >
                                     <strong>+</strong>
                                 </button>
                             </Link>
@@ -200,8 +228,8 @@ export default function BookList2() {
                         }
                     </ul> */}
 
-                        <ul calssName={"navbar-nav ml-auto"}>
-                            <Link to="/book/form" className="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100">
+                        <ul className={"navbar-nav ml-auto"}>
+                            <Link onClick={()=>userDeleteScenario()} to="/book/form" className="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100">
                                 <button className="btn btn-primary">Add Book</button>
                             </Link>
                         </ul>
@@ -230,7 +258,7 @@ export default function BookList2() {
                                     <th scope="col">No</th>
                                     <th>Book's Title</th>
                                     <th>Book's Category</th>
-                                    <th>Relese Date</th>
+                                    <th>Release Date</th>
                                     <th>Book's Author</th>
                                     <th>Book's Publisher</th>
                                     <th>Book' Status</th>
@@ -254,7 +282,8 @@ export default function BookList2() {
                                         {getUserData().roleName !== "Admin" ?
                                             <></> :
                                             <td>
-                                                <Link to=
+                                                <Link onClick={()=>userDeleteScenario()}
+                                                      to=
                                                     {"/book/form/" + books.bookId}>
                                                     <button className="btn btn-primary"> Edit </button>
                                                 </Link>{" "}
