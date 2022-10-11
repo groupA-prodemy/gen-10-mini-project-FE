@@ -11,6 +11,9 @@ export default function AuthorList() {
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredAuthors, setFilteredAuthors] = useState([]);
   const [statusUserById, setStatusUserById] = useState()
+  const [dataUserById, setDataUserById] = useState([])
+  const [userUpdated, setUserUpdated] = useState([])
+  const [statusUpdated, setStatusUpdated] = useState([])
   const [isLoading, setIsLoading] = useState(true);
   const [searchKeywordDebounced] = useDebounce(searchKeyword, 500);
   const navigate =  useNavigate()

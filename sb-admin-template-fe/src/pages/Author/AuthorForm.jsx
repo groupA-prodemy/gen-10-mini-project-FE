@@ -4,6 +4,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 
 export default function AuthorForm() {
   const [statusUserById, setStatusUserById] = useState()
+  const [dataUserById, setDataUserById] = useState([])
+  const [userUpdated, setUserUpdated] = useState([])
+  const [statusUpdated, setStatusUpdated] = useState([])
   const navigate = useNavigate();
   const params = useParams();
 
