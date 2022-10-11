@@ -3,6 +3,9 @@ import {useEffect, useState} from "react";
 
 export default function AdminDashboard() {
     const [statusUserById, setStatusUserById] = useState()
+    const [dataUserById, setDataUserById] = useState([])
+    const [userUpdated, setUserUpdated] = useState([])
+    const [statusUpdated, setStatusUpdated] = useState([])
     const navigate =  useNavigate()
 
     function getUserData() {
