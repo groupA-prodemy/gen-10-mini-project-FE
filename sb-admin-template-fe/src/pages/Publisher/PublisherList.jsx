@@ -3,22 +3,31 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useDebounce } from "use-debounce";
+import Spinner from "../../components/Spinner/Spinner";
 
 export default function PublisherList() {
   const [publishers, setPublishers] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredPublishers, setFilteredPublishers] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchKeywordDebounced] = useDebounce(searchKeyword, 500);
 
   async function getPublisherList() {
     const keyword = searchKeyword.length > 0 ? "&q=" + searchKeyword : "";
-    const res = await fetch(
-      "https://be-psm-mini-library-system.herokuapp.com/publisher/list?_expand=publisher" +
-        keyword,
-      { method: "GET" }
-    );
-    const data = await res.json();
-    setPublishers(data.sort((a, b) => a.idPublisher - b.idPublisher));
+    try {
+      const res = await fetch(
+        "https://be-psm-mini-library-system.herokuapp.com/publisher/list?_expand=publisher" +
+          keyword,
+        { method: "GET" }
+      );
+      const data = await res.json();
+      setPublishers(data.sort((a, b) => a.idPublisher - b.idPublisher));
+    } catch (err) {
+      console.log(err);
+      alert("There's something wrong. please try again");
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   // async function getPublisherList() {
@@ -157,46 +166,52 @@ export default function PublisherList() {
         </div>
 
         <div class="card-body">
-          <div class="table-responsive">
-            <table
-              class="table table-bordered"
-              id="dataTable"
-              width="100%"
-              cellspacing="0"
-            >
-              <thead>
-                <tr>
-                  <th scope="col">No</th>
-                  <th>Publisher Name</th>
-                  <th>Address</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredPublishers.map((publisher, index) => (
+          {isLoading ? (
+            <div className="d-flex justify-content-center">
+              <Spinner />
+            </div>
+          ) : (
+            <div class="table-responsive">
+              <table
+                class="table table-bordered"
+                id="dataTable"
+                width="100%"
+                cellspacing="0"
+              >
+                <thead>
                   <tr>
-                    <td key={publisher.publisherId} scope="row">
-                      {index + 1}
-                    </td>
-                    <td>{publisher.publisherName}</td>
-                    <td>{publisher.addressPublisher}</td>
-                    <td>
-                      <Link to={"/publisher/form/" + publisher.idPublisher}>
-                        <button className="btn btn-primary"> Edit </button>
-                      </Link>{" "}
-                      <button
-                        onClick={() => deletePublisher(publisher.idPublisher)}
-                        className="btn btn-danger"
-                      >
-                        {" "}
-                        Delete{" "}
-                      </button>
-                    </td>
+                    <th scope="col">No</th>
+                    <th>Publisher Name</th>
+                    <th>Address</th>
+                    <th>Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {filteredPublishers.map((publisher, index) => (
+                    <tr>
+                      <td key={publisher.publisherId} scope="row">
+                        {index + 1}
+                      </td>
+                      <td>{publisher.publisherName}</td>
+                      <td>{publisher.addressPublisher}</td>
+                      <td>
+                        <Link to={"/publisher/form/" + publisher.idPublisher}>
+                          <button className="btn btn-primary"> Edit </button>
+                        </Link>{" "}
+                        <button
+                          onClick={() => deletePublisher(publisher.idPublisher)}
+                          className="btn btn-danger"
+                        >
+                          {" "}
+                          Delete{" "}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </>

@@ -4,22 +4,31 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDebounce } from "use-debounce";
+import Spinner from "../../components/Spinner/Spinner";
 
 export default function AuthorList() {
   const [authors, setAuthors] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [filteredAuthors, setFilteredAuthors] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [searchKeywordDebounced] = useDebounce(searchKeyword, 500);
 
   async function getAuthorList() {
-    const keyword = searchKeyword.length > 0 ? "&q=" + searchKeyword : "";
-    const res = await fetch(
-      "https://be-psm-mini-library-system.herokuapp.com/author/all?_expand=author" +
-        keyword,
-      { method: "GET" }
-    );
-    const data = await res.json();
-    setAuthors(data.sort((a, b) => a.authorId - b.authorId));
+    try {
+      const keyword = searchKeyword.length > 0 ? "&q=" + searchKeyword : "";
+      const res = await fetch(
+        "https://be-psm-mini-library-system.herokuapp.com/author/all?_expand=author" +
+          keyword,
+        { method: "GET" }
+      );
+      const data = await res.json();
+      setAuthors(data.sort((a, b) => a.authorId - b.authorId));
+    } catch (err) {
+      console.log(err);
+      alert("There's something wrong. please try again");
+    } finally {
+      setIsLoading(false);
+    }
   }
   // async function getAuthorList() {
   //   try {
@@ -150,48 +159,54 @@ export default function AuthorList() {
         </div>
 
         <div class="card-body">
-          <div class="table-responsive">
-            <table
-              class="table table-bordered"
-              id="dataTable"
-              width="100%"
-              cellspacing="0"
-            >
-              <thead>
-                <tr>
-                  <th scope="col">No</th>
-                  <th>Name</th>
-                  <th>Address</th>
-                  <th>Phone Number</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredAuthors.map((author, index) => (
+          {isLoading ? (
+            <div className="d-flex justify-content-center">
+              <Spinner />
+            </div>
+          ) : (
+            <div class="table-responsive">
+              <table
+                class="table table-bordered"
+                id="dataTable"
+                width="100%"
+                cellspacing="0"
+              >
+                <thead>
                   <tr>
-                    <td key={author.authorId} scope="row">
-                      {index + 1}
-                    </td>
-                    <td>{author.authorName}</td>
-                    <td>{author.authorAddress}</td>
-                    <td>{author.noHp}</td>
-                    <td>
-                      <Link to={"/author/form/" + author.authorId}>
-                        <button className="btn btn-primary"> Edit </button>
-                      </Link>{" "}
-                      <button
-                        onClick={() => deleteAuthor(author.authorId)}
-                        className="btn btn-danger"
-                      >
-                        {" "}
-                        Delete{" "}
-                      </button>
-                    </td>
+                    <th scope="col">No</th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Phone Number</th>
+                    <th>Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {filteredAuthors.map((author, index) => (
+                    <tr>
+                      <td key={author.authorId} scope="row">
+                        {index + 1}
+                      </td>
+                      <td>{author.authorName}</td>
+                      <td>{author.authorAddress}</td>
+                      <td>{author.noHp}</td>
+                      <td>
+                        <Link to={"/author/form/" + author.authorId}>
+                          <button className="btn btn-primary"> Edit </button>
+                        </Link>{" "}
+                        <button
+                          onClick={() => deleteAuthor(author.authorId)}
+                          className="btn btn-danger"
+                        >
+                          {" "}
+                          Delete{" "}
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
         </div>
       </div>
     </>
