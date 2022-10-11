@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Link, useParams} from "react-router-dom";
+import {Link, Navigate, useNavigate, useParams} from "react-router-dom";
 import Spinner from "../../components/Spinner/Spinner.jsx";
 
 let firstName;
@@ -11,6 +11,7 @@ export default function DetailsProfile() {
     const [userBooks, setUserBooks] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const params = useParams()
+    const navigate = useNavigate()
     let a = "*******"
     let isPassDueDate = false
 
@@ -149,9 +150,14 @@ export default function DetailsProfile() {
         alert("You don't have access to see this account password")
     }
 
-    function back(event) {
+    function backLastStep(event) {
         event.preventDefault()
         history.go(-1)
+        /*if(getUserData().username===user.username){
+            history.go(-1)
+        }else {
+            <Navigate to={"/users"}/>
+        }*/
     }
 
     useEffect(() => {
@@ -162,11 +168,23 @@ export default function DetailsProfile() {
     return <>
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"}
-                     onClick={event => back(event)}>
-                    &nbsp;
-                    Back
-                </div>
+
+                    {
+                    getUserData().username === params.username?
+                        <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"}
+                             onClick={(event) => backLastStep(event)}>
+                            &nbsp;
+                            Back
+                        </div>
+                        :
+                        <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"}
+                             onClick={()=>navigate("/users")}>
+                            &nbsp;
+                            Back
+                        </div>
+
+                    }
+
                 <h6 className="m-0 font-weight-bold text-primary">
                     {getUserData().username === user.username ? "Your Profile" : "Profile"}
                 </h6>
