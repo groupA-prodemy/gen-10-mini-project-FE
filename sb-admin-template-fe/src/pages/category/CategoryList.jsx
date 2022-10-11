@@ -36,7 +36,6 @@ export default function CategoryList() {
         try {
             const res = await axios.delete("https://be-psm-mini-library-system.herokuapp.com/category/delete/" + id)
             const resp =await res.data
-            console.log(resp)
             resp.status === false?
                 alert("Delete Failed!!! This data was referenced in book list, delete them before delete this"):""
         } catch (err) {
