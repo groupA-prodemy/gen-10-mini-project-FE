@@ -1,19 +1,48 @@
 import {useNavigate} from "react-router-dom";
+import {useEffect, useState} from "react";
 
 export default function Topbar() {
     let respLogout= []
+    const [statusUserById, setStatusUserById] = useState()
     const navigate = useNavigate();
 
     function getUserData() {
         const savedDataUser = localStorage.getItem("user")
-        if (savedDataUser) {return JSON.parse(savedDataUser)}
-        else {return {}}
+        if (savedDataUser) {
+            return JSON.parse(savedDataUser)
+        } else {
+            return {}
+        }
+    }
+
+    async function getUsersById() {
+        try {
+
+            const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/byid/"+getUserData().userId,
+                {method: "GET"})
+            const data = await res.json();
+            setStatusUserById(data.status)
+        }catch (err){
+            console.log(err)
+            alert("There's something wrong. please try again")
+        }
+    }
+
+    function userDeleteScenario(){
+        if(statusUserById === true){
+            console.log("ya data masuk")
+        }else{
+            localStorage.clear()
+            navigate("/home")
+        }
     }
 
     const menuProfile = [{title: "Profile", icon: "fas fa-user fa-sm fa-fw mr-2 text-gray-400", link: "/users/" + getUserData().username,}];
     const menuLogOut = [{title: "Log Out", icon: "fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400",}];
 
     async function logout() {
+        userDeleteScenario()
+
         const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/auth/logout/" + getUserData().userId;
         const method = "POST";
 
@@ -29,6 +58,10 @@ export default function Topbar() {
             respLogout[respLogout.length - 1].message.toString();
         }
     }
+
+    useEffect(()=>{
+        getUsersById()
+    },[])
 
     return <>
         <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -114,7 +147,7 @@ export default function Topbar() {
                     {/* <!-- Dropdown - User Information --> */}
                     <div className="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                          aria-labelledby="userDropdown">
-                        <a className="dropdown-item" href={"#"+menuProfile[0].link}>
+                        <a onClick={()=>userDeleteScenario()} className="dropdown-item" href={"#"+menuProfile[0].link}>
                             <i className={menuProfile[0].icon}></i>
                             {menuProfile[0].title}
                         </a>
