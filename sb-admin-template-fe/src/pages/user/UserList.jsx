@@ -28,7 +28,7 @@ export default function UserList() {
             const data = await res.json();
             setUsers(data.sort((a,b)=>a.userId-b.userId));
         }catch (err){
-            console.log(err)
+/*            console.log(err)*/
             alert("There's something wrong. please try again")
         }finally {
             setIsLoading(false)
@@ -36,7 +36,7 @@ export default function UserList() {
     }
 
     async function getUserBooks() {
-        setIsLoading(true)
+/*        setIsLoading(true)*/
         try {
             const res = await fetch("https://be-library-mini-system.herokuapp.com/userbook/list-userbook",
                 {method: "GET"})
@@ -121,7 +121,7 @@ export default function UserList() {
     }
 
     async function deleteData(userId) {
-        setIsLoading(true)
+/*        setIsLoading(true)*/
         userDeleteScenario()
         try {
             const res = await axios.delete("https://be-psm-mini-library-system.herokuapp.com/users/delete/" + userId)
@@ -153,7 +153,7 @@ export default function UserList() {
     }, [searchKeywordDebounced])
 
     useEffect(() => {
-        setIsLoading(true)
+/*        setIsLoading(true)*/
         if (searchKeyword.length > 0) {
             const filterResult = users.filter((user) => {
                 function params(){
