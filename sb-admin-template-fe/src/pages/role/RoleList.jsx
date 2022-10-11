@@ -50,15 +50,54 @@ export default function RoleList() {
                 {method: "GET"})
             const data = await res.json();
             setStatusUserById(data.status)
+            setDataUserById(data.data)
         }catch (err){
             console.log(err)
             alert("There's something wrong. please try again")
         }
     }
 
-    function userDeleteScenario(){
+    function saveDataTrue(dataUser, statusUser) {
+        const formattedDataUserUpdated = JSON.stringify(dataUser)
+        const formattedStatusUserUpdated = JSON.stringify(statusUser)
+
+        localStorage.removeItem("user")
+        localStorage.removeItem("statusLogin")
+
+        localStorage.setItem("user", formattedDataUserUpdated)
+        localStorage.setItem("statusLogin", formattedStatusUserUpdated)
+
+        setUserUpdated(dataUser)
+        setStatusUpdated(statusUser)
+
+    }
+
+    function saveDataFalse(dataUser, statusUser) {
+        setUserUpdated(dataUser)
+        setStatusUpdated(statusUser)
+    }
+
+    async function userDeleteScenario(){
         if(statusUserById === true){
-            console.log("ya data masuk")
+            /*console.log("ya data masuk")*/
+            const payload = JSON.stringify({
+                username: dataUserById.username,
+                password: dataUserById.password
+            })
+            const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/auth/login"
+            const method = "POST"
+            const res = await fetch(targetUrl, {
+                method: method,
+                body: payload,
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then((re) => re.json())
+
+            const respData = res.data
+            const respStatus = res.status
+
+            respStatus === true ? saveDataTrue(respData, respStatus)  : saveDataFalse(respData, respStatus)
         }else{
             localStorage.clear()
             navigate("/home")
