@@ -2,7 +2,9 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
+let responses = [];
 export default function PublisherForm() {
+  let statusCheckerName = true;
   const navigate = useNavigate();
   const params = useParams();
 
@@ -37,34 +39,256 @@ export default function PublisherForm() {
     setFormInput(res.data[0]);
   }
 
+  function publisherNameChecker(paramsPublisherName) {
+    for (let publisher of publishers) {
+      if (
+        publisher.publisherName.toLowerCase() ===
+        paramsPublisherName.toLowerCase()
+      ) {
+        alert("Failed to save data, data was exists");
+        statusCheckerName = false;
+      }
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
-
-    let status = "";
-    let msg = "";
-
     if (isEditing) {
-      const res = await axios.put(
-        "https://be-psm-mini-library-system.herokuapp.com/publisher/update/" +
-          params.idPublisher,
-        formInput
-      );
-      status = res.data.status;
-      msg = res.data.message;
-      status === true ? msg : alert("Error, Data was Exist");
+      if (formInput.publisherName.split(" ").length === 1) {
+        const payload = JSON.stringify({
+          ...formInput,
+          publisherName:
+            formInput.publisherName.charAt(0).toUpperCase() +
+            formInput.publisherName.slice(1).toLowerCase(),
+          idPublisher: parseInt(formInput.idPublisher),
+        });
+
+        publisherNameChecker(
+          formInput.publisherName.charAt(0).toUpperCase() +
+            formInput.publisherName.slice(1).toLowerCase()
+        );
+
+        if (statusCheckerName === false) {
+          statusCheckerName = true;
+        } else {
+          const targetUrl =
+            "https://be-psm-mini-library-system.herokuapp.com/publisher/update/" +
+            params.idPublisher;
+          const method = "PUT";
+          await fetch(targetUrl, {
+            method: method,
+            body: payload,
+            headers: { "Content-Type": "application/json" },
+          })
+            .then((re) => re.json())
+            .then((d) => responses.push(d));
+
+          if (responses[responses.length - 1].status.toString() === "true") {
+            localStorage.removeItem("tempRoleName");
+            alert(responses[responses.length - 1].message.toString());
+            navigate("/publisher");
+          } else {
+            if (formInput.publisherName !== "") {
+              const messageArr = responses[responses.length - 1].message
+                .toString()
+                .split(" ");
+              messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0
+                ? alert(responses[responses.length - 1].message.toString())
+                : alert(responses[responses.length - 1].message.toString());
+            } else {
+              alert("Form must be filled fully");
+            }
+          }
+          statusCheckerName = true;
+        }
+      } else {
+        let strPublisherName = "";
+        for (let inputPublisherName of formInput.publisherName.split(" ")) {
+          strPublisherName +=
+            inputPublisherName.charAt(0).toUpperCase() +
+            inputPublisherName.slice(1).toLowerCase() +
+            " ";
+        }
+
+        const payload = JSON.stringify({
+          ...formInput,
+          publisherName: strPublisherName.substring(
+            0,
+            strPublisherName.length - 1
+          ),
+          idPublisher: parseInt(formInput.idPublisher),
+        });
+
+        publisherNameChecker(
+          strPublisherName.substring(0, strPublisherName.length - 1)
+        );
+
+        if (statusCheckerName === false) {
+          statusCheckerName = true;
+        } else {
+          const targetUrl =
+            "https://be-psm-mini-library-system.herokuapp.com/publisher/update/" +
+            params.idPublisher;
+          const method = "PUT";
+          await fetch(targetUrl, {
+            method: method,
+            body: payload,
+            headers: { "Content-Type": "application/json" },
+          })
+            .then((re) => re.json())
+            .then((d) => responses.push(d));
+
+          if (responses[responses.length - 1].status.toString() === "true") {
+            localStorage.removeItem("tempRoleName");
+            alert(responses[responses.length - 1].message.toString());
+            navigate("/publisher");
+          } else {
+            if (formInput.publisherName !== "") {
+              const messageArr = responses[responses.length - 1].message
+                .toString()
+                .split(" ");
+              messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0
+                ? alert(responses[responses.length - 1].message.toString())
+                : alert(responses[responses.length - 1].message.toString());
+            } else {
+              alert("Form must be filled fully");
+            }
+          }
+
+          statusCheckerName = true;
+        }
+      }
     } else {
-      const res = await axios.post(
-        "https://be-psm-mini-library-system.herokuapp.com/publisher/save",
-        formInput
-      );
+      if (formInput.publisherName.split(" ").length === 1) {
+        const payload = JSON.stringify({
+          ...formInput,
+          publisherName:
+            formInput.publisherName.charAt(0).toUpperCase() +
+            formInput.publisherName.slice(1).toLowerCase(),
+          publisherId: parseInt(formInput.idPublisher),
+        });
 
-      status = res.data.status;
-      msg = res.data.message;
-      status === true ? msg : alert("Error, Data was Exist");
+        publisherNameChecker(
+          formInput.publisherName.charAt(0).toUpperCase() +
+            formInput.publisherName.slice(1).toLowerCase()
+        );
+        if (statusCheckerName === false) {
+          statusCheckerName = true;
+        } else {
+          const targetUrl =
+            "https://be-psm-mini-library-system.herokuapp.com/publisher/save";
+          const method = "POST";
+          await fetch(targetUrl, {
+            method: method,
+            body: payload,
+            headers: { "Content-Type": "application/json" },
+          })
+            .then((re) => re.json())
+            .then((d) => responses.push(d));
+
+          if (responses[responses.length - 1].status.toString() === "true") {
+            statusCheckerName = true;
+            alert(responses[responses.length - 1].message.toString());
+            navigate("/publisher");
+          } else {
+            if (formInput.publisherName !== "") {
+              const messageArr = responses[responses.length - 1].message
+                .toString()
+                .split(" ");
+              messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0
+                ? alert(responses[responses.length - 1].message.toString())
+                : alert(responses[responses.length - 1].message.toString());
+            } else {
+              alert("Form must be filled fully");
+            }
+          }
+          statusCheckerName = true;
+        }
+      } else {
+        let strPublisherName = "";
+        for (let inputPublisherName of formInput.publisherName.split(" ")) {
+          strPublisherName +=
+            inputPublisherName.charAt(0).toUpperCase() +
+            inputPublisherName.slice(1).toLowerCase() +
+            " ";
+        }
+        const payload = JSON.stringify({
+          ...formInput,
+          publisherName: strPublisherName.substring(
+            0,
+            strPublisherName.length - 1
+          ),
+          idPublisher: parseInt(formInput.idPublisher),
+        });
+
+        publisherNameChecker(
+          strPublisherName.substring(0, strPublisherName.length - 1)
+        );
+
+        if (statusCheckerName === false) {
+          statusCheckerName = true;
+        } else {
+          const targetUrl =
+            "https://be-psm-mini-library-system.herokuapp.com/publisher/save";
+          const method = "POST";
+          await fetch(targetUrl, {
+            method: method,
+            body: payload,
+            headers: { "Content-Type": "application/json" },
+          })
+            .then((re) => re.json())
+            .then((d) => responses.push(d));
+
+          if (responses[responses.length - 1].status.toString() === "true") {
+            statusCheckerName = true;
+            alert(responses[responses.length - 1].message.toString());
+            navigate("/publisher");
+          } else {
+            statusCheckerName = true;
+            if (formInput.publisherName !== "") {
+              const messageArr = responses[responses.length - 1].message
+                .toString()
+                .split(" ");
+              messageArr.indexOf("Id") >= 0 && messageArr.indexOf("found") >= 0
+                ? alert(responses[responses.length - 1].message.toString())
+                : alert(responses[responses.length - 1].message.toString());
+            } else {
+              alert("Form must be filled fully");
+            }
+          }
+        }
+      }
     }
-
-    navigate("/publisher");
   }
+
+  // async function handleSubmit(event) {
+  //   event.preventDefault();
+
+  //   let status = "";
+  //   let msg = "";
+
+  //   if (isEditing) {
+  //     const res = await axios.put(
+  //       "https://be-psm-mini-library-system.herokuapp.com/publisher/update/" +
+  //         params.idPublisher,
+  //       formInput
+  //     );
+  //     status = res.data.status;
+  //     msg = res.data.message;
+  //     status === true ? msg : alert("Error, Data was Exist");
+  //   } else {
+  //     const res = await axios.post(
+  //       "https://be-psm-mini-library-system.herokuapp.com/publisher/save",
+  //       formInput
+  //     );
+
+  //     status = res.data.status;
+  //     msg = res.data.message;
+  //     status === true ? msg : alert("Error, Data was Exist");
+  //   }
+
+  //   navigate("/publisher");
+  // }
 
   useEffect(() => {
     getPublishers();
