@@ -8,6 +8,9 @@ export default function UserBookForm() {
     const params = useParams();
     const [isLoading, setIsLoading] = useState(true)
     const [statusUserById, setStatusUserById] = useState()
+    const [dataUserById, setDataUserById] = useState([])
+    const [userUpdated, setUserUpdated] = useState([])
+    const [statusUpdated, setStatusUpdated] = useState([])
 
     const isEditting = params.userbookId;
 
