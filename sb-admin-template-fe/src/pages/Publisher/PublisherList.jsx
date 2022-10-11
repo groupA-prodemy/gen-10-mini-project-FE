@@ -9,6 +9,9 @@ export default function PublisherList() {
   const [publishers, setPublishers] = useState([]);
   const [searchKeyword, setSearchKeyword] = useState("");
   const [statusUserById, setStatusUserById] = useState()
+  const [dataUserById, setDataUserById] = useState([])
+  const [userUpdated, setUserUpdated] = useState([])
+  const [statusUpdated, setStatusUpdated] = useState([])
   const [filteredPublishers, setFilteredPublishers] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [searchKeywordDebounced] = useDebounce(searchKeyword, 500);

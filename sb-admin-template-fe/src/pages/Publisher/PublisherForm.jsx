@@ -5,6 +5,9 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 let responses = [];
 export default function PublisherForm() {
   const [statusUserById, setStatusUserById] = useState()
+  const [dataUserById, setDataUserById] = useState([])
+  const [userUpdated, setUserUpdated] = useState([])
+  const [statusUpdated, setStatusUpdated] = useState([])
   let statusCheckerName = true;
   const navigate = useNavigate();
   const params = useParams();
