@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import axios from "axios";
 import {useDebounce} from "use-debounce";
 import Spinner from "../../components/Spinner/Spinner.jsx";
@@ -9,8 +9,10 @@ export default function UserList() {
     const [userBooks, setUserBooks] = useState([])
     const [searchKeyword, setSearchKeyword] = useState('')
     const [filteredUsers, setFilteredUsers] = useState([])
+    const [statusUserById, setStatusUserById] = useState()
     const [isLoading, setIsLoading] = useState(true)
     const [searchKeywordDebounced] = useDebounce(searchKeyword, 500)
+    const navigate =  useNavigate()
 
 
     async function getUsers() {
@@ -45,8 +47,40 @@ export default function UserList() {
         }
     }
 
+    function getUserData() {
+        const savedDataUser = localStorage.getItem("user")
+        if (savedDataUser) {
+            return JSON.parse(savedDataUser)
+        } else {
+            return {}
+        }
+    }
+
+    async function getUsersById() {
+        try {
+
+            const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/byid/"+getUserData().userId,
+                {method: "GET"})
+            const data = await res.json();
+            setStatusUserById(data.status)
+        }catch (err){
+            console.log(err)
+            alert("There's something wrong. please try again")
+        }
+    }
+
+    function userDeleteScenario(){
+        if(statusUserById === true){
+            console.log("ya data masuk")
+        }else{
+            localStorage.clear()
+            navigate("/home")
+        }
+    }
+
     async function deleteData(userId) {
         setIsLoading(true)
+        userDeleteScenario()
         try {
             const res = await axios.delete("https://be-psm-mini-library-system.herokuapp.com/users/delete/" + userId)
             const resp = res.data
@@ -66,6 +100,10 @@ export default function UserList() {
         event.preventDefault()
         history.go(-1)
     }
+
+    useEffect(()=>{
+        getUsersById()
+    },[])
 
     useEffect(() => {
         getUsers()
@@ -106,7 +144,7 @@ export default function UserList() {
                                aria-label="Search" aria-describedby="basic-addon2" value={searchKeyword}
                                onChange={evt => setSearchKeyword(evt.target.value)}/>
                         <div className="input-group-append">
-                            <button className="btn btn-primary" type="button">
+                            <button className="btn btn-primary" type="button" onClick={()=>userDeleteScenario()}>
                                 <i className="fas fa-search fa-sm"></i>
                             </button>
                         </div>
@@ -128,7 +166,7 @@ export default function UserList() {
                                            aria-describedby="basic-addon2" value={searchKeyword}
                                            onChange={evt => setSearchKeyword(evt.target.value)}/>
                                     <div className="input-group-append">
-                                        <button className="btn btn-primary" type="button">
+                                        <button className="btn btn-primary" type="button" onClick={()=>userDeleteScenario()}>
                                             <i className="fas fa-search fa-sm"></i>
                                         </button>
                                     </div>
@@ -139,14 +177,14 @@ export default function UserList() {
                 </ul>
 
                 <ul className={"navbar-nav ml-auto"}>
-                    <Link to="/register" className="dropdown no-arrow d-sm-none">
+                    <Link onClick={()=>userDeleteScenario()} to="/register" className="dropdown no-arrow d-sm-none">
                         <button className="btn btn-primary">
                             <strong>+</strong>
                         </button>
                     </Link>
                 </ul>
 
-                <Link to="/register" className="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100">
+                <Link onClick={()=>userDeleteScenario()} to="/register" className="d-none d-sm-inline-block form-inline mr-0 ml-md-3 my-2 my-md-0 mw-100">
                     <button className="btn btn-primary">
                         Add User
                     </button>
@@ -182,7 +220,7 @@ export default function UserList() {
                                     <td>{user.username}</td>
                                     <td>{user.roleName}</td>
                                     <td>
-                                        <Link to={"/users/" + user.username}>
+                                        <Link onClick={()=>userDeleteScenario()} to={"/users/" + user.username}>
                                             <button className="btn btn-primary">view</button>
                                         </Link>
                                         &nbsp;&nbsp;

@@ -1,11 +1,12 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import Spinner from "../../components/Spinner/Spinner.jsx";
-import {v4} from "uuid"
 
 export default function DetailProfileUserBooks() {
     const [userBooks, setUserBooks] = useState([])
     const [isLoading, setIsLoading] = useState(true)
+    const [statusUserById, setStatusUserById] = useState()
+    const navigate = useNavigate()
     const params = useParams()
 
     async function getUserBooks() {
@@ -19,6 +20,37 @@ export default function DetailProfileUserBooks() {
             alert("There's something wrong. please try again")
         }finally {
             setIsLoading(false)
+        }
+    }
+
+    function getUserData() {
+        const savedDataUser = localStorage.getItem("user")
+        if (savedDataUser) {
+            return JSON.parse(savedDataUser)
+        } else {
+            return {}
+        }
+    }
+
+    async function getUsersById() {
+        try {
+
+            const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/byid/"+getUserData().userId,
+                {method: "GET"})
+            const data = await res.json();
+            setStatusUserById(data.status)
+        }catch (err){
+            console.log(err)
+            alert("There's something wrong. please try again")
+        }
+    }
+
+    function userDeleteScenario(){
+        if(statusUserById === true){
+            console.log("ya data masuk")
+        }else{
+            localStorage.clear()
+            navigate("/home")
         }
     }
 
@@ -47,12 +79,14 @@ export default function DetailProfileUserBooks() {
 
     function back(event) {
         event.preventDefault()
+        userDeleteScenario()
         history.go(-1)
     }
 
 
     useEffect(() => {
         getUserBooks()
+        getUsersById()
     }, [])
 
 
@@ -64,7 +98,7 @@ export default function DetailProfileUserBooks() {
                     &nbsp;
                     Back
                 </div>
-                <h6 className="m-0 font-weight-bold text-primary">List Your Books Not returned</h6>
+                <h6 className="m-0 font-weight-bold text-primary">List Your Books</h6>
             </div>
             <div className="card-body">
                 {isLoading?

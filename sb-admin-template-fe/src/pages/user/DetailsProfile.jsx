@@ -9,6 +9,7 @@ let additionalName;
 export default function DetailsProfile() {
     const [user, setUser] = useState([])
     const [userBooks, setUserBooks] = useState([])
+    const [statusUserById, setStatusUserById] = useState()
     const [isLoading, setIsLoading] = useState(true)
     const params = useParams()
     const navigate = useNavigate()
@@ -93,10 +94,31 @@ export default function DetailsProfile() {
     function getUserData() {
         const savedDataUser = localStorage.getItem("user")
         if (savedDataUser) {
-            const parsedData = JSON.parse(savedDataUser)
-            return parsedData
+            return JSON.parse(savedDataUser)
         } else {
             return {}
+        }
+    }
+
+    async function getUsersById() {
+        try {
+
+            const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/byid/"+getUserData().userId,
+                {method: "GET"})
+            const data = await res.json();
+            setStatusUserById(data.status)
+        }catch (err){
+            console.log(err)
+            alert("There's something wrong. please try again")
+        }
+    }
+
+    function userDeleteScenario(){
+        if(statusUserById === true){
+            console.log("ya data masuk")
+        }else{
+            localStorage.clear()
+            navigate("/home")
         }
     }
 
@@ -147,11 +169,13 @@ export default function DetailsProfile() {
     }
 
     function handlingButton() {
+        userDeleteScenario()
         alert("You don't have access to see this account password")
     }
 
     function backLastStep(event) {
         event.preventDefault()
+        userDeleteScenario()
         history.go(-1)
         /*if(getUserData().username===user.username){
             history.go(-1)
@@ -163,6 +187,7 @@ export default function DetailsProfile() {
     useEffect(() => {
         getUsers()
         getUserBooks()
+        getUsersById()
     }, [])
 
     return <>
@@ -178,7 +203,10 @@ export default function DetailsProfile() {
                         </div>
                         :
                         <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"}
-                             onClick={()=>navigate("/users")}>
+                             onClick={()=> {
+                                 userDeleteScenario()
+                                 navigate("/users")
+                             }}>
                             &nbsp;
                             Back
                         </div>
@@ -188,7 +216,7 @@ export default function DetailsProfile() {
                 <h6 className="m-0 font-weight-bold text-primary">
                     {getUserData().username === user.username ? "Your Profile" : "Profile"}
                 </h6>
-                <Link to={"/users/" + params.username + "/" + user.id}>
+                <Link onClick={()=>userDeleteScenario()} to={"/users/" + params.username + "/" + user.id}>
                     <button className="btn btn-primary">
                         Change Profile
                     </button>
@@ -258,7 +286,7 @@ export default function DetailsProfile() {
                                                 <div
                                                     className={"card-button-profile card-button-outline-primary-profile"}>
                                                     <h5>
-                                                        <Link to={"/users/" + params.username + "/list-book"}>
+                                                        <Link onClick={()=>userDeleteScenario()} to={"/users/" + params.username + "/list-book"}>
                                                             <button className="btn btn-outline-success">
                                                                 Detail
                                                             </button>
