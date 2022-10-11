@@ -7,6 +7,7 @@ export default function UserBookForm() {
     const navigate = useNavigate();
     const params = useParams();
     const [isLoading, setIsLoading] = useState(true)
+    const [statusUserById, setStatusUserById] = useState()
 
     const isEditting = params.userbookId;
 
@@ -101,8 +102,40 @@ export default function UserBookForm() {
         setFormInput(res.data.data);
     }
 
+    function getUserData() {
+        const savedDataUser = localStorage.getItem("user")
+        if (savedDataUser) {
+            return JSON.parse(savedDataUser)
+        } else {
+            return {}
+        }
+    }
+
+    async function getUsersById() {
+        try {
+
+            const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/byid/"+getUserData().userId,
+                {method: "GET"})
+            const data = await res.json();
+            setStatusUserById(data.status)
+        }catch (err){
+            console.log(err)
+            alert("There's something wrong. please try again")
+        }
+    }
+
+    function userDeleteScenario(){
+        if(statusUserById === true){
+            console.log("ya data masuk")
+        }else{
+            localStorage.clear()
+            navigate("/home")
+        }
+    }
+
     async function handleSubmit(event) {
         event.preventDefault();
+        userDeleteScenario()
 
         if (isEditting) {
             const payloadUpdateUserBook = {
@@ -197,6 +230,7 @@ export default function UserBookForm() {
         getUsers()
         getUserBooks()
         getUserBookDetail()
+        getUsersById()
         if (isEditting) {
             getFormInput()
         }
@@ -206,7 +240,7 @@ export default function UserBookForm() {
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                 <h6 className="m-0 font-weight-bold text-primary">Userbook Form</h6>
-                <Link to="/userbook/list">
+                <Link onClick={()=>userDeleteScenario()} to="/userbook/list">
                     <button className="btn btn-secondary">Back</button>
                 </Link>
             </div>
