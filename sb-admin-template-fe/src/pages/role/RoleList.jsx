@@ -11,6 +11,9 @@ export default function RoleList() {
     const [searchKeyword, setSearchKeyword] = useState('')
     const [filteredUsers, setFilteredUsers] = useState([])
     const [statusUserById, setStatusUserById] = useState()
+    const [dataUserById, setDataUserById] = useState([])
+    const [userUpdated, setUserUpdated] = useState([])
+    const [statusUpdated, setStatusUpdated] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const navigate =  useNavigate()
 

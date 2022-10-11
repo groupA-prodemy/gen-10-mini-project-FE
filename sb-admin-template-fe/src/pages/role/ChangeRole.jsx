@@ -8,6 +8,9 @@ export default function ChangeRole() {
     const params = useParams();
     const [roles, setRoles] = useState([])
     const [statusUserById, setStatusUserById] = useState()
+    const [dataUserById, setDataUserById] = useState([])
+    const [userUpdated, setUserUpdated] = useState([])
+    const [statusUpdated, setStatusUpdated] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const navigate = useNavigate()
     const [formInput, setFormInput] = useState({
