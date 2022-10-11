@@ -163,7 +163,7 @@ export default function RoleList() {
                                     <td>{role.roleName}</td>
                                     <td>{
                                         role.roleName === trigger ?
-                                            <button className="btn btn-primary" onClick={()=>alert("This Role was set no be edited")}>Edit</button>
+                                            <button className="btn btn-primary" onClick={()=>{setIsLoading(true); alert("This Role was set no be edited"); getUsers()}}>Edit</button>
                                             :
                                             <Link to={"/roles/" + role.roleId}><button className="btn btn-primary">Edit</button></Link>
                                     }
