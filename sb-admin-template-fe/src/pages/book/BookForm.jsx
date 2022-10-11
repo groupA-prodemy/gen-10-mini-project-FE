@@ -50,7 +50,6 @@ export default function BookForm() {
   }
 
   async function getFormInput() {
-    isLoading(true)
     const res = await axios.get(
         "https://be-psm-mini-library-system.herokuapp.com/book/" +
         params.bookId
