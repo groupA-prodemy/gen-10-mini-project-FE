@@ -7,6 +7,7 @@ export default function AddRole() {
     let statusCheckerName = true
     const navigate = useNavigate()
     const [roles, setRoles] = useState([])
+    const [statusUserById, setStatusUserById] = useState()
     const [isLoading, setIsLoading] = useState(true)
     const [formInput, setFormInput] = useState({
         roleName: ""
@@ -41,8 +42,40 @@ export default function AddRole() {
         setFormInput(copyFormInput)
     }
 
+    function getUserData() {
+        const savedDataUser = localStorage.getItem("user")
+        if (savedDataUser) {
+            return JSON.parse(savedDataUser)
+        } else {
+            return {}
+        }
+    }
+
+    async function getUsersById() {
+        try {
+
+            const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/byid/"+getUserData().userId,
+                {method: "GET"})
+            const data = await res.json();
+            setStatusUserById(data.status)
+        }catch (err){
+            console.log(err)
+            alert("There's something wrong. please try again")
+        }
+    }
+
+    function userDeleteScenario(){
+        if(statusUserById === true){
+            console.log("ya data masuk")
+        }else{
+            localStorage.clear()
+            navigate("/home")
+        }
+    }
+
     async function handleSubmit(event) {
         event.preventDefault()
+        userDeleteScenario()
         if (formInput.roleName.split(" ").length === 1) {
             const payload = JSON.stringify({
                 ...formInput,
@@ -121,19 +154,20 @@ export default function AddRole() {
 
     useEffect(() => {
         getUsers()
+        getUsersById()
     }, [])
 
     return <>
         <div className="card shadow mb-4">
             <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"}
+                {/*<div className={"m-0 font-weight-bold text-primary fa fa-arrow-circle-left"}
                      onClick={event => back(event)}>&nbsp;Back
-                </div>
+                </div>*/}
 
                 <h6 className="m-0 font-weight-bold text-primary">Form Add Role</h6>
 
-                <Link to={"/roles"}>
-                    <button className="btn btn-secondary">Kembali</button>
+                <Link onClick={()=>userDeleteScenario()} to={"/roles"}>
+                    <button className="btn btn-secondary">Back</button>
                 </Link>
             </div>
 
