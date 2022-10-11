@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 export default function AuthorForm() {
+  const [statusUserById, setStatusUserById] = useState()
   const navigate = useNavigate();
   const params = useParams();
 
@@ -37,8 +38,40 @@ export default function AuthorForm() {
     setFormInput(res.data[0]);
   }
 
+  function getUserData() {
+    const savedDataUser = localStorage.getItem("user")
+    if (savedDataUser) {
+      return JSON.parse(savedDataUser)
+    } else {
+      return {}
+    }
+  }
+
+  async function getUsersById() {
+    try {
+
+      const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/byid/"+getUserData().userId,
+          {method: "GET"})
+      const data = await res.json();
+      setStatusUserById(data.status)
+    }catch (err){
+      console.log(err)
+      alert("There's something wrong. please try again")
+    }
+  }
+
+  function userDeleteScenario(){
+    if(statusUserById === true){
+      console.log("ya data masuk")
+    }else{
+      localStorage.clear()
+      navigate("/home")
+    }
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
+    userDeleteScenario()
 
     if (isEditing) {
       await axios.put(
@@ -58,6 +91,7 @@ export default function AuthorForm() {
 
   useEffect(() => {
     getAuthors();
+    getUsersById()
     if (isEditing) {
       getFormInput();
     }
@@ -69,7 +103,7 @@ export default function AuthorForm() {
         <div className="card-header py-3 d-flex flex-row align-items-center justify-content-between">
           <h6 className="m-0 font-weight-bold text-primary">Author Form</h6>
 
-          <Link to="/author">
+          <Link onClick={()=>userDeleteScenario()} to="/author">
             <button className="btn btn-secondary">Back</button>
           </Link>
         </div>
