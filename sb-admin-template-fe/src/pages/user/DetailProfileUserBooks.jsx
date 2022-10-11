@@ -6,6 +6,9 @@ export default function DetailProfileUserBooks() {
     const [userBooks, setUserBooks] = useState([])
     const [isLoading, setIsLoading] = useState(true)
     const [statusUserById, setStatusUserById] = useState()
+    const [dataUserById, setDataUserById] = useState([])
+    const [userUpdated, setUserUpdated] = useState([])
+    const [statusUpdated, setStatusUpdated] = useState([])
     const navigate = useNavigate()
     const params = useParams()
 

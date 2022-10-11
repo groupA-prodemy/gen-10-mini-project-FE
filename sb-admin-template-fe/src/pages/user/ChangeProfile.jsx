@@ -6,6 +6,9 @@ let responses = []
 export default function ChangeProfile() {
     const [isLoading, setIsLoading] = useState(true)
     const [statusUserById, setStatusUserById] = useState()
+    const [dataUserById, setDataUserById] = useState([])
+    const [userUpdated, setUserUpdated] = useState([])
+    const [statusUpdated, setStatusUpdated] = useState([])
     const navigate = useNavigate()
     const [formInput, setFormInput] = useState({
         name: '',
