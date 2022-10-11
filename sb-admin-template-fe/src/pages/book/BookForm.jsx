@@ -5,6 +5,9 @@ import Spinner from "../../components/Spinner/Spinner";
 
 export default function BookForm() {
   const [statusUserById, setStatusUserById] = useState()
+  const [dataUserById, setDataUserById] = useState([])
+  const [userUpdated, setUserUpdated] = useState([])
+  const [statusUpdated, setStatusUpdated] = useState([])
   const navigate = useNavigate();
   const params = useParams();
   const [isLoading, setIsLoading] = useState(true)

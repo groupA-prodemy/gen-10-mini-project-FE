@@ -8,6 +8,9 @@ import Spinner from "../../components/Spinner/Spinner";
 export default function BookList2() {
     const [books, setBooks] = useState([]);
     const [statusUserById, setStatusUserById] = useState()
+    const [dataUserById, setDataUserById] = useState([])
+    const [userUpdated, setUserUpdated] = useState([])
+    const [statusUpdated, setStatusUpdated] = useState([])
     const [searchKeyword, setSearchKeyword] = useState("")
     const [filteredBooks, setFilteredBooks] = useState([])
     const [searchKeywordDebounced] = useDebounce(searchKeyword, 500)
