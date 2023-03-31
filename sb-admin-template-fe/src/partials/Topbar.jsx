@@ -1,5 +1,6 @@
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from "react";
+import {Url} from "./url-BE/Url.jsx";
 
 export default function Topbar() {
     let respLogout= []
@@ -21,7 +22,7 @@ export default function Topbar() {
     async function getUsersById() {
         try {
 
-            const res = await fetch("https://be-psm-mini-library-system.herokuapp.com/users/profile/byid/"+getUserData().userId,
+            const res = await fetch(Url+"/users/profile/byid/"+getUserData().userId,
                 {method: "GET"})
             const data = await res.json();
             setStatusUserById(data.status)
@@ -59,7 +60,7 @@ export default function Topbar() {
                 username: dataUserById.username,
                 password: dataUserById.password
             })
-            const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/auth/login"
+            const targetUrl = Url+"/auth/login"
             const method = "POST"
             const res = await fetch(targetUrl, {
                 method: method,
@@ -85,7 +86,7 @@ export default function Topbar() {
     async function logout() {
         userDeleteScenario()
 
-        const targetUrl = "https://be-psm-mini-library-system.herokuapp.com/auth/logout/" + getUserData().userId;
+        const targetUrl = Url+"/auth/logout/" + getUserData().userId;
         const method = "POST";
 
         await fetch(targetUrl, {method: method, headers: {"Content-Type": "application/json",},})
@@ -109,7 +110,7 @@ export default function Topbar() {
         <nav className="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
             {/* <!-- Sidebar Toggle (Topbar) --> */}
-           {/* <button id="sidebarToggleTop" className="btn btn-link d-md-none rounded-circle mr-3">
+            {/* <button id="sidebarToggleTop" className="btn btn-link d-md-none rounded-circle mr-3">
                 <i className="fa fa-bars"></i>
             </button>*/}
 
@@ -131,7 +132,7 @@ export default function Topbar() {
             <ul className="navbar-nav ml-auto">
 
                 {/* <!-- Nav Item - Search Dropdown (Visible Only XS) --> */}
-               {/* <li className="nav-item dropdown no-arrow d-sm-none">
+                {/* <li className="nav-item dropdown no-arrow d-sm-none">
                     <a className="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i className="fas fa-search fa-fw"></i>
@@ -193,7 +194,7 @@ export default function Topbar() {
                             <i className={menuProfile[0].icon}></i>
                             {menuProfile[0].title}
                         </a>
-                       {/* <a className="dropdown-item" href="#">
+                        {/* <a className="dropdown-item" href="#">
                             <i className="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                             Settings
                         </a>
