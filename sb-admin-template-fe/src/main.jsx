@@ -12,7 +12,7 @@ import ChangeRole from "./pages/role/ChangeRole.jsx";
 import AddRole from "./pages/role/AddRole.jsx";
 import RegisterForm from "./pages/auth/RegisterForm.jsx";
 import UserDashboard from "./pages/dashbord/UserDashbord.jsx";
-import BookList2 from "./pages/book/BookList2.jsx";
+import BookList from "./pages/book/BookList.jsx";
 import BookForm from "./pages/book/BookForm.jsx";
 import UserBookList from "./pages/userbook/UserbookList.jsx";
 import UserBookForm from "./pages/userbook/UserbookForm.jsx";
@@ -49,7 +49,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
                             </Route>
                             <Route path={"/user/dashboard"} element={<UserDashboard/>}/>
                             <Route path={"/admin/dashboard"} element={<AdminDashboard/>}/>
-                            <Route path={"/book/list"} element={<BookList2/>}/>
+                            <Route path={"/book/list"} element={<BookList/>}/>
 
                             <Route element={<ProtectedRouteForAdmin/>}>
                                 <Route path="users" element={<UserList/>}/>

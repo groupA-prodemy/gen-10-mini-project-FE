@@ -3,6 +3,7 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import {useDebounce} from "use-debounce";
+import {Url} from "../../partials/url-BE/Url.jsx";
 
 export default function CategoryList() {
     const [categories, setCategories] = useState([]);
@@ -13,7 +14,7 @@ export default function CategoryList() {
     async function getCategoryList() {
         const keyword = searchKeyword.length > 0 ? "&q=" + searchKeyword : "";
         const res = await fetch(
-            "https://be-psm-mini-library-system.herokuapp.com/category/list?_expand=category" +
+            Url+"/category/list?_expand=category" +
             keyword,
             {method: "GET"}
         );
@@ -21,20 +22,9 @@ export default function CategoryList() {
         setCategories(data.sort((a, b) => a.categoryId - b.categoryId));
     }
 
-//   async function getCategoryList() {
-//     try {
-//       const response = await axios.get(
-//         "https://be-psm-mini-library-system.herokuapp.com/category/list"
-//       );
-//       setCategories(response.data.sort((a, b) => a.categoryId - b.categoryId));
-//     } catch (err) {
-//       alert("There's error, try again");
-//     }
-//   }
-
     async function deleteCategory(id) {
         try {
-            const res = await axios.delete("https://be-psm-mini-library-system.herokuapp.com/category/delete/" + id)
+            const res = await axios.delete(Url+"/category/delete/" + id)
             const resp =await res.data
             resp.status === false?
                 alert("Delete Failed!!! This data was referenced in book list, delete them before delete this"):""
